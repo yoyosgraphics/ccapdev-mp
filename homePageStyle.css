@@ -3,8 +3,19 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    padding-top: 60px;
     font-family: Arial, sans-serif; /* Temporary font */
+    height: 100vh; /* Take up full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+header {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    z-index: 1000; 
 }
 
 /* Top Bar */
@@ -84,7 +95,7 @@ body {
 */
 /* Hero Section */
 .hero {
-    top: -19px;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -232,22 +243,13 @@ body {
     color: #555;
 }
 
-
-.footer{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+footer {
+    position: relative;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #38343c; 
-    padding: 10px 20px;
-    color: white;
-    font-family: Arial, sans-serif; /* temporary font */
-    box-sizing: border-box; 
-    z-index: 1000; 
+    width: 100%;
+    z-index: 1000;
 }
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -261,8 +263,9 @@ body {
     color: white;
     font-family: Arial, sans-serif; /* temporary font */
     box-sizing: border-box; 
-    z-index: 1000; 
+    z-index: 1000;
 }
+
 
 .footer-left {
     font-size: 14px;
@@ -282,3 +285,4 @@ body {
 .footer-right a:hover {
     text-decoration: underline;
 }
+
