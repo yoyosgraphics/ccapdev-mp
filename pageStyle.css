@@ -119,8 +119,9 @@ header {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     top: -10;
+    pointer-events: auto;
 }
 
 /* Hero Section */
@@ -158,10 +159,12 @@ header {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
     background: var(--white2);
     border-radius: 50px;
     padding: 10px 20px;
     width: 350px;
+    z-index: 1000;
 }
 
 .search-icon {
@@ -237,6 +240,7 @@ header {
     overflow-x: auto; /* Enables horizontal scrolling */
     white-space: nowrap; /* Prevents items from wrapping */
     padding: 20px;
+    padding-left: 0;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
 }
@@ -316,3 +320,7 @@ footer {
     text-decoration: underline;
 }
 
+.establishmentCategory {
+    margin-left: 10% ;
+    margin-top: 2%;
+}
