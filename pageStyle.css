@@ -1,0 +1,318 @@
+/* General Styles */
+:root {
+    --grey1: #32373B;
+    --grey2: #555E64;
+    --white1: #DBE1E4;
+    --white2: #F7FCFF;
+    --blue1: #1545F4;
+    --blue2: #62ACF6;
+    --blue3: #AEE0FF;
+    --green1: #1E9209;
+    --green2: #83F618;
+    --green3: #BDFB83;
+    --orange1: #E7720C;
+    --orange2: #FFDE20;
+    --orange3: #FEEB7F;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif; /* Temporary font */
+    height: 100vh; /* Take up full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+header {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    z-index: 1000; 
+}
+
+/* Top Bar */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--blue1); 
+    padding: 10px 20px;
+    color: var(--white2);
+    font-family: Arial, sans-serif; /* temporary font */
+    box-sizing: border-box; 
+    z-index: 1000; 
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--white2);
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--blue2); /* Lighter blue on hover */
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn,
+.signup-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn {
+    background-color: var(--green2);
+    color: var(--green1);
+    border-radius: 5px;
+}
+
+.signup-btn {
+    background-color: var(--white2);
+    color: var(--blue1);
+    border-radius: 5px;
+}
+
+/*
+.login-btn:hover {
+    background-color:chartreuse;
+}
+
+.signup-btn:hover {
+    background-color:deepskyblue;
+}
+*/
+
+.headerViewEstablishments {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--orange2);
+    min-height: 20vh;
+    padding: 60px 10%;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    top: -10;
+}
+
+/* Hero Section */
+.hero {
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 10%;
+    background: var(--green1);
+    position: relative;
+    min-height: 35vh;
+    overflow: hidden;
+}
+
+/* Hero Text */
+.hero-text {
+    max-width: 500px;
+}
+
+.hero-text h1 {
+    font-size: 36px;
+    color: var(--green3); /* Light green */
+    font-weight: bold;
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: var(--white2);
+    margin-top: -20px;
+}
+
+/* Search Bar */
+.search-bar {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    background: var(--white2);
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 350px;
+}
+
+.search-icon {
+    width: 15px;  /* Adjust size as needed */
+    height: 15px;
+    margin-right: 10px; /* Space between icon and input */
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    flex: 1;
+}
+
+.circle {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background: var(--green3); 
+    border-radius: 50%;
+    right: -100px;
+    top: 63%;
+    transform: translateY(-50%);
+    z-index: 0; 
+}
+
+.burger {
+    position: absolute;
+    right: 5%;
+    bottom: 0;
+    width: 400px;
+    max-width: 100%;
+    z-index: 1; 
+}
+
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 5%;
+    }
+    .burger {
+        position: static;
+        width: 80%;
+        margin-top: 20px;
+    }
+}
+
+.top-food-chain {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--white2);
+}
+
+.top-food-chain h2 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.top-food-chain p {
+    font-size: 16px;
+    color: var(--grey2);
+    max-width: 600px;
+    margin: 0 auto 20px;
+    margin-top: -15px;
+    font-style: italic;
+}
+
+.food-scroll-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap; /* Prevents items from wrapping */
+    padding: 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+}
+
+.food-card {
+    flex: 0 0 auto;
+    width: 300px; /* Adjust card width */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: var(--white2);
+    scroll-snap-align: start;
+}
+
+.food-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+
+.food-info {
+    padding: 10px;
+    text-align: left;
+}
+
+.food-info h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.food-info p {
+    font-size: 14px;
+    color: var(--grey2);
+}
+
+footer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    z-index: 1000;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #38343c; 
+    padding: 10px 20px;
+    color: var(--white2);
+    font-family: Arial, sans-serif; /* temporary font */
+    box-sizing: border-box; 
+    z-index: 1000;
+}
+
+
+.footer-left {
+    font-size: 14px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-right a {
+    text-decoration: none;
+    color: var(--white2);
+    font-size: 14px;
+}
+
+.footer-right a:hover {
+    text-decoration: underline;
+}
+
