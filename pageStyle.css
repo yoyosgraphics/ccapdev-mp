@@ -324,3 +324,74 @@ footer {
     margin-left: 10% ;
     margin-top: 2%;
 }
+
+/* Individual Establishment CSS */
+
+.food-details-container {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    padding-top: 40px;
+    padding-left: 40px;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85)), url('Images/restaurant-picture.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.food-details h1 {
+    color: var(--white2);
+    font-size: 28px;
+}
+
+.food-details p {
+    color: var(--white1);
+    font-size: 18px;
+}
+
+.star-icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 3px;
+}
+
+.buttons-space {
+    display: flex;
+    width: 700px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.review-button {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    background-color: var(--blue1);
+    color: var(--white2);
+    font-size: 16px;
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 140px;
+}
+
+.edit-archive-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    background-color: var(--white2);
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 65px;
+}
+
+.write-icon, .edit-icon  {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.archive-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
