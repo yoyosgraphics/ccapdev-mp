@@ -354,25 +354,30 @@ footer {
 /* Individual Establishment CSS */
 
 .food-details-container {
+    top: 0;
     display: flex;
     flex-direction: column;
     height: 400px;
-    padding-top: 40px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     padding-left: 40px;
+    padding-right: 40px;
     justify-content: center;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85)), url('Images/restaurant-picture.png');
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.88)), url('Images/restaurant-picture.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
 .food-details h1 {
     color: var(--white2);
-    font-size: 28px;
+    font-family: 'Raleway';
+    font-size: 32px;
 }
 
 .food-details p {
     color: var(--white1);
-    font-size: 18px;
+    font-family: 'Inter';
+    font-size: 14px;
 }
 
 .star-icon {
@@ -381,9 +386,18 @@ footer {
     margin-right: 3px;
 }
 
+.rating-container p{
+    font-size: 22px;
+}
+
+.rating-2 {
+    margin: 0px;
+    letter-spacing: 10px;
+}
+
 .buttons-space {
     display: flex;
-    width: 700px;
+    width: 720px;
     align-items: center;
     justify-content: space-between;
 }
@@ -397,7 +411,8 @@ footer {
     font-size: 16px;
     border-radius: 50px;
     padding: 10px 20px;
-    width: 140px;
+    width: 150px;
+    font-family: 'Inter';
 }
 
 .edit-archive-container {
