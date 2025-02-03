@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 /* General Styles */
 :root {
     --grey1: #32373B;
@@ -19,13 +20,10 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    font-family: Arial, sans-serif; /* Temporary font */
     height: 100vh; /* Take up full viewport height */
     display: flex;
     flex-direction: column;
 }
-
-
 
 header {
     position: fixed;
@@ -34,7 +32,6 @@ header {
     z-index: 1000; 
 }
 
-/* Top Bar */
 .topbar {
     position: fixed;
     top: 0;
@@ -46,13 +43,13 @@ header {
     background-color: var(--blue1); 
     padding: 10px 20px;
     color: var(--white2);
-    font-family: Arial, sans-serif; /* temporary font */
     box-sizing: border-box; 
     z-index: 1000; 
 }
 
 .logo {
     font-size: 1.5em;
+    font-family: 'Raleway';
     font-weight: bold;
 }
 
@@ -62,9 +59,10 @@ header {
 }
 
 .nav-links a {
-    text-decoration: none;
+    text-decoration:none;
     color: var(--white2);
     font-size: 1em;
+    font-family: 'Inter';
     font-weight: 500;
     transition: color 0.3s ease;
 }
@@ -87,28 +85,19 @@ header {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 .login-btn {
+    font-family: 'Inter';
     background-color: var(--green2);
     color: var(--green1);
     border-radius: 5px;
 }
 
 .signup-btn {
+    font-family: 'Inter';
     background-color: var(--white2);
     color: var(--blue1);
     border-radius: 5px;
 }
-
-/*
-.login-btn:hover {
-    background-color:chartreuse;
-}
-
-.signup-btn:hover {
-    background-color:deepskyblue;
-}
-*/
 
 .headerViewEstablishments {
     display: flex;
@@ -144,12 +133,14 @@ header {
 
 .hero-text h1 {
     font-size: 36px;
+    font-family: 'Raleway';
     color: var(--green3); /* Light green */
     font-weight: bold;
 }
 
 .hero-text p {
     font-size: 18px;
+    font-family: 'Inter';
     color: var(--white2);
     margin-top: -20px;
 }
@@ -174,6 +165,7 @@ header {
 }
 
 .search-bar input {
+    font-family: 'Inter';
     border: none;
     outline: none;
     font-size: 16px;
@@ -221,11 +213,13 @@ header {
 }
 
 .top-food-chain h2 {
+    font-family: 'Raleway';
     font-size: 28px;
     font-weight: bold;
 }
 
 .top-food-chain p {
+    font-family: 'Inter';
     font-size: 16px;
     color: var(--grey2);
     max-width: 600px;
@@ -268,11 +262,13 @@ header {
 }
 
 .food-info h3 {
+    font-family: 'Raleway';
     font-size: 18px;
     font-weight: bold;
 }
 
 .food-info p {
+    font-family: 'Inter';
     font-size: 14px;
     color: var(--grey2);
 }
