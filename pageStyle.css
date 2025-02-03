@@ -48,22 +48,24 @@ header {
 }
 
 .logo {
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-family: 'Raleway';
     font-weight: bold;
+    opacity: 0.8;
 }
 
 .nav-links {
     display: flex;
-    gap: 15px;
+    align-items: center;
+    margin-right: auto; /* Pushes it to the left */
 }
 
 .nav-links a {
     text-decoration:none;
+    margin-left: 40px;
     color: var(--white2);
-    font-size: 1em;
+    font-size: .7em;
     font-family: 'Inter';
-    font-weight: 500;
     transition: color 0.3s ease;
 }
 
