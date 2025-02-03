@@ -318,17 +318,18 @@ footer {
     background-color: #38343c; 
     padding: 10px 20px;
     color: var(--white2);
-    font-family: Arial, sans-serif; /* temporary font */
     box-sizing: border-box; 
     z-index: 1000;
 }
 
 
 .footer-left {
+    font-family: 'Raleway';
     font-size: 14px;
 }
 
 .footer-right {
+    font-family: 'Inter';
     display: flex;
     gap: 15px;
 }
