@@ -91,14 +91,14 @@ header {
     font-family: 'Inter';
     background-color: var(--green2);
     color: var(--green1);
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 .signup-btn {
     font-family: 'Inter';
     background-color: var(--white2);
     color: var(--blue1);
-    border-radius: 5px;
+    border-radius: 15px;
 }
 .rating {
     font-size: 24px; 
@@ -718,8 +718,7 @@ footer {
     padding-bottom: 75px;  /* Adjust the bottom padding for footer */
 }
 
-/* Pa-change pls huhu */
-.please {
+.regis-background * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -765,8 +764,7 @@ footer {
     padding: 0 80px;
 }
 
-/* This one also huhu */
-.input {
+.white-bg input {
     width: 100%;
     height: 50px;
     padding: 10px;
@@ -776,9 +774,7 @@ footer {
     font-size: 13px;
     box-sizing: border-box;
 }
-
-/* Pa-change din pls huhu */
-.input, .textarea{
+.white-bg input, .white-bg textarea{
     background-color: lightgrey;
     font-family: 'Inter';
 }
