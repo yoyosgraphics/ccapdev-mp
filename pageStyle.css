@@ -425,10 +425,18 @@ header {
     margin-right: 5px;  
 }
 
+.icon-margin-right-2 {
+    margin-right: 10px;  
+}
+
 .icon-margin-left {
     width: 16px;
     height: 16px;
     margin-left: 5px;  
+}
+
+.icon-margin-left-2 {
+    margin-left: 10px;  
 }
 
 .icon-margin-left-right {
@@ -436,6 +444,11 @@ header {
     height: 16px;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.icon-margin-left-right-2 {
+    margin-right: 10px;  
+    margin-left: 10px;  
 }
 
 .review-thread-container {
@@ -526,7 +539,7 @@ header {
     padding-top: 20px;
 }
 
-.helpful-unhelpful-container, .comments-container, .edit-delete-container, .cancel-container, .send-container, .delete-container, .save-changes-container {
+.helpful-unhelpful-container, .comments-container, .edit-delete-container, .cancel-container, .send-container, .post-container, .delete-container, .save-changes-container, .save-draft-container {
     background-color: var(--white1);
     font-size: 12px;
     margin-right: 10px;
@@ -617,14 +630,14 @@ header {
     justify-content: flex-end;
 }
 
-.cancel-container-2 {
+.cancel-container-2, .save-draft-container-2 {
     background-color: var(--white1);
     margin-left: 10px;
     margin-right: 0px;
     color: var(--grey1);
 }
 
-.send-container-2 {
+.send-container-2, .post-container-2 {
     background-color: var(--blue1);
     margin-left: 10px;
     margin-right: 0px;
@@ -634,6 +647,12 @@ header {
 .delete-container-2 {
     background-color: var(--grey1);
     margin-left: 10px;
+    margin-right: 0px;
+    color: white;
+}
+
+.cancel-container-3, .delete-container-3 {
+    background-color: var(--grey1);
     margin-right: 0px;
     color: white;
 }
@@ -656,6 +675,142 @@ header {
     margin-right: 20px;
 }
 
+.write-review-container, .edit-review-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    justify-content: center;
+}
+
+.write-review-heading h1, .edit-review-heading h1 {
+    font-family: 'Raleway';
+    font-size: 32px;
+    color: var(--grey1);
+}
+
+.review-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.review-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--white1);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 40px;
+}
+
+.review-title-input {
+    flex-grow: 1;
+    margin-right: 10px;
+
+}
+
+.review-title-input input {
+    font-family: 'Inter';
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: var(--white1);
+    color: var(--grey1);
+    height: 40px;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+}
+
+.review-title-counter, .review-body-counter {
+    font-family: 'Inter';
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: var(--white1);
+    color: var(--grey1);
+}
+
+.review-rating-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: 'Inter';
+    font-size: 14px;
+    color: var(--grey1);
+}
+
+.review-rating-container span {
+    margin-right: 10px;
+}
+
+.review-body-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--white1);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 300px;
+}
+
+.review-features-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 16px;
+    width: 100%;
+}
+
+.review-body-input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: var(--white1);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.review-body {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.review-body textarea {
+    font-family: 'Inter';
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: var(--white1);
+    color: var(--grey1);
+    height: 100%;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+}
+
+/*  */
 
 /* Register Page CSS */
 .register-container {
