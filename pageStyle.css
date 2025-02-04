@@ -903,3 +903,13 @@ padding: 0 80px;
     background: blue;
     color: white;
 }
+
+.horizontalAlignment {
+    display: flex;
+    flex-direction: row;
+    gap: 10vh;
+}
+
+.blackPtext {
+    color: black;
+}
