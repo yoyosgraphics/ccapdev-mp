@@ -301,14 +301,6 @@ header {
     font-size: 10px;
 }
 
-s
-footer {
-    position: relative;
-    display: flex;
-    width: 100%;
-    z-index: 1000;
-}
-
 .footer {
     position: fixed;
     bottom: 0;
@@ -317,34 +309,34 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #38343c; 
+    background-color: #38343c;  /* Dark background for the footer */
     padding: 10px 20px;
-    color: var(--white2);
+    color: var(--white2, #fff);  /* Text color */
     box-sizing: border-box; 
     z-index: 1000;
 }
 
-
 .footer-left {
-    font-family: 'Raleway';
+    font-family: 'Raleway', sans-serif;
     font-size: 14px;
 }
 
 .footer-right {
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     display: flex;
     gap: 15px;
 }
 
 .footer-right a {
     text-decoration: none;
-    color: var(--white2);
+    color: var(--white2, #fff);  /* Link color */
     font-size: 14px;
 }
 
 .footer-right a:hover {
     text-decoration: underline;
 }
+
 
 .establishmentCategory {
     margin-left: 10% ;
@@ -708,24 +700,91 @@ footer {
 }
 
 /* Register Page CSS */
-.regis-background {
-    background-color: var(--blue3);  /* Set the background color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200vh;  /* This ensures that the background fills the entire viewport */
-    padding-top: 75px;  /* Adjust the top padding for header */
-    padding-bottom: 75px;  /* Adjust the bottom padding for footer */
-}
 
-.regis-background * {
+.register-container {
+    display: flex;
+    height: 100vh;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter';
 }
 
-.form-title {
+.image-section {
+    flex: 0.40;
+    background: url('https://m.media-amazon.com/images/I/4107fmVEb3L._SL1360_.jpg') no-repeat center center/cover;
+}
+
+.form-section {
+    flex: 0.60;
+    display: flex;
+    align-items: flex-start;
+    justify-content: start;
+    background: white;
+    padding: 20px;
+    padding-top: 100px;
+}
+
+.form-section input {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.form-section input, .form-section textarea{
+    background-color: lightgray;
+    font-family: 'Inter';
+    height: 70px;
+}
+
+.form-container {
+    width: 80%; /* Make the register section wider */
+    margin-left: 40px;
+}
+
+.form-title h2 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;  
+    font-size: 48px;
+    font-weight: bold;
+    font-family: 'Raleway';
+    margin-bottom: 20px;
+    color: black;
+    width: 100%;  
+}
+
+.reg-container {
+    display: flex;
+    justify-content: flex-start; 
+    padding: 0 80px; 
+    margin-top: 10px; 
+}
+
+.reg-btn {
+    font-family: 'Inter';
+    width: 30%;
+    max-width: 420px; 
+    padding: 12px;
+    background: var(--blue1); 
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reg-btn:hover {
+    background: var(--blue1); 
+}   
+
+.form-section h2 {
     font-size: 48px;
     font-weight: bold;
     font-family: 'Raleway';
@@ -736,82 +795,27 @@ footer {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding-bottom: 5px;
+    padding-bottom: 5px;    
 }
 
-.white-bg {
-    background: white;
-    padding: 20px;
-    width: 800px; 
-    height: 550px;
-    margin: 40px auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 0 80px;
-    width: 100%;
+.long-form, .two-column {
+display: grid;
+width: 100%;
+padding: 0 80px;
 }
 
 .two-column {
-    display: grid;
-    grid-template-columns: calc((100% - 10px) / 2) calc((100% - 10px) / 2); 
-    gap: 10px;
-    padding: 0 80px;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px; 
+    width: 100%; 
 }
 
-.white-bg input {
-    width: 100%;
-    height: 50px;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 13px;
-    box-sizing: border-box;
-}
-.white-bg input, .white-bg textarea{
-    background-color: lightgrey;
-    font-family: 'Inter';
-}
 
-.input-group {
-    position: relative;
-    display: inline-block;
-}
-
-.change::-webkit-input-placeholder{
-    color: black;
-}
-
-.required {
-    color: var(--blue1);
-}
-
-.reg-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 15px; 
-}
-
-.reg-btn {
-    font-family: 'Inter', sans-serif;
-    width: 80%;
-    padding: 10px;
-    background: var(--blue1); 
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.reg-btn:hover {
-    background-color: deepskyblue;
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .image-section {
+        height: 50vh;
+    }
 }

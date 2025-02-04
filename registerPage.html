@@ -5,43 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="pageStyle.css"> 
-
 </head>
-
 <body>
-    <div class="regis-background">
     <header>
         <iframe src="headertemplate.html" width="100%" height="auto" frameborder="0"></iframe>
     </header>
-</div>
-    <div class="regis-background">
-        <div class="white-bg">
-            <h2 class="form-title">Register</h2>
-            <form action="#" method="POST">
-                <div class="form-container">
-                    <input type="email" placeholder="Email Address *" class="change" required>
+    <div class="register-container">
+        <div class="image-section"></div>
+        <div class="form-section">
+            <div class="form-container">
+                    <h2 class="form-title">Register</h2>
+                    <form action="#" method="POST">
+                        <div class="long-form">
+                            <input type="email" placeholder="Email Address *" class="change" required>
+                        </div>
+                        <div class="two-column">
+                            <div>
+                                <input type="text" placeholder="First Name *" class="change" required>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Last Name *" class="change" required>
+                            </div>
+                        </div>
+                        <div class="long-form">
+                            <input type="text" placeholder="Username *" class="change" required>
+                        </div>
+                        <div class="long-form">
+                            <input type="password" placeholder="Password *" class="change" required>
+                        </div>
+                        <div class="long-form">
+                            <input type="password" placeholder="Conrfim Password *" class="change" required>
+                        </div>
+            
+                        <div class="reg-container">
+                            <button class="reg-btn">Next</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="two-column">
-                    <div>
-                        <input type="text" placeholder="First Name *" class="change" required>
-                    </div>
-                    <div>
-                        <input type="text" placeholder="Last Name *" class="change" required>
-                    </div>
-                </div>
-                <div class="form-container">
-                    <input type="text" placeholder="Username *" class="change" required>
-                </div>
-    
-                <div class="reg-container">
-                    <button class="reg-btn">Next</button>
-                </div>
-            </form>
+
+            </div>
         </div>
-    </div>
-    <footer>
-        <iframe src="footertemplate.html" width="100%" height="auto" frameborder="0"></iframe>
-    </footer>
-    
+        <footer>
+            <iframe src="footertemplate.html" width="100%" height="auto" frameborder="0"></iframe>
+        </footer>
 </body>
 </html>
