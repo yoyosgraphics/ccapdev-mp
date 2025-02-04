@@ -522,7 +522,7 @@ header {
     width: 475px;
 }
 
-.helpful-unhelpful-container, .comments-container, .edit-delete-container, .cancel-container, .send-container {
+.helpful-unhelpful-container, .comments-container, .edit-delete-container, .cancel-container, .send-container, .delete-container, .save-changes-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -542,7 +542,7 @@ header {
     margin-right: 5px;
 }
 
-.send-icon {
+.send-icon, .delete-icon-2 {
     width: 15px;
     height: 15px;
     margin-right: 5px;
@@ -658,10 +658,12 @@ header {
     font-size: 15px;
     flex: 1;
     background-color: var(--white1);
-    height: 60px;
+    color: var(--grey1);
+    height: 70px;
     resize: none;
     overflow: hidden;
 }
+
 
 .buttons-space-4 {
     width: 100%;
@@ -669,12 +671,11 @@ header {
 }
 
 .cancel-container-2 {
-    background-color: var(--grey1);
+    background-color: var(--white1);
     width: 60px;
     margin-left: 10px;
     margin-right: 0px;
-    color: white;
-
+    color: var(--grey1);
 }
 
 .send-container-2 {
@@ -683,6 +684,22 @@ header {
     margin-left: 10px;
     margin-right: 0px;
     color: white;
+}
+
+.delete-container-2 {
+    background-color: var(--grey1);
+    width: 60px;
+    margin-left: 10px;
+    margin-right: 0px;
+    color: white;
+}
+
+.save-changes-container-2 {
+    background-color: var(--blue1);
+    width: 90px;
+    margin-left: 10px;
+    margin-right: 0px;
+    color: white; 
 }
 
 .reply-heading-container {
