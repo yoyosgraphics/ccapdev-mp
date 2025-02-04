@@ -658,7 +658,6 @@ header {
 
 
 /* Register Page CSS */
-
 .register-container {
     display: flex;
     height: 100vh;
@@ -912,4 +911,75 @@ padding: 0 80px;
 
 .blackPtext {
     color: black;
+/*Login Page*/
+.whole-body-container {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    height: 100vh;
+}
+.left-section {
+    margin-left: 50px;
+    flex: 0.65;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.right-section {
+    flex: 0.35;
+    background: url('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfhGS9pMDJcFbFZ9SKdpGlxUidk9z_2fhCkTihBh9fRS_dKlz-') no-repeat center center;
+    background-size: cover;
+}
+.login-container {
+    width: 300px;
+}
+.login-container h2 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    font-family: 'Raleway';
+}
+
+.login-container input {
+    font-family: 'Inter';
+    width: 100%; /* Makes sure it stays within its container */
+    max-width: 530px; /* Adjust this to your desired width */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    background-color: lightgray;
+    height: 40px;
+    border-radius: 5px;
+}
+
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .login-container input {
+        max-width: 100%; /* Makes inputs responsive */
+    }
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+}
+.checkbox input {
+    width: auto;
+    margin-right: 5px;
+    margin-bottom: 13px;
+}
+.login-btn {
+    font-family: 'Inter';
+    width: 30%;
+    padding: 10px;
+    background-color: #a3e635;
+    color:green;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
 }
