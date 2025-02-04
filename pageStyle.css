@@ -658,6 +658,7 @@ header {
     font-size: 15px;
     flex: 1;
     background-color: var(--white1);
+    height: 60px;
     resize: none;
     overflow: hidden;
 }
