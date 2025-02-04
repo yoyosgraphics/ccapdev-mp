@@ -343,16 +343,30 @@ header {
     margin-top: 2%;
 }
 
-/* Individual Establishment CSS */
+/* Individual Establishment */
+
+.indiv-restaurant-page-padding-side {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.button-container-attributes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 10px 20px;
+    height: 16px;
+    font-family: 'Inter';
+}
 
 .food-details-container {
     display: flex;
     flex-direction: column;
     height: 400px;
-    padding-top: 40px;
+    padding-top: 50px;
     padding-bottom: 30px;
-    padding-left: 50px;
-    padding-right: 50px;
     justify-content: center;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.88)), url('Images/restaurant-picture.png');
     background-repeat: no-repeat;
@@ -368,7 +382,7 @@ header {
 .food-details p {
     color: var(--white1);
     font-family: 'Inter';
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .rating-container p{
@@ -386,54 +400,48 @@ header {
 
 .buttons-space {
     display: flex;
-    width: 720px;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .review-button {
     margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-left: 20px;
     background-color: var(--blue1);
     color: var(--white2);
     font-size: 16px;
-    border-radius: 50px;
-    padding: 10px 20px;
-    width: 150px;
-    font-family: 'Inter';
 }
 
 .edit-archive-container {
     margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-left: 20px;
     background-color: var(--white2);
-    border-radius: 50px;
-    padding: 10px 20px;
-    width: 65px;
 }
 
-.write-icon, .edit-icon  {
-    width: 20px;
-    height: 20px;
-    margin-right: 5%;
+.icon-margin-right {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;  
 }
 
-.archive-icon {
-    width: 20px;
-    height: 20px;
+.icon-margin-left {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;  
+}
+
+.icon-margin-left-right {
+    width: 16px;
+    height: 16px;
     margin-left: 5px;
+    margin-right: 5px;
 }
 
 .review-thread-container {
     display: flex;
     flex-direction: column;
     padding-top: 20px;
-    padding-left: 50px;
-    padding-right: 50px;
     justify-content: center;
     background-color: var(--white2);
 }
@@ -491,12 +499,12 @@ header {
 
 .review-content p {
     font-family: 'Inter';
-    font-size: 15px;
+    font-size: 16px;
     color: var(--grey2);
 }
 
 .review-image-container {
-    height: 250px;
+    height: 260px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -504,89 +512,31 @@ header {
 }
 
 .review-image-container img {
-    width: 250px;
-    height: 250px;
+    width: 260px;
+    height: 260px;
     margin-right: 10px;
+    border-radius: 5px;
 }
 
 .buttons-space-2 {
     display: flex;
     flex-direction: row;
-    width: 350px;
     align-items: center;
     justify-content: flex-start;
     padding-top: 20px;
 }
 
-.buttons-space-3 {
-    width: 475px;
-}
-
 .helpful-unhelpful-container, .comments-container, .edit-delete-container, .cancel-container, .send-container, .delete-container, .save-changes-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     background-color: var(--white1);
-    border-radius: 50px;
-    padding: 10px 20px;
-    width: 100px;
-    font-family: 'Inter';
     font-size: 12px;
     margin-right: 10px;
-}
-
-.helpful-icon, .comment-icon, .send-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-.send-icon, .delete-icon-2 {
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-}
-
-.unhelpful-icon, .delete-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.helpful-unhelpful-container, .comments-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--white1);
-    border-radius: 50px;
-    padding: 10px 20px;
-    width: 100px;
-    font-family: 'Inter';
-    font-size: 12px;
-    margin-right: 10px;
-}
-
-.helpful-icon, .comment-icon  {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-.unhelpful-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .divider-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 1px;
-    margin-right: 1px;
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .reply-container {
@@ -608,14 +558,6 @@ header {
     border-radius: 28px;
 }
 
-.reply-container p {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-family: 'Inter';
-    font-size: 15px;
-    color: var(--grey1);
-}
-
 .reply-background-2 {
     background-color: var(--white1);
     margin-top: 20px;
@@ -623,12 +565,18 @@ header {
     border-radius: 28px;
 }
 
+.reply-container p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-family: 'Inter';
+    font-size: 16px;
+    color: var(--grey1);
+}
+
 .individual-review-container {
     display: flex;
     flex-direction: column;
     padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
     justify-content: center;
     background-color: var(--white2);
 }
@@ -655,7 +603,7 @@ header {
     font-family: 'Inter';
     border: none;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     flex: 1;
     background-color: var(--white1);
     color: var(--grey1);
@@ -664,7 +612,6 @@ header {
     overflow: hidden;
 }
 
-
 .buttons-space-4 {
     width: 100%;
     justify-content: flex-end;
@@ -672,7 +619,6 @@ header {
 
 .cancel-container-2 {
     background-color: var(--white1);
-    width: 60px;
     margin-left: 10px;
     margin-right: 0px;
     color: var(--grey1);
@@ -680,7 +626,6 @@ header {
 
 .send-container-2 {
     background-color: var(--blue1);
-    width: 60px;
     margin-left: 10px;
     margin-right: 0px;
     color: white;
@@ -688,7 +633,6 @@ header {
 
 .delete-container-2 {
     background-color: var(--grey1);
-    width: 60px;
     margin-left: 10px;
     margin-right: 0px;
     color: white;
@@ -696,7 +640,6 @@ header {
 
 .save-changes-container-2 {
     background-color: var(--blue1);
-    width: 90px;
     margin-left: 10px;
     margin-right: 0px;
     color: white; 
@@ -711,10 +654,6 @@ header {
 
 .reply-heading-container p {
     margin-right: 20px;
-}
-
-.edit-icon-2 {
-    margin-right: 10px;
 }
 
 /* Register Page CSS */
