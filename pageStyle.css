@@ -617,33 +617,6 @@ header {
     border-radius: 5px;
 }
 
-.image-container {
-    position: relative;
-    display: inline-block;
-}
-
-.image-container img {
-    display: block;
-}
-
-.x-button {
-    position: absolute;
-    border: none;
-    top: 10px;
-    right: 15px;
-    background: var(--white2);
-    color: black;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Inter';
-}
-
 .buttons-space-2 {
     display: flex;
     flex-direction: row;
@@ -1058,11 +1031,13 @@ header {
     padding-bottom: 5px;
 }
 
+
 .long-form,
+.tall-long-form,
+.short-form,
 .two-column,
 .bio {
     display: grid;
-    width: 100%;
     padding: 0 80px;
 }
 
@@ -1070,6 +1045,35 @@ header {
     grid-template-columns: 1fr 1fr;
     gap: 75px;
     width: 100%;
+}
+.long-form{
+    width: 100%;    
+}
+.tall-long-form{
+    width: 100%;
+}
+.tall-long-form textarea {
+    height: 200px; /* Adjusted height for better visibility */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    resize: none; 
+    margin-right: -65px;
+}
+
+.edit-desc{
+    height: 600px; /* Adjust height as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.short-form{
+    width: 46%;    
 }
 
 .bio input,
@@ -1295,4 +1299,130 @@ header {
 }
 
 /* Edit User Profile */
+.profile-container{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+.profile-pic-container {
+    flex: 0.2;
+    height: 100vh;
+    width: 20%;
+    margin-top: 70px;
+    margin-left: 70px;
+    text-align: center;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+}
 
+.profile-img {
+    width: 300px;
+    height: 300px;
+    margin-top: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    margin-bottom: 20px; 
+}
+
+.profile-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e5e7eb;
+    width: 150px;
+    padding: 8px 12px;
+    border-radius: 25px;
+    margin-top: -70px;
+    z-index: 10;
+}
+.profile-icon {
+    font-size: 15px;
+    cursor: pointer;
+    margin: 0 5px;
+    height: 32px;
+    width: 40px;
+}
+
+.profile-icon-divider {
+    font-size: 15px;
+    margin-left: -10px;
+    margin-right: -10px;
+    height: 32px;
+    width: 40px;
+}
+
+.profile-icon-container button {
+    background: none;
+    border: none;
+    padding: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.profile-details-container {
+    flex: 0.80;
+    display: flex;
+    height: 100vh;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-form-container {
+    width: 105%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.profile-form-container input {
+    width: 100%;
+    padding-right: 55px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 20px;
+}
+.profile-form-container label {
+    margin: 10px 0;
+    font-family: 'Raleway';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile-form-container input,
+.profile-form-container textarea {
+    background-color: lightgray;
+    font-family: 'Inter';
+    height: 70px;
+}
+
+.profile-form-container input::-webkit-input-placeholder,
+.profile-form-container textarea::-webkit-input-placeholder {
+    position: absolute;
+    left: 15px;
+    font-family: 'Inter';
+}
+
+.profile-reg-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 80px;
+    margin-top: 10px;
+}
+
+.btn.cancel-edit {
+    background: lightgray;
+    color: black;
+}
+
+.btn.save-edit {
+    background: blue;
+    color: white;
+}
