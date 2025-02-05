@@ -83,7 +83,8 @@ header {
 }
 
 .login-btn,
-.signup-btn {
+.signup-btn, 
+.signout-btn {
     padding: 8px 15px;
     font-size: 0.9em;
     font-weight: bold;
@@ -92,7 +93,7 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.login-btn {
+.login-btn, .signout-btn {
     font-family: 'Inter';
     background-color: var(--green2);
     color: var(--green1);
@@ -104,6 +105,51 @@ header {
     background-color: var(--white2);
     color: var(--blue1);
     border-radius: 15px;
+}
+
+.header-search-profile {
+    display: flex;
+    align-items: flex-start;
+    justify-content: left;
+}
+
+.header-search-bar {
+    position: relative;
+    margin-left: 50px;
+    width: 400px;
+}
+
+.header-search-bar input {
+    width: 100%;
+    padding: 8px 30px 8px 10px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.header-search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* Adjust size as needed */
+    height: 20px;
+    background-image: url('Images/search-icon.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+} 
+
+.header-img-profile {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
 .rating {
