@@ -32,15 +32,15 @@
             </div>
             <div class="review-body-container">
                 <div class="review-features-container">
-                    <img src="Images/bold-icon.png" alt="Bold Icon" class="icon-margin-right icon-margin-right-2">
-                    <img src="Images/italic-icon.png" alt="Italic Icon" class="icon-margin-right icon-margin-right-2">
-                    <img src="Images/underline-icon.png" alt="Underline Icon" class="icon-margin-right icon-margin-right-2">
+                    <img src="Images/bold-icon.png" alt="Bold Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+                    <img src="Images/italic-icon.png" alt="Italic Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+                    <img src="Images/underline-icon.png" alt="Underline Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
                     <img src="Images/divider.png" alt="Divider Icon" class="divider-icon">
-                    <img src="Images/link-icon.png" alt="Link Icon" class="icon-margin-left-right icon-margin-left-right-2">
-                    <img src="Images/bullet-icon.png" alt="Bullet Icon" class="icon-margin-right icon-margin-right-2">
+                    <img src="Images/link-icon.png" alt="Link Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
+                    <img src="Images/bullet-icon.png" alt="Bullet Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
                     <img src="Images/divider.png" alt="Divider Icon" class="divider-icon">
-                    <img src="Images/picture-icon.png" alt="Picture Icon" class="icon-margin-left-right icon-margin-left-right-2">
-                    <img src="Images/video-icon.png" alt="Video Icon" class="icon-margin-right icon-margin-right-2">
+                    <img src="Images/picture-icon.png" alt="Picture Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
+                    <img src="Images/video-icon.png" alt="Video Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
                 </div>
                 <div class="review-body-input-container">
                     <div class="review-body">
@@ -52,18 +52,24 @@
                 </div>
             </div>
             <div class="review-image-container" style="padding-top: 20px;">
-                <img src="Images/review-image-1.png" alt="Review Image">
-                <img src="Images/review-image-2.png" alt="Review Image">
+                <div class="review-image-container image-container">
+                    <img src="Images/review-image-1.png" alt="Review Image">
+                    <button class="x-button">X</button>
+                </div>
+                <div class="review-image-container image-container">
+                    <img src="Images/review-image-2.png" alt="Review Image">
+                    <button class="x-button">X</button>
+                </div>
             </div>
             <div class="buttons-space-2">
-                <div class="delete-container delete-container-3 button-container-attributes">
+                <div class="delete-container delete-container-3 button-container-attributes button-clickable">
                     <img src="Images/delete-icon-2.png" alt="Delete Icon" class="icon-margin-right">
                     <span>Delete</span>
                 </div>
-                <div class="cancel-container cancel-container-2 button-container-attributes">
+                <div class="cancel-container cancel-container-2 button-container-attributes button-clickable" onclick="history.back()">
                     <span>Cancel</span>
                 </div>
-                <div class="save-changes-container save-changes-container-2 button-container-attributes">
+                <div class="save-changes-container save-changes-container-2 button-container-attributes button-clickable">
                     <span>Save Changes</span>
                 </div>
             </div>
