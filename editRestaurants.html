@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="pageStyle.css">
+
+    <style>
+        body {
+            background-image: url('https://s3-alpha-sig.figma.com/img/e9dc/5927/68e265e8820e4e7b306acee32608d695?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=SAfMrkeH2M70fKMfPHm3GLTHj7gj0ML1zR-QK2JhCiJoK4HnRJBIWLZEQzcZNu3px~ZBmXEsYwI7kNrj7i25WKsFr~XtgrrZGr89mnL2odGoPXRuQSGkjpdCVV4aImgl1C441VQnPKYS1L2zbTjwGGvGzi9bfW3QKa5QAeZCLepVw7zd4Qkd2Zlgot-fIPRziKeAfGUYRvws8L1G1Nn0AzlWrPGFb3W73x1wUuBmXZvz1oisl9CP1PFQSq~MjAGxde3AqV-QTgsTllBIasETyevnS01ogiPBeVeWukGk9o45rdnyMQr72nSdqAluMp~eg8xkfTakwm1eYQJfG9-7Pg__');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Style for input fields */
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px; /* Adjust width */
+            padding: 12px;
+            font-size: 18px; /* Make text larger */
+            border-radius: 10px; /* Rounded corners */
+            border: 1px solid #ccc;
+            margin-bottom: 10px; /* Add spacing */
+            display: block;
+        }
+
+        .horizontalAlignment {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between elements */
+        }
+
+        .dropdown-button {
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: white;
+            font-family: raleway;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .archive-button {
+            background-color: #32373B; 
+            color: white;
+        }
+
+        .cancel-button {
+            background-color: #DBE1E4; 
+            color: black;
+        }
+
+        .save-button {
+            background-color: #1545F4; 
+            color: white;
+        }
+
+        .button-container button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <iframe src="userHeader.html" width="100%" height="auto" frameborder="0"></iframe>
+    </header>
+
+    <div style="margin: 10vh;">
+        <h2> Restaurant Name</h2>
+        <input type="text" placeholder="McDonald's Taft">
+
+        <h2> Type </h2>
+        <div class="dropdown">
+            <div class="horizontalAlignment">
+                <button class="dropdown-button">American
+                    <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
+                </button>
+            </div>
+            <div class="dropdown-content">
+                <a href="#">Option 1</a>
+                <a href="#">Option 2</a>
+                <a href="#">Option 3</a>
+            </div>
+        </div>
+
+        <h2> Address </h2>
+        <input type="text" placeholder="2399 Taft Ave, Malate, Manila, 1004 Metro Manila">
+
+        <h2> Phone Number </h2>
+        <input type="text" placeholder="0288886236">
+
+        <h2> Pricing Per Person </h2>
+        <div class="horizontalAlignment">
+            <input type="text" placeholder="PHP 200.00">
+            to
+            <input type="text" placeholder="PHP 400.00">
+        </div>
+
+        <div class="button-container">
+            <button class="archive-button">Archive</button>
+            <button class="cancel-button">Cancel</button>
+            <button class="save-button">Save Changes</button>
+        </div>
+    </div>
+
+    <footer>
+        <iframe src="footertemplate.html" width="100%" height="auto" frameborder="0"></iframe>
+    </footer>
+    
+</body>
+</html>
