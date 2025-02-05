@@ -72,7 +72,6 @@ header {
 .nav-links a:hover {
     color: var(--blue2); /* Lighter blue on hover */
 }
-
 .auth-buttons {
     display: flex;
     gap: 10px;
@@ -100,6 +99,7 @@ header {
     color: var(--blue1);
     border-radius: 15px;
 }
+
 .rating {
     font-size: 24px; 
     margin-top: 10%;
@@ -1066,55 +1066,53 @@ padding: 0 80px;
 
 .blackPtext {
     color: black;
+}
+
 /*Login Page*/
 .whole-body-container {
+    display: flex;
+    height: 100vh;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    display: flex;
-    height: 100vh;
 }
 .left-section {
-    margin-left: 50px;
-    flex: 0.65;
+    margin-left: 70px;
+    flex: 0.60;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: start;
 }
 .right-section {
-    flex: 0.35;
+    flex: 0.40;
     background: url('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfhGS9pMDJcFbFZ9SKdpGlxUidk9z_2fhCkTihBh9fRS_dKlz-') no-repeat center center;
     background-size: cover;
 }
 .login-container {
-    width: 300px;
+    width: 90%;
+
 }
 .login-container h2 {
-    font-size: 48px;
+    font-size: 52px;
     margin-bottom: 10px;
     font-family: 'Raleway';
 }
 
 .login-container input {
-    font-family: 'Inter';
-    width: 100%; /* Makes sure it stays within its container */
-    max-width: 530px; /* Adjust this to your desired width */
+    width: 100%; 
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
-    background-color: lightgray;
-    height: 40px;
     border-radius: 5px;
+    font-size: 19px;
+    box-sizing: border-box;
 }
-
-
-/* Responsive Fix */
-@media (max-width: 768px) {
-    .login-container input {
-        max-width: 100%; /* Makes inputs responsive */
-    }
-}
+.login-container input, .login-container textarea {
+    background-color: lightgray;
+    font-family: 'Inter';
+    height: 70px;
+} 
 
 .checkbox {
     display: flex;
@@ -1124,11 +1122,11 @@ padding: 0 80px;
 .checkbox input {
     width: auto;
     margin-right: 5px;
-    margin-bottom: 13px;
+    margin-bottom: 10px;
 }
 .login-btn {
     font-family: 'Inter';
-    width: 30%;
+    width: 25%;
     padding: 10px;
     background-color: #a3e635;
     color:green;
