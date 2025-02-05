@@ -473,16 +473,31 @@ header {
     font-size: 16px;
 }
 
+.button-clickable {
+    cursor: pointer;
+}
+
 .edit-archive-container {
     margin-top: 20px;
     margin-left: 20px;
     background-color: var(--white2);
 }
 
+.icon-clickable {
+    /* border-radius: 5px; */
+    cursor: pointer;
+    /* transition: background 0.3s ease; */
+}
+
+/* .icon-clickable:hover {
+    background-color: var(--white1);
+} */
+
 .icon-margin-right {
     width: 16px;
     height: 16px;
     margin-right: 5px;
+
 }
 
 .icon-margin-right-2 {
@@ -544,6 +559,16 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.text-clickable {
+    cursor: pointer;
+    transition: text-decoration 0.2s ease;
+}
+
+.text-clickable:hover {
+    text-decoration: underline;
+
 }
 
 .reviewer-name {
