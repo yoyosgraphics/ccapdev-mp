@@ -1865,3 +1865,63 @@ header {
     font-family: Raleway;
 }
 
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    top: 90%;
+    left: 15%;
+    width: 30%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: var(--white1);
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
