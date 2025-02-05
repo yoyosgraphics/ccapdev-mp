@@ -1275,7 +1275,8 @@ header {
 .horizontalAlignment {
     display: flex;
     flex-direction: row;
-    gap: 10vh;
+    align-items: center;
+    gap: 5vh;
 }
 
 .blackPtext {
@@ -1859,5 +1860,8 @@ header {
     object-fit: cover;
 }
 
-
+.headerYellowColor {
+    color: var(--orange1);
+    font-family: Raleway;
+}
 
