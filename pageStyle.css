@@ -1229,6 +1229,29 @@ header {
     font-family: 'Inter';
 }
 
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.cancel-edit {
+    background: gray;
+    color: white;
+}
+
+.btn.save-edit {
+    background: green;
+    color: white;
+}
+
 .btn.previous {
     background: black;
     color: white;
@@ -1237,6 +1260,16 @@ header {
 .btn.signup {
     background: blue;
     color: white;
+}
+
+/* Hover & Active Effects */
+.btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.98);
 }
 
 .horizontalAlignment {
