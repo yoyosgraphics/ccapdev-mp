@@ -1187,11 +1187,14 @@ header {
     font-family: 'Inter';
     width: 25%;
     padding: 10px;
-    background-color: #a3e635;
-    color: green;
+    background-color: var(--green2);
+    color:var(--green1);
     border: none;
     border-radius: 25px;
     font-weight: bold;
     cursor: pointer;
     font-size: 16px;
 }
+
+/* Edit User Profile */
+
