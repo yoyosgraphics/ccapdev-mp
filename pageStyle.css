@@ -997,14 +997,11 @@ header {
 }
 
 /*Upload Profile Pic in Register Page*/
-
-
 .upload-pic-container {
-    background-color: white;
     padding: 30px;
     width: 500px;
     text-align: center;
-    margin-left: -20px;
+    margin-left: 50px;
 }
 
 .upload-container {
@@ -1060,13 +1057,15 @@ header {
 }
 
 .bio-box {
+    width: 50%;
     margin-top: 20px;
+    margin-left: 75px;
     position: relative;
 }
 
 .bio-box textarea {
     width: 100%;
-    height: 100px;
+    height: 25vh;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -1085,6 +1084,7 @@ header {
 }
 
 .buttons {
+    margin-left: 75px;
     margin-top: 20px;
     display: flex;
     justify-content: left;
