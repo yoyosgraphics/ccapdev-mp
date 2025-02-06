@@ -181,7 +181,7 @@ header {
     flex-direction: row;
     background-color: var(--orange2);
     min-height: 20vh;
-    padding: 55px;
+    padding: 60px 10%;
     align-items: center;
     justify-content: space-between;
     position: relative;
@@ -1036,40 +1036,43 @@ header {
 .reg-container {
     display: flex;
     justify-content: flex-start;
-    padding: 0 80px;
     margin-top: 10px;
-    margin-left: -70px;
+    margin-bottom: 30px;
+    margin-right: 55px;
+    gap: 10px;
+    font-family: 'Inter';
 }
 
-.reg-btn,
-.prev-btn,
-.sgn-btn {
-    font-family: 'Inter';
-    width: 30%;
-    max-width: 420px;
-    padding: 12px;
-    background: var(--blue1);
+.reg-btn, .signup-btn{
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue button */
     color: white;
-    font-size: 16px;
-    border: none;
+    text-decoration: none;
     border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .prev-btn {
-    background: black;
+    font-family: 'Inter';
+    padding: 10px 20px;
+    background-color: black; /* Blue button */
     color: white;
-    margin-left: 60px;
-}
-
-.reg-btn:hover,
-.sgn-btn:hover {
-    background: var(--blue1);
-}
-
-.prev-btn:hover {
-    background: darkgray;
+    text-decoration: none;
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 5px;
 }
 
 .signup-wrapper {
@@ -1312,7 +1315,7 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    gap: 5vh;
 }
 
 .blackPtext {
