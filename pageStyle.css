@@ -959,57 +959,71 @@ header {
 
 /* Register Page CSS */
 .register-container {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     display: flex;
     height: 100vh;
 }
 
 .image-section {
     flex: 0.40;
-    background: url('https://m.media-amazon.com/images/I/4107fmVEb3L._SL1360_.jpg') no-repeat center center/cover;
+    background: url('Images/register_bg.jpg') no-repeat center center/cover;
 }
 
 .reg-section {
-    flex: 0.60;
-    background: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-container {
-    width: 105%;
-    padding: 10px;
+    flex: 0.6;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
+    background-color: #F8FAFC;
+    padding-left: 10%;
+}
+.form-container {
+    width: 0.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #F8FAFC;
+    margin: 55px;
+    padding-left: -10%;
 }
 
 .form-container h2 {
-    font-size: 52px;
+    font-size: 32px;
     font-family: 'Raleway';
-    margin-left: 85px;
+    color: #000;
     margin-bottom: 20px;
-    text-align: left;
-    width: 100%;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 500px;
 }
 
 .form-container input {
-    width: 100%;
-    padding-right: 55px;
-    margin: 10px 0;
+    padding: 12px;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 20px;
+}
+
+.name-group {
+    display: flex;
+    gap: 10px;
+}
+
+.name-group input {
+    width: 100%;
 }
 
 .form-container input,
 .form-container textarea {
     background-color: lightgray;
     font-family: 'Inter';
-    height: 70px;
+    height: 20px;
 }
 
 .form-container input::-webkit-input-placeholder {
@@ -1022,6 +1036,7 @@ header {
     justify-content: flex-start;
     padding: 0 80px;
     margin-top: 10px;
+    margin-left: -70px;
 }
 
 .reg-btn,
@@ -1053,7 +1068,6 @@ header {
 
 .prev-btn:hover {
     background: darkgray;
-    /* Add a hover effect for prev-btn */
 }
 
 .signup-wrapper {
@@ -1750,7 +1764,7 @@ header {
 }
 
 .prof-comment-item {
-    background: #e6e6e6;
+    background: var(--white1);
     padding: 15px;
     border-radius: 10px;
     display: flex;
@@ -1768,7 +1782,6 @@ header {
 
 .prof-comment-buttons {
     display: flex;
-    gap: -15px;
 }
 
 .prof-comment-btn {
