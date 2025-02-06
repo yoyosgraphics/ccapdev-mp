@@ -1960,3 +1960,8 @@ header {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+ .topNotch {
+    text-decoration: none;
+    color: inherit; 
+}
