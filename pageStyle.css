@@ -1337,7 +1337,7 @@ header {
 
 .right-section {
     flex: 0.40;
-    background: url('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfhGS9pMDJcFbFZ9SKdpGlxUidk9z_2fhCkTihBh9fRS_dKlz-') no-repeat center center;
+    background: url('Images/login-bg.png') no-repeat center center;
     background-size: cover;
 }
 
@@ -1346,7 +1346,7 @@ header {
 }
 
 .login-container h2 {
-    font-size: 52px;
+    font-size: 32px;
     margin-bottom: 10px;
     font-family: 'Raleway';
 }
@@ -1357,7 +1357,7 @@ header {
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 19px;
+    font-size: 12px;
     box-sizing: border-box;
 }
 
@@ -1365,7 +1365,7 @@ header {
 .login-container textarea {
     background-color: lightgray;
     font-family: 'Inter';
-    height: 70px;
+    height: 35px;
 }
 
 .checkbox {
@@ -1402,34 +1402,10 @@ header {
     height: 100vh;
 }
 
-/* .profile-pic-container {
-    flex: 0.2;
-    height: 100vh;
-    width: 20%;
-    margin-top: 70px;
-    margin-left: 70px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.profile-img {
-    width: 300px;
-    height: 300px;
-    border-radius: 80%;
-    object-fit: cover;
-    object-position: center;
-    border: 3px solid #ddd;
-    margin-top: 170px;
-    margin-bottom: 20px;
-} */
-
 .profile-pic-container {
     flex: 0.2;
     height: 100vh;
     width: 20%;
-    margin-top: 70px;
     margin-left: 70px;
     text-align: center;
     display: flex;
@@ -1438,10 +1414,10 @@ header {
 }
 
 .profile-img-wrapper {
-    width: 300px; /* Fixed width */
-    height: 300px; /* Fixed height */
-    border-radius: 50%; /* Makes the wrapper circular */
-    overflow: hidden; /* Ensures the image stays inside the circle */
+    width: 200px; 
+    height: 200px; 
+    border-radius: 50%;
+    overflow: hidden; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1451,7 +1427,7 @@ header {
 .profile-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the circular area */
+    object-fit: cover; 
     object-position: center;
 }
 
@@ -1460,15 +1436,15 @@ header {
     justify-content: center;
     align-items: center;
     background: #e5e7eb;
-    width: 150px;
+    width: 110px;
     padding: 8px 12px;
     border-radius: 25px;
-    margin-top: -70px;
+    margin-top: -50px;
     z-index: 10;
 }
 
 .profile-icon {
-    font-size: 15px;
+    font-size: 12px;
     cursor: pointer;
     margin: 0 5px;
     height: 32px;
@@ -1476,7 +1452,7 @@ header {
 }
 
 .profile-icon-divider {
-    font-size: 15px;
+    font-size: 12px;
     margin-left: -10px;
     margin-right: -10px;
     height: 32px;
@@ -1504,11 +1480,12 @@ header {
 }
 
 .profile-form-container {
-    width: 105%;
+    width: 100%;
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 50px;
 }
 
 .profile-form-container input {
@@ -1531,7 +1508,7 @@ header {
 .profile-form-container textarea {
     background-color: lightgray;
     font-family: 'Inter';
-    height: 70px;
+    height: 35px;
 }
 
 .profile-form-container input::-webkit-input-placeholder,
@@ -1577,7 +1554,7 @@ header {
 
 .prof-profile-container h2 {
     font-family: 'Raleway';
-    font-size: 24px;
+    font-size: 32px;
     margin-bottom: 20px;
 }
 
@@ -1617,26 +1594,26 @@ header {
     background-color: black;
     color: white;
     border: none;
-    padding: 10px 16px; /* Slightly increased padding for better touch accessibility */
+    padding: 10px 16px; 
     border-radius: 25px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px; /* Increased gap for better spacing */
+    gap: 8px; 
     width: fit-content;
-    font-family: 'Inter', sans-serif; /* Added fallback font */
-    font-size: 16px; /* Ensuring consistent text size */
-    text-decoration: none; /* Prevent underline if used on an <a> tag */
+    font-family: 'Inter'; 
+    font-size: 16px; 
+    text-decoration: none;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .prof-edit-prof-btn:hover {
-    background-color: #333; /* Slightly lighter shade on hover */
-    transform: scale(1.05); /* Subtle hover effect */
+    background-color: #333; 
+    transform: scale(1.05); 
 }
 
 .prof-edit-prof-btn:active {
-    transform: scale(0.98); /* Slight press effect */
+    transform: scale(0.98); 
 }
 
 .prof-edit-icon-white {
@@ -1644,7 +1621,7 @@ header {
     height: 16px;
 }
 .prof-edit-prof-btn:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3; 
 }
 .prof-navigation-container {
     display: flex;
@@ -1665,7 +1642,7 @@ header {
 }
 
 .prof-nav-link:hover {
-    background-color: #bbb; /* Slightly darker shade on hover */
+    background-color: #bbb; 
     color: white;
 }
 
@@ -1721,7 +1698,7 @@ header {
 .prof-restaurant-details p {
     margin: 2px 0;
     font-family: 'Inter';
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .prof-restaurant-details .rating {
@@ -1796,7 +1773,7 @@ header {
 }
 
 .prof-comment-text {
-    margin-top: 10px;
+    margin-top: 16px;
     font-family: 'Inter';
 }
 
@@ -1844,7 +1821,7 @@ header {
 
 }
 .prof-review-date {
-    font-size: 14px;
+    font-size: 12px;
     color: gray;
     margin: 0;
     margin-top: 5px;
