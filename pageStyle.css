@@ -195,7 +195,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 55px;
     margin-top: 53px;
     padding: 60px 10%;
     background: var(--green1);
