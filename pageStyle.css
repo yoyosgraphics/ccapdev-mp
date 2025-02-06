@@ -181,7 +181,7 @@ header {
     flex-direction: row;
     background-color: var(--orange2);
     min-height: 20vh;
-    padding: 60px 10%;
+    padding: 55px;
     align-items: center;
     justify-content: space-between;
     position: relative;
