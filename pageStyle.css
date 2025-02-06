@@ -617,12 +617,12 @@ header {
     border-radius: 5px;
 }
 
-.image-container {
+.image-container-2 {
     position: relative;
     display: inline-block;
 }
 
-.image-container img {
+.image-container-2 img {
     display: block;
 }
 
