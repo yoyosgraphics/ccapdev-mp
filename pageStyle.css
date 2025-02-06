@@ -195,6 +195,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 55px;
+    margin-top: 53px;
     padding: 60px 10%;
     background: var(--green1);
     position: relative;
@@ -284,7 +286,8 @@ header {
 .top-food-chain {
     text-align: center;
     padding: 40px 20px;
-    background-color: var(--white2);
+    margin-left:55px;
+    margin-right:55px;
 }
 
 .top-food-chain h2 {
