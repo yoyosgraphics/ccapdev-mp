@@ -1552,6 +1552,8 @@ header {
     display: flex;
     align-items: center;
     gap: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
 }
 
 .prof-profile-container h2 {
@@ -1630,6 +1632,8 @@ header {
     justify-content: flex-start;
     margin-top: 30px;
     margin-bottom: 30px;
+    margin-left: 55px;
+    margin-right: 55px;
     gap: 10px;
     font-family: 'Inter';
 }
@@ -1655,6 +1659,8 @@ header {
 
 .prof-resto-container {
     margin-top: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
 }
 
 .prof-restaurant-list {
@@ -1730,10 +1736,14 @@ header {
     height: 2px;
     background-color: #ccc;
     margin: 20px 0;
+    margin-left: 55px;
+    margin-right: 55px;
 }
 
 .prof-comment-container {
     margin-top: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
 }
 
 .prof-comment-list {
@@ -1781,6 +1791,8 @@ header {
 
 .prof-review-container {
     margin-top: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
 }
 
 .prof-review-list {
