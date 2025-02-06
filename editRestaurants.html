@@ -50,7 +50,6 @@
         .button-container {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
         }
 
         .button-container button {
@@ -80,6 +79,39 @@
         .button-container button:hover {
             opacity: 0.8;
         }
+
+        .floating-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #E3E6E9;
+        padding: 10px 15px;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }   
+
+    .btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 8px;
+    }
+
+    .btn i {
+        color: black;
+    }
+
+    .divider {
+        width: 1px;
+        height: 20px;
+        background: black;
+        margin: 0 10px;
+        opacity: 0.5;
+    }
+
     </style>
 </head>
 
@@ -87,6 +119,12 @@
     <header>
         <iframe src="userHeader.html" width="100%" height="auto" frameborder="0"></iframe>
     </header>
+
+    <div class="floating-buttons">
+        <button class="btn"><i class="fas fa-camera"></i></button>
+        <div class="divider"></div>
+        <button class="btn"><i class="fas fa-trash"></i></button>
+    </div>
 
     <div style="margin: 10vh;">
         <h2> Restaurant Name</h2>
