@@ -75,7 +75,6 @@ header {
 
 .nav-links a:hover {
     color: var(--blue2);
-    /* Lighter blue on hover */
 }
 
 .auth-buttons {
@@ -85,24 +84,27 @@ header {
 
 .login-btn,
 .signup-btn, 
-.signout-btn {
+.signout-btn{
+    font-family: 'Inter';
     padding: 8px 15px;
-    font-size: 0.9em;
-    font-weight: bold;
+    text-decoration: none;
+    border-radius: 25px;
     border: none;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .login-btn, .signout-btn {
-    font-family: 'Inter';
     background-color: var(--green2);
     color: var(--green1);
     border-radius: 15px;
 }
 
 .signup-btn {
-    font-family: 'Inter';
     background-color: var(--white2);
     color: var(--blue1);
     border-radius: 15px;
@@ -1044,9 +1046,9 @@ header {
     font-family: 'Inter';
 }
 
-.reg-btn, .signup-btn{
+.reg-btn, .signupbtn{
     padding: 10px 20px;
-    background-color: #007bff; /* Blue button */
+    background-color: var(--blue1); 
     color: white;
     text-decoration: none;
     border-radius: 25px;
@@ -1059,11 +1061,9 @@ header {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.prev-btn {
+.prev-btn, .signupbtn {
     font-family: 'Inter';
     padding: 10px 20px;
-    background-color: black; /* Blue button */
-    color: white;
     text-decoration: none;
     border-radius: 25px;
     border: none;
@@ -1074,6 +1074,16 @@ header {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin-left: 5px;
+}
+
+.prev-btn{
+    background-color: black;
+    color: white;
+}
+
+.signupbtn{
+    background-color: var(--blue1);
+    color: white;
 }
 
 .signup-wrapper {
@@ -1385,15 +1395,15 @@ header {
     margin-right: 5px;
     margin-bottom: 10px;
 }
-
 .login-prof-btn {
     font-family: 'Inter';
-    width: 25%;
-    padding: 10px;
+    width: 40%;
+    padding: 10px 20px;
     background-color: var(--green2);
     color:var(--green1);
     border: none;
     border-radius: 25px;
+    text-decoration: none;
     font-weight: bold;
     cursor: pointer;
     font-size: 16px;
@@ -1678,7 +1688,6 @@ header {
     background: #fff;
     padding: 10px;
     border-radius: 10px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     align-items: center;
 }
 
@@ -1810,7 +1819,6 @@ header {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .prof-review-user {
@@ -1952,9 +1960,4 @@ header {
 
 .dropdown:hover .dropdown-content {
     display: block;
-}
-
-.topNotch {
-    text-decoration: none;
-    color: inherit;
 }
