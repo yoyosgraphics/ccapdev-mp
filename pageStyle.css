@@ -419,6 +419,8 @@ header {
     padding: 10px 20px;
     height: 16px;
     font-family: 'Inter';
+    transition: background-color 0.3s ease, color 0.3s ease;
+
 }
 
 .food-details-container {
@@ -472,9 +474,27 @@ header {
     color: var(--white2);
     font-size: 16px;
 }
+/*  */
+.button-clickable {
+    cursor: pointer;
+}
 
 .button-clickable {
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+.blue-button-clickable:hover {
+    background-color: #133bca;
+}
+
+.icon-clickable:hover, .gray-button-clickable:hover  {
+    background-color: #c2c9ce;
+}
+
+.dark-gray-button-clickable:hover {
+    background-color: #1a1d1f;
 }
 
 .edit-archive-container {
@@ -484,20 +504,16 @@ header {
 }
 
 .icon-clickable {
-    /* border-radius: 5px; */
+    border-radius: 3px;
     cursor: pointer;
-    /* transition: background 0.3s ease; */
+    transition: background-color 0.3s ease;
 }
-
-/* .icon-clickable:hover {
-    background-color: var(--white1);
-} */
+/*  */
 
 .icon-margin-right {
     width: 16px;
     height: 16px;
     margin-right: 5px;
-
 }
 
 .icon-margin-right-2 {
@@ -530,6 +546,7 @@ header {
     display: flex;
     flex-direction: column;
     padding-top: 20px;
+    padding-bottom: 55px;
     justify-content: center;
     background-color: var(--white2);
 }
@@ -642,6 +659,7 @@ header {
     align-items: center;
     justify-content: center;
     font-family: 'Inter';
+    transition: background-color 0.3s ease;
 }
 
 .buttons-space-2 {
@@ -710,7 +728,8 @@ header {
 .individual-review-container {
     display: flex;
     flex-direction: column;
-    padding-top: 50px;
+    padding-top: 55px;
+    padding-bottom: 55px;
     justify-content: center;
     background-color: var(--white2);
 }
@@ -804,6 +823,7 @@ header {
     display: flex;
     flex-direction: column;
     padding-top: 70px;
+    padding-bottom: 55px;
     justify-content: center;
 }
 
