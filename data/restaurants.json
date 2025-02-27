@@ -1,0 +1,26 @@
+[
+    {
+        "name": "McDonald's Taft",
+        "type": "American Food",
+        "rating": 4.5,
+        "banner" : "https://lh5.googleusercontent.com/p/AF1QipMj1j7xa1dmNJPvdELirVLrmj9xor1H7Ut1yT_5=w426-h240-k-no"
+    },
+    {
+        "name": "Panda Express Manila",
+        "type": "American Food",
+        "rating": 5,
+        "banner" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-NPHImp9IKWDH7P_78uFrMGz03fJ9sAQzw&s"
+    },
+    {
+        "name": "Ramen Nagi",
+        "type": "Japanese Food",
+        "rating": 4.5,
+        "banner" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsWdwBbZU0v9tGoPI10dreIAcggS9QVZIRg&s"
+    },
+    {
+        "name": "Piccolino Taft",
+        "type": "Italian Food",
+        "rating": 5,
+        "banner" : "https://artemiscdn.bky.ph/assets/1724224158-da8419439fdb2ca17e52244dd3faf557a9cece13.jpg"
+    }
+]
