@@ -1,0 +1,17 @@
+{{#each restaurants}}
+    <div class = "establishmentCategory"> 
+        <h2>{{@key}}</h2>
+        <div class="food-scroll-container">
+            {{#each this}}
+                <div class="food-card" onclick="window.location.href='individualEstablishmentPage.html'">
+                    <img src={{banner}} alt={{name}}>
+                    <div class="food-info">
+                        <h3>{{name}}</h3>
+                        <p>{{type}}</p>
+                        <p class="rating" style="--rating: "+{{rating}};></p>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+{{/each}}

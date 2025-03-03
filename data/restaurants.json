@@ -22,5 +22,29 @@
         "type": "Italian Food",
         "rating": 5,
         "banner" : "https://artemiscdn.bky.ph/assets/1724224158-da8419439fdb2ca17e52244dd3faf557a9cece13.jpg"
+    },
+    {
+        "name": "Italianni's",
+        "type": "Italian Food",
+        "rating": 3,
+        "banner" : "https://i.ytimg.com/vi/VWXQ2D1OTF4/sddefault.jpg"
+    },
+    {
+        "name": "La Toca Taft",
+        "type": "Mexican Food",
+        "rating": 4,
+        "banner" : "https://assets1.phonebooky.com/listings/assets/000/053/854/original/406339816_17868244569023811_4032775801276643374_n.jpg"
+    },
+    {
+        "name": "Claypot Rice Noodle",
+        "type": "Chinese Food",
+        "rating": 3,
+        "banner": "https://lh5.googleusercontent.com/p/AF1QipPVmFWbXC4JN1fO6Uh_WnlM8OKBzzUDpTmwKeEa=w426-h240-k-no"
+    },
+    {
+        "name": "Paotsin RSquare",
+        "type": "Chinese Food",
+        "rating": 4.5,
+        "banner": "https://lh3.googleusercontent.com/p/AF1QipOXYPIQcC_qw_x0lcrbKVkU0S1BgZQtm-n-1Naj=w426-h240-k-no"
     }
 ]

@@ -17,7 +17,7 @@ const dataModule = require('./data_export');
 
 // home
 server.get('/', function(req, resp){
-    const restaurants = dataModule.getData("./data/restaurants.json");
+    var restaurants = dataModule.getData("./data/restaurants.json");
     resp.render('home',{
         layout: 'index',
         title: 'TopNotch',
@@ -25,7 +25,24 @@ server.get('/', function(req, resp){
     });
 });
 
-const port = process.env.PORT || 9090;
+// restaurants
+server.get('/restaurants', function(req, resp){
+    var restaurants = dataModule.getData("./data/restaurants.json");
+    var filteredRestaurants = {
+        "American Food" : restaurants.filter(d => d.type == "American Food"),
+        "Italian Food" : restaurants.filter(d => d.type == "Italian Food"),
+        "Japanese Food" : restaurants.filter(d => d.type == "Japanese Food"),
+        "Mexican Food" : restaurants.filter(d => d.type == "Mexican Food"),
+        "Chinese Food" : restaurants.filter(d => d.type == "Chinese Food")
+    }
+    resp.render('restaurants',{
+        layout: 'index',
+        title: 'TopNotch',
+        restaurants: filteredRestaurants
+    });
+});
+
+const port = process.env.PORT || 3000;
 server.listen(port, function(){
     console.log('Listening at port '+port);
 });
