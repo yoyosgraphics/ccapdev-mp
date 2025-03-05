@@ -20,7 +20,7 @@
 
 body {
     margin: 0;
-    padding: 0;
+    padding-top: 20px;
     overflow-x: hidden;
     height: 100vh;
     /* Take up full viewport height */
@@ -48,14 +48,14 @@ h2 {
     align-items: center;
     justify-content: space-between;
     background-color: var(--blue1);
-    padding: 10px 10%;
+    padding: 20px 10%;
     color: var(--white2);
     box-sizing: border-box;
     z-index: 1000;
 }
 
 .logo {
-    font-size: 1.2em;
+    font-size: 20px;
     font-family: 'Raleway';
     font-weight: bold;
     opacity: 0.8;
@@ -72,7 +72,7 @@ h2 {
     text-decoration: none;
     margin-left: 40px;
     color: var(--white2);
-    font-size: .7em;
+    font-size: 14px;
     font-family: 'Inter';
     transition: color 0.3s ease;
 }
@@ -88,13 +88,15 @@ h2 {
 
 .login-btn,
 .signup-btn, 
-.signout-btn{
+.signout-btn,
+.clear-btn,
+.dropdown-btn{
     font-family: 'Inter';
-    padding: 8px 15px;
+    padding: 8px 30px;
     text-decoration: none;
     border-radius: 25px;
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
     display: inline-block;
@@ -105,13 +107,26 @@ h2 {
 .login-btn, .signout-btn {
     background-color: var(--green2);
     color: var(--green1);
-    border-radius: 15px;
+    border-radius: 100px;
 }
 
 .signup-btn {
     background-color: var(--white2);
     color: var(--blue1);
-    border-radius: 15px;
+    border-radius: 100px;
+}
+
+.clear-btn {
+    background-color: var(--black);
+    color: var(--white2);
+    border-radius: 100px;
+}
+
+.dropdown-btn {
+    background-color: var(--white1);
+    font-weight: normal;
+    color: var(--black);
+    border-radius: 100px;
 }
 
 .header-search-profile {
@@ -376,7 +391,7 @@ h2 {
     justify-content: space-between;
     background-color: var(--grey1);
     /* Dark background for the footer */
-    padding: 10px 10%;
+    padding: 20px 10%;
     color: var(--white2);
     /* Text color */
     box-sizing: border-box;
@@ -1931,14 +1946,14 @@ h2 {
     display: inline-block;
 }
 
-.dropdown-button {
+/* .dropdown-button {
     background-color: var(--white1);
     color: var(--black);
     padding: 10px 15px;
     border: none;
     cursor: pointer;
     border-radius: 25px;
-}
+} */
 
 .dropdown-content {
     display: none;

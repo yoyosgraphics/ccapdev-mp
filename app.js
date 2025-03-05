@@ -13,7 +13,10 @@ server.engine('hbs', handlebars.engine({
 
 server.use(express.static('public'));
 
-const dataModule = require('./data_export');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/tnotchdb');
+
+const dataModule = require('./data_export'); // remove this once you get the db working
 
 // home
 server.get('/', function(req, resp){
@@ -41,6 +44,30 @@ server.get('/restaurants', function(req, resp){
         restaurants: filteredRestaurants
     });
 });
+
+// search (restaurants)
+server.get('/search', function(req, resp){
+    var restaurants = dataModule.getData("./data/restaurants.json");
+    var searchQuery = req.query.q || ''; 
+    var filteredRestaurants = restaurants.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    resp.render('search', {
+        layout: 'index',
+        title: 'TopNotch',
+        searchQuery: searchQuery,
+        hasQuery: searchQuery.trim() !== '',
+        restaurants: filteredRestaurants
+    });
+});
+
+function finalClose(){
+    console.log('Close connection at the end!');
+    mongoose.connection.close();
+    process.exit();
+}
+
+process.on('SIGTERM',finalClose);
+process.on('SIGINT',finalClose);
+process.on('SIGQUIT', finalClose);
 
 const port = process.env.PORT || 3000;
 server.listen(port, function(){
