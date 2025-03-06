@@ -39,6 +39,19 @@ h2 {
     font-family: 'Inter';
 }
 
+input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: Inter;
+    background: var(--white1);
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    display: block;
+}
+
 .topbar {
     position: fixed;
     top: 0;
@@ -95,7 +108,8 @@ h2 {
 .cancel-btn,
 .save-btn,
 .write-btn,
-.send-btn{
+.send-btn,
+.post-btn{
     font-family: 'Inter';
     padding: 8px 30px;
     text-decoration: none;
@@ -148,7 +162,7 @@ h2 {
     border-radius: 100px;
 }
 
-.save-btn, .write-btn, .send-btn {
+.save-btn, .write-btn, .send-btn, .post-btn {
     background-color: var(--blue1);
     font-weight: normal;
     color: var(--white2);
@@ -937,7 +951,6 @@ h2 {
 .review-title-input {
     flex-grow: 1;
     margin-right: 10px;
-
 }
 
 .review-title-input input {
@@ -947,10 +960,10 @@ h2 {
     font-size: 16px;
     background-color: var(--white1);
     color: var(--grey1);
-    height: 40px;
-    width: 100%;
+    max-width: 100%;
     resize: none;
     overflow: hidden;
+    margin-bottom: 0px;
 }
 
 .review-title-counter,
@@ -2098,19 +2111,6 @@ h2 {
     background: var(--black);
     margin: 0 3px;
     opacity: 0.5;
-}
-
-input[type="text"] {
-    width: 100%;
-    max-width: 300px;
-    padding: 12px;
-    font-size: 14px;
-    font-family: Inter;
-    background: var(--white1);
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 10px;
-    display: block;
 }
 
 .button-container {

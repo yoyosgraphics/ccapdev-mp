@@ -65,7 +65,7 @@ server.get('/edit/restaurant/:id', function(req, resp){
     var selected = restaurants.find(d => d.id == req.params.id);
     resp.render('edit_restaurant', {
         layout: 'index',
-        title: 'Edit Restaurant',
+        title: 'Edit '+selected.name,
         selected: selected
     });
 });
@@ -90,9 +90,20 @@ server.get('/view/reviews/:id/', function(req, resp){
     var selected = reviews.find(d => d.id == req.params.id);
     resp.render('view_review', {
         layout: 'index',
-        title: selected.name,
+        title: selected.title,
         selected: selected,
         comments: comments
+    });
+});
+
+// create (review)
+server.get('/:id/create_review', function(req, resp){
+    var restaurants = dataModule.getData("./data/restaurants.json");
+    var selected = restaurants.find(d => d.id == req.params.id); // selected restaurant
+    resp.render('create_review', {
+        layout: 'index',
+        title: "Write a Review",
+        selected: selected
     });
 });
 
