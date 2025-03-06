@@ -63,7 +63,7 @@ server.get('/search', function(req, resp){
 server.get('/edit/restaurant/:id', function(req, resp){
     var restaurants = dataModule.getData("./data/restaurants.json");
     var selected = restaurants.find(d => d.id == req.params.id);
-    resp.render('edit_restaurants', {
+    resp.render('edit_restaurant', {
         layout: 'index',
         title: 'Edit Restaurant',
         selected: selected
