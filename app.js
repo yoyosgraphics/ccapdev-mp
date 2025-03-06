@@ -14,7 +14,7 @@ server.engine('hbs', handlebars.engine({
 server.use(express.static('public'));
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/tnotchdb');
+mongoose.connect('mongodb://localhost:27017/restaurant-review-db');
 
 const dataModule = require('./data_export'); // remove this once you get the db working
 
