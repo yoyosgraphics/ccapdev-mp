@@ -337,14 +337,14 @@ h2 {
 
 .food-card {
     position: relative;
-    min-width: 320px;
+    min-width: 25vw;
     border-radius: 15px;
     overflow: hidden;
     scroll-snap-align: start;
 }
 
 .food-card img {
-    width: 100%;
+    width: 25vw;
     height: 200px;
     object-fit: cover;
     border-radius: 15px;
@@ -385,7 +385,7 @@ h2 {
 .footer {
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -468,6 +468,18 @@ h2 {
     color: var(--white1);
     font-family: 'Inter';
     font-size: 16px;
+}
+
+#card-stack h2 {
+    color: var(--black);
+    font-family: 'Raleway';
+    font-size: 24px;
+}
+
+#card-stack p {
+    color: var(--black);
+    font-family: 'Inter';
+    font-size: 14px;
 }
 
 .rating-container p {
@@ -1946,38 +1958,55 @@ h2 {
     display: inline-block;
 }
 
-/* .dropdown-button {
-    background-color: var(--white1);
-    color: var(--black);
+.dropdown-button {
     padding: 10px 15px;
     border: none;
+    background-color: var(--white2);
     cursor: pointer;
-    border-radius: 25px;
-} */
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--white);
-    min-width: 160px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    overflow: hidden;
 }
 
-.dropdown-content a {
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--white2);
+    min-width: 160px;
+    box-shadow: 0px 4px 8px color-mix(in srgb, var(--black) 20%, transparent);
+    border-radius: 15px;
+    overflow: hidden;
+    align-items: center;
+    padding: 5px 0;
+    z-index: 10;
+
+    /* Hide initially */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.dropdown-content p {
     display: block;
+    font-family: 'Inter';
+    font-size: 12px;
     padding: 10px;
     text-decoration: none;
     color: var(--black);
+    cursor: pointer;
 }
 
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
+.dropdown-content p:hover {
+    background-color: var(--white1);
 }
 
-.dropdown:hover .dropdown-content {
-    display: block;
+/* Active dropdown */
+.dropdown-content.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
  .topNotch {

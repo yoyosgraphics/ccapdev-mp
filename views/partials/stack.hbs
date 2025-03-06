@@ -1,0 +1,23 @@
+<div class="establishmentCategory">
+    {{#each restaurants}}
+        <div class="food-card-vertical">
+            <div class="horizontalAlignment">
+                <div class="food-card" onclick="window.location.href='individualEstablishmentPage.html'">
+                    <img src="{{banner}}" alt="{{name}}" class="food-card">
+                </div>
+                <div class="food-details" id="card-stack">
+                    <div class="horizontalAlignment">
+                    <h2>{{name}}</h2>
+                    <p class="rating" style="--rating: "+{{rating}};></p>
+                    {{!-- <img src="https://static.vecteezy.com/system/resources/thumbnails/013/743/771/small/five-stars-rating-icon-png.png" height="10%" width="10%"> --}}
+                    </div>
+                    <p>Type: {{type}}</p>
+                    <p>Address: {{address}}</p>
+                    <p>Phone Number: {{phone-number}}</p>
+                    <p>Pricing: PHP {{min-price}}-{{max-price}} per person</p>
+                </div>
+            </div>
+            <br>
+        </div>
+    {{/each}}
+</div>
