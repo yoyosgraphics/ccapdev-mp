@@ -52,6 +52,19 @@ input[type="text"] {
     display: block;
 }
 
+input[type="password"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: Inter;
+    background: var(--white1);
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    display: block;
+}
+
 .topbar {
     position: fixed;
     top: 0;
@@ -110,7 +123,9 @@ input[type="text"] {
 .write-btn,
 .send-btn,
 .post-btn,
-.delete-btn{
+.delete-btn,
+.next-btn,
+.prev-btn{
     font-family: 'Inter';
     padding: 8px 30px;
     text-decoration: none;
@@ -130,13 +145,13 @@ input[type="text"] {
     border-radius: 100px;
 }
 
-.signup-btn {
+.signup-btn{
     background-color: var(--white2);
     color: var(--blue1);
     border-radius: 100px;
 }
 
-.clear-btn, .delete-btn {
+.clear-btn, .delete-btn, .prev-btn {
     background-color: var(--black);
     color: var(--white2);
     border-radius: 100px;
@@ -166,6 +181,18 @@ input[type="text"] {
 .save-btn, .write-btn, .send-btn, .post-btn {
     background-color: var(--blue1);
     font-weight: normal;
+    color: var(--white2);
+    border-radius: 100px;
+}
+
+.next-btn {
+    background-color: var(--blue1);
+    color: var(--white2);
+    border-radius: 100px;
+}
+
+.buttons .signup-btn {
+    background-color: var(--blue1);
     color: var(--white2);
     border-radius: 100px;
 }
@@ -1059,7 +1086,7 @@ input[type="text"] {
 
 .image-section {
     flex: 0.40;
-    background: url('Images/register_bg.jpg') no-repeat center center/cover;
+    background: url('/common/register_bg.jpg') no-repeat center center/cover;
 }
 
 .reg-section {
@@ -1150,7 +1177,7 @@ input[type="text"] {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.prev-btn, .signupbtn {
+.signupbtn {
     font-family: 'Inter';
     padding: 10px 20px;
     text-decoration: none;
@@ -1163,11 +1190,6 @@ input[type="text"] {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin-left: 5px;
-}
-
-.prev-btn{
-    background-color: var(--black);
-    color: var(--white);
 }
 
 .signupbtn{

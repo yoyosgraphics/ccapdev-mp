@@ -133,6 +133,14 @@ server.get('/view/reviews/:id/edit/:comment_id', function(req, resp){
     });
 });
 
+// register
+server.get('/register', function(req, resp){
+    resp.render('register',{
+        layout: 'index',
+        title: 'TopNotch'
+    });
+});
+
 function finalClose(){
     console.log('Close connection at the end!');
     mongoose.connection.close();
