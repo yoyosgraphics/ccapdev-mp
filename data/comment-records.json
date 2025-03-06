@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "67c9aeadd220f3bd703c75ab"
+  },
+  "user_id": {
+    "$oid": "67c9b74ad220f3bd703c75cc"
+  },
+  "review_id": {
+    "$oid": "67c9a917d220f3bd703c75a6"
+  },
+  "content": "I totally agree! McDonald's is my go-to when I need a quick and familiar meal. The fries are my favorite, especially when they're hot and crispy! Sometimes the service can be slow during busy hours, but overall, it's super convenient.",
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9c2a6d220f3bd703c763a"
+  },
+  "user_id": {
+    "$oid": "67c9b775d220f3bd703c75cd"
+  },
+  "review_id": {
+    "$oid": "67c9a917d220f3bd703c75a6"
+  },
+  "content": "Same here! McDonald's is always a safe choice when I don't know what to eat. The Big Mac never disappoints! I just wish the ice cream machine worked more often!",
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9c2cdd220f3bd703c763e"
+  },
+  "user_id": {
+    "$oid": "67c9b78ad220f3bd703c75ce"
+  },
+  "review_id": {
+    "$oid": "67c9a917d220f3bd703c75a6"
+  },
+  "content": "Yep, McDonald's is my comfort food! No matter where I go, I know exactly what I'm getting. The fries and nuggets are my favorites! Wish they'd bring back some of the old limited-time items, though.",
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9c2e9d220f3bd703c7641"
+  },
+  "user_id": {
+    "$oid": "67c9b7a3d220f3bd703c75cf"
+  },
+  "review_id": {
+    "$oid": "67c9a917d220f3bd703c75a6"
+  },
+  "content": "Totally agree! It's not fancy, but it hits the spot when you need something quick. I love grabbing a McChicken and fries when I'm on the go. Just wish the lines weren't so long sometimes!",
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9c325d220f3bd703c7645"
+  },
+  "user_id": {
+    "$oid": "67c9a5edd220f3bd703c75a1"
+  },
+  "review_id": {
+    "$oid": "67c9a917d220f3bd703c75a6"
+  },
+  "content": "McDonald's is the best choice for any time!",
+  "edit_status": false,
+  "delete_status": false
+}]

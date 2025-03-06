@@ -1,0 +1,143 @@
+[{
+  "_id": {
+    "$oid": "67c9a917d220f3bd703c75a6"
+  },
+  "user_id": {
+    "$oid": "67c9a5edd220f3bd703c75a1"
+  },
+  "restaurant_id": {
+    "$oid": "67c9af68d220f3bd703c75ad"
+  },
+  "date": "2025-01-15",
+  "title": "Classic Fast Food, Reliable Taste",
+  "rating": 5,
+  "content": "McDonald's remains a go-to spot for quick, familiar meals. The burgers, fries, and nuggets are consistent, and the service is usually fast. While not gourmet, it delivers exactly what you expect. Great for a quick bite!",
+  "picture_addresses": [
+    "",
+    ""
+  ],
+  "likes": 3,
+  "dislikes": 3,
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9bd9bd220f3bd703c75f4"
+  },
+  "user_id": {
+    "$oid": "67c9b74ad220f3bd703c75cc"
+  },
+  "restaurant_id": {
+    "$oid": "67c9af68d220f3bd703c75ad"
+  },
+  "date": "2025-01-16",
+  "title": "Hit or Miss, Depending on the Location",
+  "rating": 4,
+  "content": "Some McDonald's branches are fantastic—clean, quick service, and fresh food. Others, not so much. I've had experiences where fries were cold or burgers were slapped together carelessly. It really depends on where you go.",
+  "picture_addresses": [],
+  "likes": 5,
+  "dislikes": 1,
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9bdf6d220f3bd703c75fc"
+  },
+  "user_id": {
+    "$oid": "67c9b775d220f3bd703c75cd"
+  },
+  "restaurant_id": {
+    "$oid": "67c9af68d220f3bd703c75ad"
+  },
+  "date": "2025-02-16",
+  "title": "Affordable and Convenient",
+  "rating": 4,
+  "content": "McDonald's is great when you're on a budget. The value meals give you a lot for your money, and their app deals make it even better. It's not the healthiest option, but it's perfect for a fast, cheap meal.",
+  "picture_addresses": [],
+  "likes": 2,
+  "dislikes": 2,
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9be3fd220f3bd703c75ff"
+  },
+  "user_id": {
+    "$oid": "67c9b78ad220f3bd703c75ce"
+  },
+  "restaurant_id": {
+    "$oid": "67c9af68d220f3bd703c75ad"
+  },
+  "date": "2025-02-17",
+  "title": "Breakfast is the Best Part",
+  "rating": 5,
+  "content": "McDonald's breakfast is underrated! The Egg McMuffin, hash browns, and coffee are always a win. The downside? The breakfast menu ends too early—wish they served it all day!",
+  "picture_addresses": [],
+  "likes": 3,
+  "dislikes": 1,
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9be89d220f3bd703c7606"
+  },
+  "user_id": {
+    "$oid": "67c9b7a3d220f3bd703c75cf"
+  },
+  "restaurant_id": {
+    "$oid": "67c9af68d220f3bd703c75ad"
+  },
+  "date": "2025-03-17",
+  "title": "Good for Kids, But Not Always Fresh",
+  "rating": 4.5,
+  "content": "McDonald's is perfect for families with kids—the Happy Meals, playgrounds, and simple menu make it an easy choice. But sometimes, the food quality isn't the best. Freshness depends on the time of day you go.",
+  "picture_addresses": [],
+  "likes": 0,
+  "dislikes": 5,
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9c09ed220f3bd703c7612"
+  },
+  "user_id": {
+    "$oid": "67c9a5edd220f3bd703c75a1"
+  },
+  "restaurant_id": {
+    "$oid": "67c9ba00d220f3bd703c75df"
+  },
+  "date": "2025-01-10",
+  "title": "Fast, Tasty, and Satisfying Chinese Cuisine",
+  "rating": 5,
+  "content": "Panda Express is a go-to spot for quick and flavorful Chinese comfort food. The Orange Chicken remains a fan favorite, perfectly balancing sweetness and crunch. Portion sizes are reasonable, and service is efficient. However, the food can be a bit oily, and options for healthier choices are limited. Great for a satisfying meal on the go.",
+  "picture_addresses": [],
+  "likes": 3,
+  "dislikes": 1,
+  "edit_status": false,
+  "delete_status": false
+},
+{
+  "_id": {
+    "$oid": "67c9c19ed220f3bd703c7624"
+  },
+  "user_id": {
+    "$oid": "67c9b775d220f3bd703c75cd"
+  },
+  "restaurant_id": {
+    "$oid": "67c9badfd220f3bd703c75e6"
+  },
+  "date": "2025-02-16",
+  "title": "Authentic Italian Flavors with a Cozy Ambiance",
+  "rating": 4,
+  "content": "Italiannis delivers a delightful Italian dining experience with its hearty pasta dishes, flavorful pizzas, and warm, inviting atmosphere. The servings are generous—perfect for sharing—and the quality of ingredients is evident in every bite. However, service can be a bit slow during peak hours, so patience is required. Overall, a great spot for family gatherings or casual dates.",
+  "picture_addresses": [],
+  "likes": 5,
+  "dislikes": 0,
+  "edit_status": false,
+  "delete_status": false
+}]
