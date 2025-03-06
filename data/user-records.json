@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "67c9a5edd220f3bd703c75a1"
+  },
+  "email_address": "user_one@gmail.com",
+  "first_name": "User",
+  "last_name": "One",
+  "username": "user_one",
+  "password": "pass1",
+  "picture_address": "",
+  "biography": "I am User One!"
+},
+{
+  "_id": {
+    "$oid": "67c9b74ad220f3bd703c75cc"
+  },
+  "email_address": "user_two@gmail.com",
+  "first_name": "User",
+  "last_name": "Two",
+  "username": "user_two",
+  "password": "pass2",
+  "picture_address": "",
+  "biography": "I am User Two!"
+},
+{
+  "_id": {
+    "$oid": "67c9b775d220f3bd703c75cd"
+  },
+  "email_address": "user_three@gmail.com",
+  "first_name": "User",
+  "last_name": "Three",
+  "username": "user_three",
+  "password": "pass3",
+  "picture_address": "",
+  "biography": "I am User Three!"
+},
+{
+  "_id": {
+    "$oid": "67c9b78ad220f3bd703c75ce"
+  },
+  "email_address": "user_four@gmail.com",
+  "first_name": "User",
+  "last_name": "Four",
+  "username": "user_four",
+  "password": "pass4",
+  "picture_address": "",
+  "biography": "I am User Four!"
+},
+{
+  "_id": {
+    "$oid": "67c9b7a3d220f3bd703c75cf"
+  },
+  "email_address": "user_five@gmail.com",
+  "first_name": "User",
+  "last_name": "Five",
+  "username": "user_five",
+  "password": "pass5",
+  "picture_address": "",
+  "biography": "I am User Five!"
+}]

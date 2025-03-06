@@ -1,0 +1,85 @@
+[{
+  "_id": {
+    "$oid": "67c9af68d220f3bd703c75ad"
+  },
+  "name": "McDonald's Taft",
+  "type": "American",
+  "address": "2399 Taft Ave., Malate, Manila, 1004 Metro Manila",
+  "phone_number": "0288886236",
+  "pricing_from": 200,
+  "pricing_to": 400,
+  "delete_status": false,
+  "picture_address": "",
+  "rating": 4.5,
+  "user_id": {
+    "$oid": "67c9a5edd220f3bd703c75a1"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c9ba00d220f3bd703c75df"
+  },
+  "name": "Panda Express Robinsons Place Manila",
+  "type": "Chinese",
+  "address": "Level 1, Sta. Monica Wing, Robinsons Place Manila, Pedro Gil St., Ermita, Manila, 1000 Metro Manila",
+  "phone_number": "09693026187",
+  "pricing_from": 200,
+  "pricing_to": 400,
+  "delete_status": false,
+  "picture_address": "",
+  "rating": 5,
+  "user_id": {
+    "$oid": "67c9b74ad220f3bd703c75cc"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c9ba5dd220f3bd703c75e2"
+  },
+  "name": "Piccolino Restaurant Taft",
+  "type": "Italian",
+  "address": "One Archers Place, Castro Street, Taft Ave, Malate, Manila, 1004 Metro Manila",
+  "phone_number": " 09150579395",
+  "pricing_from": 200,
+  "pricing_to": 400,
+  "delete_status": false,
+  "picture_address": "",
+  "rating": 0,
+  "user_id": {
+    "$oid": "67c9b775d220f3bd703c75cd"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c9badfd220f3bd703c75e6"
+  },
+  "name": "Italianni's Robinsons Place Manila",
+  "type": "Italian",
+  "address": "Level 1, Midtown Wing, Robinsons Place Manila, Pedro Gil St., Ermita, Manila, 1000 Metro Manila",
+  "phone_number": "0285672246",
+  "pricing_from": 300,
+  "pricing_to": 500,
+  "delete_status": false,
+  "picture_address": "",
+  "rating": 4,
+  "user_id": {
+    "$oid": "67c9b78ad220f3bd703c75ce"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c9bb5cd220f3bd703c75ea"
+  },
+  "name": "Ramen Nagi x Akimitsu Tendon Robinsons Place Manila",
+  "type": "Japanese",
+  "address": "Level 1, Padre Faura Wing, Robinsons Place Manila, Pedro Gil St., Ermita, Manila, 1000 Metro Manila",
+  "phone_number": "0283535067",
+  "pricing_from": 400,
+  "pricing_to": 600,
+  "delete_status": false,
+  "picture_address": "",
+  "rating": 0,
+  "user_id": {
+    "$oid": "67c9b7a3d220f3bd703c75cf"
+  }
+}]
