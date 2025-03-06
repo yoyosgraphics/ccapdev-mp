@@ -109,7 +109,8 @@ input[type="text"] {
 .save-btn,
 .write-btn,
 .send-btn,
-.post-btn{
+.post-btn,
+.delete-btn{
     font-family: 'Inter';
     padding: 8px 30px;
     text-decoration: none;
@@ -135,7 +136,7 @@ input[type="text"] {
     border-radius: 100px;
 }
 
-.clear-btn {
+.clear-btn, .delete-btn {
     background-color: var(--black);
     color: var(--white2);
     border-radius: 100px;

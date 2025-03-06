@@ -107,6 +107,17 @@ server.get('/:id/create_review', function(req, resp){
     });
 });
 
+// edit (review)
+server.get('/edit/review/:id', function(req, resp){
+    var reviews = dataModule.getData("./data/reviews.json");
+    var selected = reviews.find(d => d.id == req.params.id);
+    resp.render('edit_review', {
+        layout: 'index',
+        title: "Edit Your Review",
+        selected: selected
+    });
+});
+
 function finalClose(){
     console.log('Close connection at the end!');
     mongoose.connection.close();
