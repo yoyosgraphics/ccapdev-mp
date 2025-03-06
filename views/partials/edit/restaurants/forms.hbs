@@ -1,0 +1,46 @@
+<div class="edit-restaurant" style="background-image: url('{{selected.banner}}');">
+    <div class="floating-buttons">
+        <button class="btn"><img src="/common/picture-icon.png" width="15px" height="15px"> </button>
+        <div class="divider"></div>
+        <button class="btn"><img src="/common/delete-icon.png" width="15px" height="15px"> </button>
+    </div>
+
+    <h2>Restaurant Name</h2>
+    <input type="text" id="input-name" value="{{selected.name}}" placeholder="Name">
+
+    <h2>Type of Food</h2>
+    <div class="dropdown" id="filterFood-btn">
+        <div class="horizontalAlignment">
+            <button class="dropdown-btn">
+                {{selected.type}}
+                <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
+            </button>
+            <div class="dropdown-content">
+                <p>American Food</p>
+                <p>Italian Food</p>
+                <p>Japanese Food</p>
+                <p>Mexican Food</p>
+                <p>Chinese Food</p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Address</h2>
+    <input type="text" id="input-address" value="{{selected.address}}" placeholder="Address">
+
+    <h2>Phone Number</h2>
+    <input type="text" id="input-phone_number" value="{{selected.phone_number}}" placeholder="Phone Number">
+
+    <h2>Pricing Per Person</h2>
+    <div class="horizontalAlignment">
+        <input type="text" id="input-min_price" value="{{selected.min_price}}" placeholder="Min Price">
+        <p id="to">to</p>
+        <input type="text" id="input-max_price" value="{{selected.max_price}}" placeholder="Max Price">
+    </div>
+
+    <div class="button-container">
+        <button class="archive-btn">Archive</button>
+        <button class="cancel-btn" onclick="history.back()">Cancel</button>
+        <button class="save-btn">Save Changes</button>
+    </div>
+</div>

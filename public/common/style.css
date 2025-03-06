@@ -90,7 +90,10 @@ h2 {
 .signup-btn, 
 .signout-btn,
 .clear-btn,
-.dropdown-btn{
+.dropdown-btn,
+.archive-btn,
+.cancel-btn,
+.save-btn{
     font-family: 'Inter';
     padding: 8px 30px;
     text-decoration: none;
@@ -126,6 +129,27 @@ h2 {
     background-color: var(--white1);
     font-weight: normal;
     color: var(--black);
+    border-radius: 100px;
+}
+
+.archive-btn {
+    background-color: var(--grey1);
+    font-weight: normal;
+    color: var(--white2);
+    border-radius: 100px;
+}
+
+.cancel-btn {
+    background-color: var(--white1);
+    font-weight: normal;
+    color: var(--black);
+    border-radius: 100px;
+}
+
+.save-btn {
+    background-color: var(--blue1);
+    font-weight: normal;
+    color: var(--white2);
     border-radius: 100px;
 }
 
@@ -1958,14 +1982,6 @@ h2 {
     display: inline-block;
 }
 
-.dropdown-button {
-    padding: 10px 15px;
-    border: none;
-    background-color: var(--white2);
-    cursor: pointer;
-    border-radius: 5px;
-}
-
 .dropdown-content {
     position: absolute;
     top: 100%;
@@ -2009,7 +2025,82 @@ h2 {
     pointer-events: auto;
 }
 
- .topNotch {
+.topNotch {
     text-decoration: none;
     color: inherit; 
+}
+
+.edit-restaurant {
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--orange1);
+    margin-top: 23px;
+    padding: 60px 10%;
+    position: relative;
+    min-height: 35vh;
+    overflow: hidden;
+}
+
+.floating-buttons {
+    position: absolute;
+    top: 100px;
+    right: 40px;
+    background: var(--white1);
+    padding: 8px 15px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-restaurant .btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-restaurant h2 {
+    color: var(--white1);
+    font-family: Raleway;
+}
+
+.edit-restaurant #to {
+    color: var(--white1);
+    font-family: Raleway;
+    font-size: 14px;
+}
+
+.divider {
+    width: 2px;
+    height: 20px;
+    background: var(--black);
+    margin: 0 3px;
+    opacity: 0.5;
+}
+
+input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: Inter;
+    background: var(--white1);
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.button-container button {
+    margin-top: 20px;
+    padding: 12px 20px; 
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
 }

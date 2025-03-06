@@ -40,7 +40,7 @@ server.get('/restaurants', function(req, resp){
     }
     resp.render('restaurants',{
         layout: 'index',
-        title: 'TopNotch',
+        title: 'Restaurants',
         restaurants: filteredRestaurants
     });
 });
@@ -52,10 +52,29 @@ server.get('/search', function(req, resp){
     var filteredRestaurants = restaurants.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()));
     resp.render('search', {
         layout: 'index',
-        title: 'TopNotch',
+        title: (searchQuery.trim() !== '') ? searchQuery : "Search for your next meal",
         searchQuery: searchQuery,
         hasQuery: searchQuery.trim() !== '',
         restaurants: filteredRestaurants
+    });
+});
+
+// edit (restaurants)
+server.get('/edit/restaurants', function(req, resp){
+    var selected = {
+        "name": "McDonald's Taft",
+        "type": "American Food",
+        "banner" : "https://lh5.googleusercontent.com/p/AF1QipMj1j7xa1dmNJPvdELirVLrmj9xor1H7Ut1yT_5=w426-h240-k-no",
+        "address" : "gamer",
+        "phone_number" : "09171111111",
+        "min_price": 200,
+        "max_price": 400
+    } // hard-coded and needs to be fixed because it isn't properly passed through
+    resp.render('edit_restaurants', {
+        layout: 'index',
+        title: 'Edit Restaurant',
+        selected: selected,
+
     });
 });
 
