@@ -3,6 +3,7 @@
         "user" : "Richard",
         "username": "imuserone",
         "id": 1,
+        "review_id": 1,
         "is_owner": true,
         "comment": "Thank you for your kind review! We're happy to hear that you enjoy the consistency of our food and the speed of our service. At McDonald's, we strive to provide a quick and satisfying experience for all our guests. If there's ever anything we can do to make your visits even better, please let us know. We appreciate your support and look forward to serving you again soon!"
     },
@@ -10,6 +11,7 @@
         "user" : "User2",
         "username": "imuserone",
         "id": 2,
+        "review_id": 1,
         "is_owner": false,
         "comment": "I totally agree! McDonald's is my go-to when I need a quick and familiar meal. The fries are my favorite, especially when they're hot and crispy! Sometimes the service can be slow during busy hours, but overall, it's super convenient."
     },
@@ -17,6 +19,7 @@
         "user" : "User3",
         "username": "imuserone",
         "id": 3,
+        "review_id": 1,
         "is_owner": false,
         "comment": "Same here! McDonald's is always a safe choice when I don't know what to eat. The Big Mac never disappoints! I just wish the ice cream machine worked more often!"
     }

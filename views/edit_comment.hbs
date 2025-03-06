@@ -1,0 +1,9 @@
+<!-- edit_comment.hbs file -->
+{{> navigation}}
+<section class="individual-review-container indiv-restaurant-page-padding-side">
+    <div class="review-container">
+        {{> edit/comments/details selected=selected comment=selectedComment}}
+        {{> view/reviews/comments comments=comments}}
+    </div>
+</section>
+{{> footer}}

@@ -118,6 +118,21 @@ server.get('/edit/review/:id', function(req, resp){
     });
 });
 
+// edit (comments)
+server.get('/view/reviews/:id/edit/:comment_id', function(req, resp){
+    var comments = dataModule.getData("./data/comments.json");
+    var reviews = dataModule.getData("./data/reviews.json");
+    var selected = reviews.find(d => d.id == req.params.id);
+    var selectedComment = comments.find(d => d.id == req.params.comment_id);
+    resp.render('edit_comment', {
+        layout: 'index',
+        title: selected.title,
+        selected: selected,
+        comments: comments,
+        selectedComment: selectedComment
+    });
+});
+
 function finalClose(){
     console.log('Close connection at the end!');
     mongoose.connection.close();
