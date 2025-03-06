@@ -1,0 +1,24 @@
+<section class="food-details-container indiv-restaurant-page-padding-side" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.88)), url('{{selected.banner}}');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;"> 
+    <div class="food-details">
+        <h1>{{selected.name}}</h1>
+        <div class="rating-container">
+            <p class="rating rating-2" style="--rating:{{selected.rating}};"></p>
+        </div>
+        <p>Type: {{selected.type}}</p>
+        <p>Address: {{selected.address}}</p>
+        <p>Phone Number: {{selected.phone_number}}</p>
+        <p>Pricing: PHP {{selected.min_price}}-{{selected.max_price}} per person</p>
+    </div>
+    <div class="button-container1">
+        {{> search_bar_reviews}}
+        <button class="write-btn"><img src="/common/write-icon.png" class="icon-margin-right">Write a Review</button>
+        <div class="edit-archive-container button-container-attributes">
+            <button class="btn"><img src="/common/edit-icon.png" width="15px" height="15px" onclick="window.location.href='/edit/restaurant/{{selected.id}}'"> </button>
+            <div class="divider"></div>
+            <button class="btn"><img src="/common/archive-icon.png" width="15px" height="15px"> </button>
+        </div>
+    </div>
+</section>

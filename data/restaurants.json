@@ -2,6 +2,7 @@
     {
         "name": "McDonald's Taft",
         "type": "American Food",
+        "id": "mcdotaft",
         "rating": 4.5,
         "banner" : "https://lh5.googleusercontent.com/p/AF1QipMj1j7xa1dmNJPvdELirVLrmj9xor1H7Ut1yT_5=w426-h240-k-no",
         "address" : "gamer",
@@ -12,6 +13,7 @@
     {
         "name": "Panda Express Manila",
         "type": "American Food",
+        "id": "pandaexpressmanila",
         "rating": 5,
         "banner" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-NPHImp9IKWDH7P_78uFrMGz03fJ9sAQzw&s",
         "address" : "gamer",
@@ -22,6 +24,7 @@
     {
         "name": "Ramen Nagi",
         "type": "Japanese Food",
+        "id": "ramennagi",
         "rating": 4.5,
         "banner" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsWdwBbZU0v9tGoPI10dreIAcggS9QVZIRg&s",
         "address" : "gamer",
@@ -32,6 +35,7 @@
     {
         "name": "Piccolino Taft",
         "type": "Italian Food",
+        "id": "piccolinotaft",
         "rating": 5,
         "banner" : "https://artemiscdn.bky.ph/assets/1724224158-da8419439fdb2ca17e52244dd3faf557a9cece13.jpg",
         "address" : "gamer",
@@ -42,6 +46,7 @@
     {
         "name": "Italianni's",
         "type": "Italian Food",
+        "id": "italiannis",
         "rating": 3,
         "banner" : "https://i.ytimg.com/vi/VWXQ2D1OTF4/sddefault.jpg",
         "address" : "gamer",
@@ -52,6 +57,7 @@
     {
         "name": "La Toca Taft",
         "type": "Mexican Food",
+        "id": "latocataft",
         "rating": 4,
         "banner" : "https://assets1.phonebooky.com/listings/assets/000/053/854/original/406339816_17868244569023811_4032775801276643374_n.jpg",
         "address" : "gamer",
@@ -62,6 +68,7 @@
     {
         "name": "Claypot Rice Noodle",
         "type": "Chinese Food",
+        "id": "claypotricenoodle",
         "rating": 3,
         "banner": "https://lh5.googleusercontent.com/p/AF1QipPVmFWbXC4JN1fO6Uh_WnlM8OKBzzUDpTmwKeEa=w426-h240-k-no",
         "address" : "gamer",
@@ -72,6 +79,7 @@
     {
         "name": "Paotsin RSquare",
         "type": "Chinese Food",
+        "id": "paotsinrsquare",
         "rating": 4.5,
         "banner": "https://lh3.googleusercontent.com/p/AF1QipOXYPIQcC_qw_x0lcrbKVkU0S1BgZQtm-n-1Naj=w426-h240-k-no",
         "address" : "gamer",
