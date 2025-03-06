@@ -4,9 +4,20 @@
         <div class="nav-links">
             <a href="/restaurants" target="_top">Restaurants</a>
         </div>
+        {{#if show_auth}}
         <div class="auth-buttons">
             <a href="/login" target="_top"><button class="login-btn" >Log in</button></a>
             <a href="/register" target="_top"><button class="signup-btn">Sign Up</button></a>
         </div>
+        {{/if}}
+
+        {{#if logged_in}}
+        <div class="header-img-profile">
+            <img src="/common/user-icon.png" alt="User Avatar" class="header-avatar">
+        </div>
+        <div class="auth-buttons">
+            <a href="/" target="_top"> <button class="signout-btn">Log Out</button> </a>
+        </div>
+        {{/if}}
     </nav>
 </header>

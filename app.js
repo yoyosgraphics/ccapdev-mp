@@ -24,7 +24,9 @@ server.get('/', function(req, resp){
     resp.render('home',{
         layout: 'index',
         title: 'TopNotch',
-        restaurants: restaurants
+        restaurants: restaurants,
+        show_auth: true,
+        logged_in: false
     });
 });
 
@@ -41,7 +43,9 @@ server.get('/restaurants', function(req, resp){
     resp.render('restaurants',{
         layout: 'index',
         title: 'Restaurants',
-        restaurants: filteredRestaurants
+        restaurants: filteredRestaurants,
+        show_auth: true,
+        logged_in: false
     });
 });
 
@@ -55,7 +59,9 @@ server.get('/search', function(req, resp){
         title: (searchQuery.trim() !== '') ? searchQuery : "Search for your next meal",
         searchQuery: searchQuery,
         hasQuery: searchQuery.trim() !== '',
-        restaurants: filteredRestaurants
+        restaurants: filteredRestaurants,
+        show_auth: true,
+        logged_in: false
     });
 });
 
@@ -66,7 +72,9 @@ server.get('/edit/restaurant/:id', function(req, resp){
     resp.render('edit_restaurant', {
         layout: 'index',
         title: 'Edit '+selected.name,
-        selected: selected
+        selected: selected,
+        show_auth: false,
+        logged_in: true
     });
 });
 
@@ -79,7 +87,9 @@ server.get('/view/restaurant/:id/', function(req, resp){
         layout: 'index',
         title: selected.name,
         selected: selected,
-        reviews: reviews
+        reviews: reviews,
+        show_auth: true,
+        logged_in: false
     });
 });
 
@@ -92,7 +102,9 @@ server.get('/view/reviews/:id/', function(req, resp){
         layout: 'index',
         title: selected.title,
         selected: selected,
-        comments: comments
+        comments: comments,
+        show_auth: true,
+        logged_in: false
     });
 });
 
@@ -103,7 +115,9 @@ server.get('/:id/create_review', function(req, resp){
     resp.render('create_review', {
         layout: 'index',
         title: "Write a Review",
-        selected: selected
+        selected: selected,
+        show_auth: false,
+        logged_in: true
     });
 });
 
@@ -114,7 +128,9 @@ server.get('/edit/review/:id', function(req, resp){
     resp.render('edit_review', {
         layout: 'index',
         title: "Edit Your Review",
-        selected: selected
+        selected: selected,
+        show_auth: false,
+        logged_in: true
     });
 });
 
@@ -129,7 +145,9 @@ server.get('/view/reviews/:id/edit/:comment_id', function(req, resp){
         title: selected.title,
         selected: selected,
         comments: comments,
-        selectedComment: selectedComment
+        selectedComment: selectedComment,
+        show_auth: false,
+        logged_in: true
     });
 });
 
@@ -137,7 +155,9 @@ server.get('/view/reviews/:id/edit/:comment_id', function(req, resp){
 server.get('/register', function(req, resp){
     resp.render('register',{
         layout: 'index',
-        title: 'TopNotch'
+        title: 'TopNotch',
+        show_auth: false,
+        logged_in: false
     });
 });
 
