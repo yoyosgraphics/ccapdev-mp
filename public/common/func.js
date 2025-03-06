@@ -43,5 +43,9 @@ $(document).ready(function () {
     $(".prof-nav-link").on("click", function () {
         $(".prof-nav-link").removeClass("active");
         $(this).addClass("active");
+
+        let sectionToShow = $(this).data("section");
+        $(".prof-section").hide();
+        $("#" + sectionToShow).show();
     });
 });

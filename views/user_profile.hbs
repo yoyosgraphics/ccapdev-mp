@@ -3,6 +3,8 @@
 <div class="prof-container">
     {{> view/user_profile/details selected=selected}}
     {{> view/user_profile/filters}}
-    {{> view/restaurants/reviews reviews=reviews}}
+    {{> view/user_profile/reviews reviews=reviews}}
+    {{> view/user_profile/comments comments=comments}}
+    {{> view/user_profile/restaurant restaurants=restaurants}}
 </div>
 {{> footer}}

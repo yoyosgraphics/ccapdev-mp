@@ -175,12 +175,16 @@ server.get('/login', function(req, resp){
 server.get('/:username', function(req, resp){
     var users = dataModule.getData("./data/users.json");
     var reviews = dataModule.getData("./data/reviews.json");
+    var comments = dataModule.getData("./data/comments.json");
+    var restaurants = dataModule.getData("./data/restaurants.json");
     var selected = users.find(d => d.username == req.params.username);
     resp.render('user_profile', {
         layout: 'index',
         title: selected.name+"'s Profile",
         selected: selected,
         reviews: reviews,
+        comments: comments,
+        restaurants: restaurants,
         show_auth: false,
         logged_in: true
     });
