@@ -161,6 +161,16 @@ server.get('/register', function(req, resp){
     });
 });
 
+// login
+server.get('/login', function(req, resp){
+    resp.render('login',{
+        layout: 'index',
+        title: 'TopNotch',
+        show_auth: false,
+        logged_in: false
+    });
+});
+
 function finalClose(){
     console.log('Close connection at the end!');
     mongoose.connection.close();

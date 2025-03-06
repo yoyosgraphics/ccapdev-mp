@@ -1463,7 +1463,7 @@ input[type="password"] {
 
 .right-section {
     flex: 0.40;
-    background: url('Images/login-bg.png') no-repeat center center;
+    background: url('/common/login-bg.png') no-repeat center center;
     background-size: cover;
 }
 
