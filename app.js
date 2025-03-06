@@ -190,6 +190,16 @@ server.get('/:username', function(req, resp){
     });
 });
 
+// edit (profile)
+server.get('/edit/profile', function(req, resp){
+    resp.render('edit_profile',{
+        layout: 'index',
+        title: 'TopNotch',
+        show_auth: false,
+        logged_in: true
+    });
+});
+
 function finalClose(){
     console.log('Close connection at the end!');
     mongoose.connection.close();

@@ -619,6 +619,17 @@ input[type="password"] {
     overflow: hidden;
 }
 
+.image-delete-container {
+    background-color: var(--white1);
+    display: flex;
+    overflow: hidden;
+}
+
+.image-delete-container .btn {
+    background-color: var(--white1);
+}
+
+
 .edit-archive-container .btn {
     background-color: var(--white1);
 }
@@ -1099,6 +1110,16 @@ input[type="password"] {
     background-color: #F8FAFC;
     padding-left: 10%;
 }
+
+.editprofile-section {
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10%;
+}
+
 .form-container {
     width: 0.6;
     display: flex;
@@ -1245,7 +1266,7 @@ input[type="password"] {
     padding: 10px;
     border: 1px solid var(--white1);
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 12px;
     outline: none;
     resize: none; 
     margin-right: -65px;
@@ -1346,15 +1367,20 @@ input[type="password"] {
     font-family: 'Inter';
 }
 
-.bio-box {
+reg-section .bio-box {
     width: 50%;
     margin-top: 20px;
     margin-left: 75px;
     position: relative;
 }
 
+editprofile-section .bio-box {
+    margin-top: 20px;
+    position: relative;
+}
+
 .bio-box textarea {
-    width: 100%;
+    width: 33vw;
     height: 25vh;
     padding: 10px;
     border: 1px solid var(--white1);
@@ -1374,11 +1400,14 @@ input[type="password"] {
 }
 
 .buttons {
-    margin-left: 75px;
     margin-top: 20px;
     display: flex;
     justify-content: left;
     gap: 10px;
+}
+
+reg-section .buttons {
+    margin-left: 75px;
 }
 
 .btn {
@@ -1622,13 +1651,13 @@ input[type="password"] {
     margin: 10px 0;
     border: 1px solid var(--white1);
     border-radius: 5px;
-    font-size: 20px;
+    font-size: 12px;
 }
 
-.profile-form-container label {
+.profile-form-container h2 {
     margin: 10px 0;
     font-family: 'Raleway';
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -1636,7 +1665,7 @@ input[type="password"] {
 .profile-form-container textarea {
     background-color: var(--white1);
     font-family: 'Inter';
-    height: 35px;
+    height: 12px;
 }
 
 .profile-form-container input::-webkit-input-placeholder,
