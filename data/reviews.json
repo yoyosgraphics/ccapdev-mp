@@ -1,0 +1,30 @@
+[
+    {
+        "user" : "User1",
+        "username": "imuserone",
+        "timestamp" : "January 1, 2025, 11:05 AM",
+        "title": "Classic Fast Food, Reliable Taste",
+        "id": 1,
+        "rating": 5,
+        "review": "McDonald's remains a go-to spot for quick, familiar meals. The burgers, fries, and nuggets are consistent, and the service is usually fast. While not gourmet, it delivers exactly what you expect. Great for a quick bite!",
+        "upvotes" : 3,
+        "downvotes" : 1,
+        "has_images": true,
+        "image_links": ["/common/review-image-1.png", "/common/review-image-2.png"],
+        "comment_count": 5,
+        "has_owner_reply": true,
+        "owner_name" : "Richard",
+        "owner_reply": "Thank you for your kind review! We're happy to hear that you enjoy the consistency of our food and the speed of our service. At McDonald's, we strive to provide a quick and satisfying experience for all our guests. If there's ever anything we can do to make your visits even better, please let us know. We appreciate your support and look forward to serving you again soon!"
+    },
+    {
+        "user" : "User2",
+        "timestamp" : "January 1, 2025, 11:09 AM",
+        "title": "Hit or Miss, Depending on the Location",
+        "id": 2,
+        "rating": 4.5,
+        "review": "Some McDonald's branches are fantastic—clean, quick service, and fresh food. Others, not so much. I've had experiences where fries were cold or burgers were slapped together carelessly. It really depends on where you go.",
+        "upvotes" : 5,
+        "downvotes" : 1,
+        "comment_count": 2
+    }
+]

@@ -73,11 +73,13 @@ server.get('/edit/restaurant/:id', function(req, resp){
 // view (restaurant)
 server.get('/view/restaurant/:id/', function(req, resp){
     var restaurants = dataModule.getData("./data/restaurants.json");
+    var reviews = dataModule.getData("./data/reviews.json");
     var selected = restaurants.find(d => d.id == req.params.id);
     resp.render('view_restaurant', {
         layout: 'index',
         title: selected.name,
-        selected: selected
+        selected: selected,
+        reviews: reviews
     });
 });
 
