@@ -1,0 +1,8 @@
+<!-- user_profile.hbs file -->
+{{> navigation}}
+<div class="prof-container">
+    {{> view/user_profile/details selected=selected}}
+    {{> view/user_profile/filters}}
+    {{> view/restaurants/reviews reviews=reviews}}
+</div>
+{{> footer}}

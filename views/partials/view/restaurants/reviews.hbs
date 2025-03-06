@@ -5,7 +5,7 @@
             <div class="reviewer-container">
                 <img src="/common/user-icon.png" alt="User Icon">
                 <div class="reviewer-info">
-                    <div class="reviewer-name text-clickable" onclick="window.location.href='/view/user/{{username}}'">
+                    <div class="reviewer-name text-clickable" onclick="window.location.href='/{{username}}'">
                         <b><span>User1</span></b>
                     </div>
                     <div class="reviewer-date">
@@ -44,7 +44,7 @@
                 {{#if has_owner_reply}}
                 <div class="reply-background">
                     <div class="reply-container">
-                        <b><p>Reply from <span class="text-clickable" onclick="window.location.href='/view/user/{{owner_username}}'">{{owner_name}} (Owner)</span></p></b>
+                        <b><p>Reply from <span class="text-clickable" onclick="window.location.href='/{{owner_username}}'">{{owner_name}} (Owner)</span></p></b>
                         <p>{{owner_reply}}</p>
                     </div>
                 </div>

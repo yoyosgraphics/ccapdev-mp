@@ -125,7 +125,8 @@ input[type="password"] {
 .post-btn,
 .delete-btn,
 .next-btn,
-.prev-btn{
+.prev-btn,
+.editprofile-btn{
     font-family: 'Inter';
     padding: 8px 30px;
     text-decoration: none;
@@ -151,7 +152,7 @@ input[type="password"] {
     border-radius: 100px;
 }
 
-.clear-btn, .delete-btn, .prev-btn {
+.clear-btn, .delete-btn, .prev-btn, .editprofile-btn {
     background-color: var(--black);
     color: var(--white2);
     border-radius: 100px;
@@ -1766,20 +1767,21 @@ input[type="password"] {
 .prof-nav-link {
     padding: 10px 15px;
     text-decoration: none;
-    background-color: #ddd;
+    background-color: var(--white1);
     color: var(--black);
     border-radius: 25px;
+    border: none;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .prof-nav-link:hover {
     background-color: #bbb; 
-    color: var(--white);
+    color: var(--white2);
 }
 
 .prof-nav-link.active {
     background-color: var(--black);
-    color: var(--white);
+    color: var(--white2);
 }
 
 .prof-resto-container {

@@ -39,4 +39,9 @@ $(document).ready(function () {
         $("#reg-page-2").hide();
         $("#reg-page-1").show();
     });
+
+    $(".prof-nav-link").on("click", function () {
+        $(".prof-nav-link").removeClass("active");
+        $(this).addClass("active");
+    });
 });
