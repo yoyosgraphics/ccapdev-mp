@@ -1,0 +1,17 @@
+{{#each comments}}
+    {{#if is_owner}}
+        <div class="reply-background">
+    {{else}}
+        <div class="reply-background-2">
+    {{/if}}
+            <div class="reply-container">
+                <div class="reply-heading-container">
+                    <b><p>Reply from <span class="text-clickable" onclick="window.location.href='/view/user/{{username}}'">{{user}} {{#if is_owner}}(Owner){{/if}}</span></p></b>
+                    <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/edit/comment/{{id}}'">
+                    <div class="divider"></div>
+                    <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
+                </div>
+                <p>{{comment}}</p>
+            </div>
+        </div>
+{{/each}}

@@ -1,0 +1,9 @@
+<!-- view_review.hbs file -->
+{{> navigation}}
+<section class="individual-review-container indiv-restaurant-page-padding-side">
+    <div class="review-container">
+        {{> view/reviews/details selected=selected}}
+        {{> view/reviews/comments comments=comments}}
+    </div>
+</section>
+{{> footer}}

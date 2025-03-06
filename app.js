@@ -83,6 +83,19 @@ server.get('/view/restaurant/:id/', function(req, resp){
     });
 });
 
+// view (review)
+server.get('/view/reviews/:id/', function(req, resp){
+    var comments = dataModule.getData("./data/comments.json");
+    var reviews = dataModule.getData("./data/reviews.json");
+    var selected = reviews.find(d => d.id == req.params.id);
+    resp.render('view_review', {
+        layout: 'index',
+        title: selected.name,
+        selected: selected,
+        comments: comments
+    });
+});
+
 function finalClose(){
     console.log('Close connection at the end!');
     mongoose.connection.close();

@@ -94,7 +94,8 @@ h2 {
 .archive-btn,
 .cancel-btn,
 .save-btn,
-.write-btn{
+.write-btn,
+.send-btn{
     font-family: 'Inter';
     padding: 8px 30px;
     text-decoration: none;
@@ -147,7 +148,7 @@ h2 {
     border-radius: 100px;
 }
 
-.save-btn, .write-btn {
+.save-btn, .write-btn, .send-btn {
     background-color: var(--blue1);
     font-weight: normal;
     color: var(--white2);
@@ -576,6 +577,10 @@ h2 {
 }
 
 .edit-archive-container .btn {
+    background-color: var(--white1);
+}
+
+.edit-delete-container .btn {
     background-color: var(--white1);
 }
 
