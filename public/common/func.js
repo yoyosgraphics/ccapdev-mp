@@ -29,4 +29,14 @@ $(document).ready(function () {
             $(".dropdown-content").removeClass("show");
         }
     });
+
+    $(".next-btn").click(function () {
+        $("#reg-page-1").hide();
+        $("#reg-page-2").show();
+    });
+
+    $(".prev-btn").click(function () {
+        $("#reg-page-2").hide();
+        $("#reg-page-1").show();
+    });
 });
