@@ -19,9 +19,14 @@ const getAllComments = async () => {
     return await Comment.find({}).lean();
 }
 
+const getAllRestaurantsOfUser = async (userID) => {
+    return await Restaurant.find({user_id: userID}).lean();
+}
+
 module.exports = {
     getAllUsers,
     getAllRestaurants,
     getAllReviews,
     getAllComments,
+    getAllRestaurantsOfUser,
 };
