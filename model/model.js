@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const User = require("./User");
 const Restaurant = require("./Restaurant");
 const Review = require("./Review");
@@ -68,8 +70,25 @@ const getAllComments = async () => {
                         .lean();
 }
 
+const toObjectId = (id) => {
+    return typeof id === 'string' ? new mongoose.Types.ObjectId(id) : id;
+};
+
 const getAllRestaurantsOfUser = async (userID) => {
-    return await Restaurant.find({user_id: userID})
+    const objectId = toObjectId(userID);
+    return await Restaurant.find({user_id: objectId})
+                            .lean();
+}
+
+const getAllReviewsOfUser = async (userID) => {
+    const objectId = toObjectId(userID);
+    return await Review.find({user_id: objectId})
+                            .lean();
+}
+
+const getAllCommentsOfUser = async (userID) => {
+    const objectId = toObjectId(userID);
+    return await Comment.find({user_id: objectId})
                             .lean();
 }
 
@@ -82,4 +101,6 @@ module.exports = {
     getTopNumRestaurants,
     getRestaurantOfType,
     getRestaurantWithFilters,
+    getAllReviewsOfUser,
+    getAllCommentsOfUser,
 };

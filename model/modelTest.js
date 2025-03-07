@@ -11,7 +11,10 @@ const test = async () => {
     // console.log("Restaurant of User 1: ", await model.getAllRestaurantsOfUser("67c9a5edd220f3bd703c75a1"));
     // console.log("Top 3 Restaurants: ", await model.getTopNumRestaurants(3));
     // console.log("Italian Restaurant: ", await model.getRestaurantOfType("Italian"));
-    // console.log("Restaurants with Filters: ", await model.getRestaurantWithFilters(undefined, undefined, undefined, 350, 600));
+    //console.log("Restaurants with Filters: ", await model.getRestaurantWithFilters(undefined, undefined, undefined, 350, 600));
+    //console.log("Reviews Of User: ", await model.getAllReviewsOfUser('67c9a5edd220f3bd703c75a1'));
+    //console.log("Restaurants Of User: ", await model.getAllRestaurantsOfUser('67c9a5edd220f3bd703c75a1'));
+    //console.log("Comments Of User: ", await model.getAllCommentsOfUser('67c9a5edd220f3bd703c75a1'));
 
     mongoose.connection.close();
     process.exit();
