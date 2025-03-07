@@ -18,8 +18,12 @@ const test = async () => {
     // console.log("Restaurants with Filters: ", await model.getRestaurantWithFilters(undefined, undefined, undefined, 350, 600));
     // console.log("Restaurant: ", await model.getRestaurantOfID("67c9ba5dd220f3bd703c75e2"));
     // await model.updateRestaurantOfID("67c9ba5dd220f3bd703c75e2", "Piccolino Restaurant", "Italian","One Archers Place, Castro Street, Taft Ave, Malate, Manila, 1004 Metro Manila", "09150579395", 200, 400, "");
-    // console.log("Restaurant: ", await model.getRestaurantOfID("67c9ba5dd220f3bd703c75e2"));
-
+     //console.log("Restaurant: ", await model.getRestaurantOfID("67c9ba5dd220f3bd703c75e2"));
+    
+    
+    //console.log("User: ", await model.getUserID('67c9b74ad220f3bd703c75cc'));
+    await model.updateUserID("67c9b74ad220f3bd703c75cc", "Ethan", "Burayag","EthanUser2", "gg123", "123");
+    console.log("User: ", await model.getUserID('67c9b74ad220f3bd703c75cc'));
     mongoose.connection.close();
     process.exit();
 }
