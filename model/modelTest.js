@@ -22,6 +22,7 @@ const test = async () => {
     // console.log("User: ", await model.getUserID('67c9b74ad220f3bd703c75cc'));
     // await model.updateUserID("67c9b74ad220f3bd703c75cc", "Ethan", "Burayag","EthanUser2", "gg123", "123");
     // console.log("User: ", await model.getUserID('67c9b74ad220f3bd703c75cc'));
+    // console.log("Review: ", await model.getReviewOfID("67c9a917d220f3bd703c75a6"));
 
     mongoose.connection.close();
     process.exit();

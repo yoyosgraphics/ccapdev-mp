@@ -75,8 +75,8 @@ const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _
 // Restaurant Reviews Page
 const getRestaurantReviewsOfID = async (id) => {
     let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
-                        .populate("user_id", "username picture_address")
-                        // .sort({likes: -1})
+                        .populate("user_id", "first_name last_name picture_address")
+                        .sort({likes: -1})
                         .lean();
 
     for (let review of reviews) {
@@ -137,7 +137,7 @@ const searchReviews = async (id, _content) => {
     }
 
     let reviews = await Review.find(search, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
-                                .populate("user_id", "username picture_address")
+                                .populate("user_id", "first_name last_name picture_address")
                                 .sort({likes: -1})
                                 .lean();
 
@@ -147,6 +147,19 @@ const searchReviews = async (id, _content) => {
 
     return reviews;
 }
+
+// Individual Review Page Request
+const getReviewOfID = async (id) => {
+    let review = await Review.find({_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1, user_id: 1})
+                                .populate("user_id", "first_name last_name picture_address")
+                                .lean();
+    
+    review.num_comments = await Comment.countDocuments({review_id: review._id});
+
+    return review;
+}
+
+
 
 // Edit Profile Page Request
 const getUserID = async (id) => {
@@ -235,4 +248,5 @@ module.exports = {
     searchReviews,
     getUserID,
     updateUserID,
+    getReviewOfID,
 };
