@@ -48,12 +48,7 @@ const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _p
                             .lean();
 }
 
-// Edi Restaurant Page Request
-const getRestaurantOfID = async (id) => {
-    return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1})
-                            .lean();
-}
-
+// Edit Restaurant Page Request
 const getRestaurantOfName = async (_name) => {
     return await Restaurant.find({name: _name})
                             .lean();
@@ -75,6 +70,63 @@ const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _
     );
 
     return restaurant;
+}
+
+// Restaurant Reviews Page
+const getRestaurantReviewsOfID = async (id) => {
+    let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
+                        .populate("user_id", "username picture_address")
+                        .lean();
+
+    for (let review of reviews) {
+        review.num_comments = await Comment.countDocuments({review_id: review._id});
+    }
+
+    return reviews;
+}
+
+const updateReviewLikesOfID = async (id, status) => {
+    let update = 0;
+
+    if (status == 1)
+        update = 1;
+    else if (status == -1)
+        update = -1;
+        
+    let review = await Review.findByIdAndUpdate(
+        id,
+        {
+            $inc: {likes: update}
+        },
+        {new: true}
+    );
+
+    return review;
+}
+
+const updateReviewDislikesOfID = async (id, status) => {
+    let update = 0;
+
+    if (status == 1)
+        update = 1;
+    else if (status == -1)
+        update = -1;
+        
+    let review = await Review.findByIdAndUpdate(
+        id,
+        {
+            $inc: {dislikes: update}
+        },
+        {new: true}
+    );
+
+    return review;
+}
+
+// Core
+const getRestaurantOfID = async (id) => {
+    return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1})
+                            .lean();
 }
 
 // Getters
@@ -134,4 +186,7 @@ module.exports = {
     getRestaurantOfID,
     getRestaurantOfName,
     updateRestaurantOfID,
+    updateReviewDislikesOfID,
+    updateReviewLikesOfID,
+    getRestaurantReviewsOfID,
 };
