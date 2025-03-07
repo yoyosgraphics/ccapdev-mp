@@ -220,6 +220,41 @@ const editCommentOfID = async (id, _content) => {
     return comment;
 }
 
+// Write Review Page Request
+const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, _picture_address) => {
+    const review = Review({
+        user_id: _user_id,
+        restaurant_id: _restaurant_id,
+        date: new Date().toISOString().split("T")[0],
+        title: _title,
+        rating: _rating,
+        content: _content,
+        picture_address: _picture_address,
+        likes: 0,
+        dislikes: 0,
+        edit_status: false,
+        delete_status: false
+    })
+    
+    let res = await review.save();
+}
+
+// Edit Review Page Request
+const editReviewOfID = async (id, _title, _rating, _content, _picture_address) => {
+    let review = await Review.findByIdAndUpdate(
+        id,
+        {
+            title: _title,
+            rating: _rating,
+            content: _content,
+            picture_address: _picture_address
+        },
+        {new: true}
+    );
+
+    return review;
+}
+
 // Edit Profile Page Request
 const getUserID = async (id) => {
     return await User.find({_id: id}, {_id: 1, email_address: 1, first_name: 1, last_name: 1, username: 1, password: 1, picture_address: 1, biography: 1})
@@ -312,4 +347,6 @@ module.exports = {
     getReviewCommentsOfID,
     getCommentOfID,
     editCommentOfID,
+    addReview,
+    editReviewOfID,
 };
