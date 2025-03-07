@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
 
 const User = require("./User");
 const Restaurant = require("./Restaurant");
@@ -273,6 +274,65 @@ const updateUserID = async (id, first_name, last_name, username, biography, pict
     ).lean();
 };
 
+//Register User
+const createUser = async(email_address, first_name, last_name, username, password, confirm_password, picture_address, biography) => {
+    try {
+        if (password !== confirm_password) {
+            return { success: false, message: "Passwords do not match" };
+        }
+
+        const existingUser = await User.findOne({ 
+            $or: [{ email_address }, { username }] 
+        });
+
+        if (existingUser) {
+            return { success: false, message: "Email or username already taken" };
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const newUser = new User({
+            email_address,
+            first_name,
+            last_name,
+            username,
+            password: hashedPassword,
+            picture_address,
+            biography
+        });
+
+        await newUser.save(); 
+
+        return { success: true, message: "User created successfully" };
+
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+}
+
+//Log in
+const logInUser = async(email_address, password) => {
+    try {
+        const existingUser = await User.findOne({ email_address });
+
+        if (!existingUser) {
+            return { success: false, message: "User does not exist" };
+        }
+
+        const isMatch = await bcrypt.compare(password, existingUser.password);
+
+        if (!isMatch) {
+            return { success: false, message: "Incorrect password" };
+        }
+
+        return { success: true, message: "Login successful", user: existingUser };
+
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+}
+
 // Core
 const getRestaurantOfID = async (id) => {
     return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1, user_id: 1})
@@ -322,6 +382,7 @@ const getAllCommentsOfUser = async (userID) => {
                             .lean();
 }
 
+
 module.exports = {
     getAllUsers,
     getAllRestaurants,
@@ -349,4 +410,6 @@ module.exports = {
     editCommentOfID,
     addReview,
     editReviewOfID,
+    createUser,
+    logInUser,
 };

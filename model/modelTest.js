@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
 const model = require("./model");
 
 mongoose.connect('mongodb://localhost:27017/restaurant-review-db');
@@ -31,7 +32,8 @@ const test = async () => {
 
     // await model.addReview("67c9b775d220f3bd703c75cd", "67c9badfd220f3bd703c75e6", "Sample Review", 5, "Sample Content", "");
     // await model.editReviewOfID("67cb1be0cb22244763b09661", "Sample Review 2", 4, "Sample Content 2", "");
-
+    //console.log(await model.createUser("ethan@gmail.com", "Ethan Axl", "Burayag", "Eton", "pass123", "pass123", "123", "hi!"));
+    console.log(await model.logInUser("ethan@gmail.com", "pass123"));
     mongoose.connection.close();
     process.exit();
 }
