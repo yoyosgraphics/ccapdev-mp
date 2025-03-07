@@ -203,6 +203,23 @@ const getReviewCommentsOfID = async (id) => {
     return comments;
 }
 
+const getCommentOfID = async (id) => {
+    return await Comment.findOne({_id: id}, {_id: 1, content: 1})
+                        .lean()
+}
+
+const editCommentOfID = async (id, _content) => {
+    let comment = await Comment.findByIdAndUpdate(
+        id,
+        {
+           content: _content 
+        },
+        {new: true}
+    );
+
+    return comment;
+}
+
 // Edit Profile Page Request
 const getUserID = async (id) => {
     return await User.find({_id: id}, {_id: 1, email_address: 1, first_name: 1, last_name: 1, username: 1, password: 1, picture_address: 1, biography: 1})
@@ -293,4 +310,6 @@ module.exports = {
     getReviewOfID,
     addComment,
     getReviewCommentsOfID,
+    getCommentOfID,
+    editCommentOfID,
 };

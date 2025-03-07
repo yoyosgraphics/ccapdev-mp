@@ -24,8 +24,11 @@ const test = async () => {
     // console.log("User: ", await model.getUserID('67c9b74ad220f3bd703c75cc'));
     // console.log("Review: ", await model.getReviewOfID("67c9a917d220f3bd703c75a6"));
     // await model.addComment("67c9b74ad220f3bd703c75cc", "67c9a917d220f3bd703c75a6", "Hello");
+    // console.log("Review Comments: ", await model.getReviewCommentsOfID("67c9a917d220f3bd703c75a6"))
+    // console.log("Comment: ", await model.getCommentOfID("67c9c325d220f3bd703c7645"));
+    // await model.editCommentOfID("67c9c325d220f3bd703c7645", "McDonald's is the best choice for any time!");
+    // console.log("Comment: ", await model.getCommentOfID("67c9c325d220f3bd703c7645"));
 
-    console.log("Review Comments: ", await model.getReviewCommentsOfID("67c9a917d220f3bd703c75a6"))
 
     mongoose.connection.close();
     process.exit();
