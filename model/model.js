@@ -171,6 +171,38 @@ const addComment = async (_user_id, _review_id, _content) => {
     let res = await comment.save();
 }
 
+const compareID = (id1, id2) => {
+    return new mongoose.Types.ObjectId(id1).equals(id2);
+}
+
+const getReviewCommentsOfID = async (id) => {
+    let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1})
+                        .populate("user_id", "first_name last_name")
+                        .lean();
+
+    let owner_restaurant = await Review.findOne({_id: id}, {restaurant_id: 1})
+                                        .lean()
+                        
+    for (let comment of comments) {
+        let user_restaurant = await Restaurant.findOne({user_id: comment.user_id._id}, {_id: 1})
+                                            .lean();
+
+        if (user_restaurant) {
+            if (compareID(user_restaurant._id, owner_restaurant.restaurant_id)) {
+                comment.owner = true;
+            }
+            else {
+                comment.owner = false;
+            }
+        }
+        else {
+            comment.owner = false;
+        }
+    }
+
+    return comments;
+}
+
 // Edit Profile Page Request
 const getUserID = async (id) => {
     return await User.find({_id: id}, {_id: 1, email_address: 1, first_name: 1, last_name: 1, username: 1, password: 1, picture_address: 1, biography: 1})
@@ -260,4 +292,5 @@ module.exports = {
     updateUserID,
     getReviewOfID,
     addComment,
+    getReviewCommentsOfID,
 };
