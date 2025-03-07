@@ -48,6 +48,34 @@ const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _p
                             .lean();
 }
 
+// Edi Restaurant Page Request
+const getRestaurantOfID = async (id) => {
+    return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1})
+                            .lean();
+}
+
+const getRestaurantOfName = async (_name) => {
+    return await Restaurant.find({name: _name})
+                            .lean();
+}
+
+const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _pricing_from, _pricing_to, _picture_address) => {
+    let restaurant = await Restaurant.findByIdAndUpdate(
+        id,
+        {
+            name: _name,
+            type: _type,
+            address: _address,
+            phone_number: _phone_number,
+            pricing_from: _pricing_from,
+            pricing_to: _pricing_to,
+            picture_address: _picture_address
+        },
+        {new: true}
+    );
+
+    return restaurant;
+}
 
 // Getters
 const getAllUsers = async () => {
@@ -103,4 +131,7 @@ module.exports = {
     getRestaurantWithFilters,
     getAllReviewsOfUser,
     getAllCommentsOfUser,
+    getRestaurantOfID,
+    getRestaurantOfName,
+    updateRestaurantOfID,
 };

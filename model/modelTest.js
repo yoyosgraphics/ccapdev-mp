@@ -15,6 +15,10 @@ const test = async () => {
     //console.log("Reviews Of User: ", await model.getAllReviewsOfUser('67c9a5edd220f3bd703c75a1'));
     //console.log("Restaurants Of User: ", await model.getAllRestaurantsOfUser('67c9a5edd220f3bd703c75a1'));
     //console.log("Comments Of User: ", await model.getAllCommentsOfUser('67c9a5edd220f3bd703c75a1'));
+    // console.log("Restaurants with Filters: ", await model.getRestaurantWithFilters(undefined, undefined, undefined, 350, 600));
+    // console.log("Restaurant: ", await model.getRestaurantOfID("67c9ba5dd220f3bd703c75e2"));
+    // await model.updateRestaurantOfID("67c9ba5dd220f3bd703c75e2", "Piccolino Restaurant", "Italian","One Archers Place, Castro Street, Taft Ave, Malate, Manila, 1004 Metro Manila", "09150579395", 200, 400, "");
+    // console.log("Restaurant: ", await model.getRestaurantOfID("67c9ba5dd220f3bd703c75e2"));
 
     mongoose.connection.close();
     process.exit();
