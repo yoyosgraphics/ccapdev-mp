@@ -159,7 +159,17 @@ const getReviewOfID = async (id) => {
     return review;
 }
 
+const addComment = async (_user_id, _review_id, _content) => {
+    const comment = Comment({
+        user_id: _user_id,
+        review_id: _review_id,
+        content: _content,
+        edit_status: false,
+        delete_status: false
+    })
 
+    let res = await comment.save();
+}
 
 // Edit Profile Page Request
 const getUserID = async (id) => {
@@ -249,4 +259,5 @@ module.exports = {
     getUserID,
     updateUserID,
     getReviewOfID,
+    addComment,
 };

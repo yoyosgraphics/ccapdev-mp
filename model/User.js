@@ -8,7 +8,11 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     picture_address: { type: String, required: true },
     biography: { type: String, required: false },
-}, { collection: "user-records" }); 
+}, 
+    { 
+        collection: "user-records", 
+        versionKey: false    
+    }); 
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

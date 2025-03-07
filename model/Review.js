@@ -13,7 +13,11 @@ const reviewSchema = new mongoose.Schema({
   dislikes: { type: Number, required: true },
   edit_status: { type: Boolean, required: true },
   delete_status: { type: Boolean, required: true },
-}, { collection: "review-records" });
+}, 
+  { 
+    collection: "review-records", 
+    versionKey: false
+  });
 
 const Review = mongoose.model("Review", reviewSchema);
 module.exports = Review;

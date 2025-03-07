@@ -12,7 +12,11 @@ const restaurantSchema = new mongoose.Schema({
   picture_address: { type: String, required: true},
   rating: { type: Number, required: true},
   user_id: { type: ObjectId, ref: "User", required: true },
-}, {collection: "restaurant-records"});
+}, 
+  {
+    collection: "restaurant-records",
+    versionKey: false
+  });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 module.exports = Restaurant;

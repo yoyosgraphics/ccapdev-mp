@@ -24,6 +24,8 @@ const test = async () => {
     // console.log("User: ", await model.getUserID('67c9b74ad220f3bd703c75cc'));
     // console.log("Review: ", await model.getReviewOfID("67c9a917d220f3bd703c75a6"));
 
+    await model.addComment("67c9b74ad220f3bd703c75cc", "67c9a917d220f3bd703c75a6", "Hello");
+
     mongoose.connection.close();
     process.exit();
 }
