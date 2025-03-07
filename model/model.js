@@ -18,6 +18,35 @@ const getRestaurantOfType = async (_type) => {
                             .lean();
 }
 
+// Search Restaurant Page Request
+const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _pricing_to) => {
+    let filters = {};
+
+    if (_name) {
+        filters.name = {$regex: _name, $options: "i"};
+    }
+
+    if (_type) {
+        filters.type = _type;
+    }
+
+    if (_rating) {
+        filters.rating = {$gte: _rating};
+    }
+
+    if (_pricing_from) {
+        filters.pricing_from = {$gte: _pricing_from};
+    }
+
+    if (_pricing_to) {
+        filters.pricing_to = {$lte: _pricing_to};
+    }
+
+    return await Restaurant.find(filters, {_id: 1, name: 1, type: 1, rating: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1})
+                            .lean();
+}
+
+
 // Getters
 const getAllUsers = async () => {
     return await User.find({})
@@ -52,4 +81,5 @@ module.exports = {
     getAllRestaurantsOfUser,
     getTopNumRestaurants,
     getRestaurantOfType,
+    getRestaurantWithFilters,
 };
