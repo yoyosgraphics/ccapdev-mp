@@ -105,6 +105,17 @@ const getRestaurantReviewsOfID = async (id) => {
     return reviews;
 }
 
+const checkUserOwner = async (_user_id, _restaurant_id) => {
+    let owner_restaurant = await Restaurant.findOne({_id: _restaurant_id}, {user_id: 1})
+                                            .lean();
+
+    if (compareID(owner_restaurant.user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const updateReviewLikesOfID = async (id, status) => {
     let update = 0;
 
@@ -430,4 +441,6 @@ module.exports = {
     editReviewOfID,
     createUser,
     logInUser,
+    checkUserOwner,
+    addRestaurant,
 };

@@ -29,11 +29,13 @@ const test = async () => {
     // console.log("Comment: ", await model.getCommentOfID("67c9c325d220f3bd703c7645"));
     // await model.editCommentOfID("67c9c325d220f3bd703c7645", "McDonald's is the best choice for any time!");
     // console.log("Comment: ", await model.getCommentOfID("67c9c325d220f3bd703c7645"));
-
     // await model.addReview("67c9b775d220f3bd703c75cd", "67c9badfd220f3bd703c75e6", "Sample Review", 5, "Sample Content", "");
     // await model.editReviewOfID("67cb1be0cb22244763b09661", "Sample Review 2", 4, "Sample Content 2", "");
     //console.log(await model.createUser("ethan@gmail.com", "Ethan Axl", "Burayag", "Eton", "pass123", "pass123", "123", "hi!"));
-    console.log(await model.logInUser("ethan@gmail.com", "pass123"));
+    // console.log(await model.logInUser("ethan@gmail.com", "pass123"));
+    // console.log("Owner: ", await model.checkUserOwner("67c9a5edd220f3bd703c75a1","67c9af68d220f3bd703c75ad"));
+    // console.log("Owner: ", await model.checkUserOwner("67c9b74ad220f3bd703c75cc","67c9af68d220f3bd703c75ad"));
+
     mongoose.connection.close();
     process.exit();
 }
