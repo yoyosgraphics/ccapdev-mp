@@ -53,20 +53,20 @@ const showLoginForm = (req, res) => {
     res.render('login/form', { email: '', message: message });
 };
 
-// // Get User by ID
-// const getUserById = async (req, res) => {
-//     try {
-//         const user = await getUserID(req.params.id);
+// // Get User by ID (should view user profile) NOT DONE YET
+const getUserById = async (req, res) => {
+    try {
+        const user = await getUserID(req.params.id);
         
-//         if (!user || user.length === 0) {
-//             return res.status(404).render('404', { message: 'User not found' });
-//         }
+        if (!user || user.length === 0) {
+            return res.status(404).render('404', { message: 'User not found' });
+        }
         
-//         res.render('profile/profile', { user: user[0] });
-//     } catch (error) {
-//         res.status(500).render('error', { error: error.message });
-//     }
-// };
+        res.render('profile/profile', { user: user[0] });
+    } catch (error) {
+        res.status(500).render('error', { error: error.message });
+    }
+};
 
 // Update User
 const updateUser = async (req, res) => {
@@ -105,7 +105,7 @@ const showEditForm = async (req, res) => {
     }
 };
 
-// Get All Users
+// Get All Users (NOT NEEDED ATA)
 // const getAllUsersList = async (req, res) => {
 //     try {
 //         const users = await getAllUsers();
