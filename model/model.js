@@ -73,6 +73,24 @@ const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _
     return restaurant;
 }
 
+// Create Restaurant Page Request
+const addRestaurant = async (_name, _type, _address, _phone_number, _pricing_from, _pricing_to, _picture_address, _user_id) => {
+    const restaurant = Restaurant({
+        name: _name,
+        type: _type,
+        address: _address,
+        phone_number: _phone_number,
+        pricing_from: _pricing_from,
+        pricing_to: _pricing_to,
+        delete_status: false,
+        picture_address: _picture_address,
+        rating: 0,
+        user_id: _user_id
+    })
+
+    let res = await restaurant.save();
+}
+
 // Restaurant Reviews Page
 const getRestaurantReviewsOfID = async (id) => {
     let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
