@@ -105,7 +105,7 @@ const getRestaurantReviewsOfID = async (id) => {
     return reviews;
 }
 
-const checkUserOwner = async (_user_id, _restaurant_id) => {
+const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
     let owner_restaurant = await Restaurant.findOne({_id: _restaurant_id}, {user_id: 1})
                                             .lean();
 
@@ -187,6 +187,17 @@ const getReviewOfID = async (id) => {
     review.num_comments = await Comment.countDocuments({review_id: review._id});
 
     return review;
+}
+
+const checkUserReviewOwner = async (_user_id, _review_id) => {
+    let owner_review = await Review.findOne({_id: _review_id}, {user_id: 1})
+                                            .lean();
+
+    if (compareID(owner_review.user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 const addComment = async (_user_id, _review_id, _content) => {
@@ -441,6 +452,7 @@ module.exports = {
     editReviewOfID,
     createUser,
     logInUser,
-    checkUserOwner,
+    checkUserRestaurantOwner,
     addRestaurant,
+    checkUserReviewOwner,
 };
