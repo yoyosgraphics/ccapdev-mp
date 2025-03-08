@@ -460,8 +460,12 @@ const getAllReviewsOfUser = async (userID) => {
 //Get all Comments of user given user ID
 const getAllCommentsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
-    return await Comment.find({user_id: objectId})
-                            .lean();
+
+    let comments = await Comment.find({user_id: objectId}, {_id: 1, content: 1})
+                                .populate("review_id", "_id title")
+                                .lean();
+
+    return comments;
 }
 
 // Get comment content given ID
