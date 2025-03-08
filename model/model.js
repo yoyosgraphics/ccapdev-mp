@@ -7,6 +7,7 @@ const Review = require("./Review");
 const Comment = require("./Comment");
 
 // Home Page Request
+// Gets the top N restaurants based on ratings with the necessary data to be displayed in the home page.
 const getTopNumRestaurants = async (num) => {
     return await Restaurant.find({}, {_id: 1, name: 1, type: 1, rating: 1, picture_address: 1})
                             .sort({rating: -1})
@@ -15,6 +16,8 @@ const getTopNumRestaurants = async (num) => {
 }
 
 // Restaurant Page Request 
+// Gets a list of restaurants based on the given type with the necessary data to be displayed in each corresponding type in the restaurants page.
+// Example types: "American", "Italian"
 const getRestaurantOfType = async (_type) => {
     return await Restaurant.find({type: _type}, {_id: 1, name: 1, rating: 1, picture_address: 1})
                             .sort({rating: -1})
@@ -92,9 +95,17 @@ const addRestaurant = async (_name, _type, _address, _phone_number, _pricing_fro
 }
 
 // Restaurant Reviews Page
+// Gets the restaurant data based on the given restaurant id to be displayed by concerned pages, such as restaurant reviews page.
+const getRestaurantOfID = async (id) => {
+    return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1, user_id: 1})
+                            .lean();
+}
+
+// Gets the reviews of the concerned restaurant based on the given restaurant id with the necessary data to be displayed in the restaurant reviews page.
+// Comments themselves under the reviews are not displayed when not under individual review page.
 const getRestaurantReviewsOfID = async (id) => {
     let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
-                        .populate("user_id", "first_name last_name picture_address")
+                        .populate("user_id", "_id first_name last_name picture_address")
                         .sort({likes: -1})
                         .lean();
 
@@ -105,19 +116,7 @@ const getRestaurantReviewsOfID = async (id) => {
     return reviews;
 }
 
-//Check if user is the owner of restaurant, given user_id and restaurant_id
-const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
-    let owner_restaurant = await Restaurant.findOne({_id: _restaurant_id}, {user_id: 1})
-                                            .lean();
-
-    if (compareID(owner_restaurant.user_id, _user_id)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-//Updates number of likes of review, given review ID and status 1 indicating +1 like, -1 indicating -1 likes
+// Updates the number of likes of the concerned review based on the given review id and status: 1: +1 like, -1: -1 like, whenever clicked.
 const updateReviewLikesOfID = async (id, status) => {
     let update = 0;
 
@@ -137,7 +136,7 @@ const updateReviewLikesOfID = async (id, status) => {
     return review;
 }
 
-//Updates number of dislikes of review, given review ID and status 1 indicating +1 dislike, -1 indicating -1 dislikes
+// Updates the number of dislikes of the concerned review based on the given review id and status: 1: +1 dislike, -1: -1 dislike, whenever clicked.
 const updateReviewDislikesOfID = async (id, status) => {
     let update = 0;
 
@@ -192,18 +191,6 @@ const getReviewOfID = async (id) => {
     return review;
 }
 
-//Checks if User is the owner of the review
-const checkUserReviewOwner = async (_user_id, _review_id) => {
-    let owner_review = await Review.findOne({_id: _review_id}, {user_id: 1})
-                                            .lean();
-
-    if (compareID(owner_review.user_id, _user_id)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 //Adds new comment
 const addComment = async (_user_id, _review_id, _content) => {
     const comment = Comment({
@@ -215,10 +202,6 @@ const addComment = async (_user_id, _review_id, _content) => {
     })
 
     let res = await comment.save();
-}
-
-const compareID = (id1, id2) => {
-    return new mongoose.Types.ObjectId(id1).equals(id2);
 }
 
 //Get comments of review given review ID
@@ -249,19 +232,6 @@ const getReviewCommentsOfID = async (id) => {
 
     return comments;
 }
-
-//Checks if User is the owner of comment
-const checkUserCommentOwner = async (_user_id, _comment_id) => {
-    let owner_comment = await Comment.findOne({_id: _comment_id}, {user_id: 1})
-                                            .lean();
-
-    if (compareID(owner_comment.user_id, _user_id)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 
 //Edit content given comment ID and new content
 const editCommentOfID = async (id, _content) => {
@@ -334,34 +304,8 @@ const updateRestaurantRatingOfID = async (_restaurant_id) => {
     }
 }
 
-// Profile Page Request
-const checkUserProfileOwner = async (_user_id, _profile_user_id) => {
-    if (compareID(_profile_user_id, _user_id)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-// Edit Profile Page Request
-const getUserID = async (id) => {
-    return await User.find({_id: id}, {_id: 1, email_address: 1, first_name: 1, last_name: 1, username: 1, password: 1, picture_address: 1, biography: 1})
-                            .lean();
-}
-
-//Updates user info
-const updateUserID = async (id, first_name, last_name, username, biography, picture_address) => {
-    return await User.findByIdAndUpdate(
-        id,
-        { first_name: first_name, 
-            last_name: last_name, 
-            username: username, 
-            biography: biography, 
-            picture_address: picture_address },
-        { new: true }
-    ).lean();
-};
-
-//Register User
+// Register User Page Request
+// Verifies the user registration status and creates the user data with the necessary information if successful.
 const createUser = async(email_address, first_name, last_name, username, password, confirm_password, picture_address, biography) => {
     try {
         if (password !== confirm_password) {
@@ -398,7 +342,8 @@ const createUser = async(email_address, first_name, last_name, username, passwor
     }
 }
 
-//Log in User
+// Login User Page Request
+// Verifies the user login status and returns the entire user data if successful.
 const logInUser = async(email_address, password) => {
     try {
         const existingUser = await User.findOne({ email_address });
@@ -420,51 +365,58 @@ const logInUser = async(email_address, password) => {
     }
 }
 
-// Get Restaurant info given ID
-const getRestaurantOfID = async (id) => {
-    return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1, user_id: 1})
+// View Profile Page Request
+
+// Also Edit Profile Page Request
+// Gets the user data based on the given user id to be displayed by concerned pages, such as view profile and edit profile pages.
+const getUserID = async (id) => {
+    return await User.find({_id: id}, {_id: 1, email_address: 1, first_name: 1, last_name: 1, username: 1, password: 1, picture_address: 1, biography: 1})
                             .lean();
 }
 
-// Getters
-
-//Returns all Users of Database
-const getAllUsers = async () => {
-    return await User.find({})
-                        .lean();
+// Compares the given two ids.
+const compareID = (id1, id2) => {
+    return new mongoose.Types.ObjectId(id1).equals(id2);
 }
 
-//Returns all Restaurants of Database
-const getAllRestaurants = async () => {
-    return await Restaurant.find({})
-                            .lean();
+// Checks whether the user is the owner of the profile visited.
+// Determines whether the edit profile feature should be accessible.
+const checkUserProfileOwner = async (_user_id, _profile_user_id) => {
+    if (compareID(_profile_user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-//Returns all Reviews of Database
-const getAllReviews = async () => {
-    return await Review.find({})
-                        .lean();
-}
-
-//Returns all Comments of Database
-const getAllComments = async () => {
-    return await Comment.find({})
-                        .lean();
-}
-
-//Convert ID to ObjectID
+// Converts ID to ObjectID
 const toObjectId = (id) => {
     return typeof id === 'string' ? new mongoose.Types.ObjectId(id) : id;
 };
 
-//Get all Restaurants User owns given User ID
+// Gets all restaurants of user based on the given user id with the necessary data to be displayed in the profile restaurants page.
 const getAllRestaurantsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
     return await Restaurant.find({user_id: objectId})
                             .lean();
 }
 
-//Get all Reviews from user given user ID
+// Checks whether the user is the owner of the restaurant.
+// Determines whether the edit and delete feature should be accessible.
+// Also used in other pages.
+const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
+    let owner_restaurant = await Restaurant.findOne({_id: _restaurant_id}, {user_id: 1})
+                                            .lean();
+
+    if (compareID(owner_restaurant.user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Gets all reviews of user based on the given user id with the necessary data to be displayed in the profile reviews page.
+// Comments are also not included here.
 const getAllReviewsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
@@ -480,7 +432,21 @@ const getAllReviewsOfUser = async (userID) => {
     return reviews;
 }
 
-//Get all Comments of user given user ID
+// Checks whether the user is the owner of the review.
+// Determines whether the edit and delete feature should be accessible.
+// Also used in other pages.
+const checkUserReviewOwner = async (_user_id, _review_id) => {
+    let owner_review = await Review.findOne({_id: _review_id}, {user_id: 1})
+                                            .lean();
+
+    if (compareID(owner_review.user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Gets all comments of user based on the given user id with the necessary data to be displayed in the profile comments page.
 const getAllCommentsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
@@ -491,12 +457,71 @@ const getAllCommentsOfUser = async (userID) => {
     return comments;
 }
 
+// Checks whether the user is the owner of the comment.
+// Determines whether the edit and delete feature should be accessible.
+// Also used in other pages.
+const checkUserCommentOwner = async (_user_id, _comment_id) => {
+    let owner_comment = await Comment.findOne({_id: _comment_id}, {user_id: 1})
+                                            .lean();
+
+    if (compareID(owner_comment.user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Get comment content given ID
 const getCommentOfID = async (id) => {
     return await Comment.findOne({_id: id}, {_id: 1, content: 1})
                         .lean()
 }
 
+// Edit Profile Page Request
+// Updates user info based on the given data.
+const updateUserID = async (id, first_name, last_name, username, biography, picture_address) => {
+    return await User.findByIdAndUpdate(
+        id,
+        { first_name: first_name, 
+            last_name: last_name, 
+            username: username, 
+            biography: biography, 
+            picture_address: picture_address },
+        { new: true }
+    ).lean();
+};
+
+// Checks whether the given username already exists in the database. 
+// To ensure that whenever editing, username is still unique.
+const verifyUsername = async (_username) => {
+    const exists = await User.exists({ username: _username });
+    return !exists;
+};
+
+// Getters
+// Returns all users in database.
+const getAllUsers = async () => {
+    return await User.find({})
+                        .lean();
+}
+
+// Returns all restaurants in database.
+const getAllRestaurants = async () => {
+    return await Restaurant.find({})
+                            .lean();
+}
+
+// Returns all reviews in database.
+const getAllReviews = async () => {
+    return await Review.find({})
+                        .lean();
+}
+
+// Returns all comments in database.
+const getAllComments = async () => {
+    return await Comment.find({})
+                        .lean();
+}
 
 module.exports = {
     getAllUsers,
@@ -532,4 +557,5 @@ module.exports = {
     checkUserReviewOwner,
     checkUserCommentOwner,
     checkUserProfileOwner,
+    verifyUsername,
 };
