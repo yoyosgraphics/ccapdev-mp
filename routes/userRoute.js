@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controller/userController');
+const userController = require('../controllers/userController');
 
-// Multi-step registration routes
+// Registration Routes
 router.get('/register', userController.getRegisterPageOne);
-router.post('/register/step1', userController.processRegisterPageOne);
+router.post('/register', userController.processRegisterPageOne);
 router.post('/register/complete', userController.completeRegistration);
 
-// Login routes
+// Login Routes
 router.get('/login', userController.getLoginPage);
 router.post('/login', userController.loginUser);
 
-// Logout route
-router.get('/logout', userController.logoutUser);
-
-// Profile routes
+// Profile Routes
 router.get('/profile/:userId', userController.getUserProfile);
-router.get('/edit-profile/:userId', userController.getEditProfilePage);
-router.post('/edit-profile/:userId', userController.updateUserProfile);
+router.get('/profile/:userId/edit', userController.getEditProfilePage);
+router.post('/profile/:userId/edit', userController.updateUserProfile);
+
+// Logout Route
+router.get('/logout', userController.logoutUser);
 
 module.exports = router;
