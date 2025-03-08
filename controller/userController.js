@@ -8,7 +8,7 @@ const {
 
 // Show first registration page
 const showRegisterForm = (req, res) => {
-    res.render('register/page_one', { formData: {} });
+    res.render('views/register/page_one', { formData: {} });
 };
 
 // Process first registration step and show second page
@@ -17,7 +17,7 @@ const registerStepOne = (req, res) => {
     // Validate first step data if needed
     
     // Render second page with data from first step
-    res.render('register/page_two', { formData: req.body });
+    res.render('views/register/page_two', { formData: req.body });
 };
 
 // Complete registration process
@@ -29,7 +29,7 @@ const register = async (req, res) => {
     if (result.success) {
         res.redirect('/login?message=Registration successful');
     } else {
-        res.render('register/page_two', { error: result.message, formData: req.body });
+        res.render('views/register/page_two', { error: result.message, formData: req.body });
     }
 };
 
@@ -41,16 +41,16 @@ const login = async (req, res) => {
     
     if (result.success) {
         req.session.user = result.user;
-        res.redirect('/home');
+        res.redirect('views//home');
     } else {
-        res.render('login/form', { error: result.message, email: email_address });
+        res.render('views/login/form', { error: result.message, email: email_address });
     }
 };
 
 // Render login form
 const showLoginForm = (req, res) => {
     const message = req.query.message || '';
-    res.render('login/form', { email: '', message: message });
+    res.render('views/login/form', { email: '', message: message });
 };
 
 // // Get User by ID (should view user profile) NOT DONE YET
@@ -62,7 +62,7 @@ const getUserById = async (req, res) => {
             return res.status(404).render('404', { message: 'User not found' });
         }
         
-        res.render('profile/profile', { user: user[0] });
+        res.render('views/user_profile', { user: user[0] });
     } catch (error) {
         res.status(500).render('error', { error: error.message });
     }
@@ -99,13 +99,13 @@ const showEditForm = async (req, res) => {
             return res.status(404).render('404', { message: 'User not found' });
         }
         
-        res.render('profile/forms', { user: user[0] });
+        res.render('views/edit_profile', { user: user[0] });
     } catch (error) {
         res.status(500).render('error', { error: error.message });
     }
 };
 
-// Get All Users (NOT NEEDED ATA)
+// Get All Users
 // const getAllUsersList = async (req, res) => {
 //     try {
 //         const users = await getAllUsers();
