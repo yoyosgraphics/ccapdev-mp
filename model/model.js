@@ -311,6 +311,14 @@ const editReviewOfID = async (id, _title, _rating, _content, _picture_address) =
     return review;
 }
 
+// Profile Page Request
+const checkUserProfileOwner = async (_user_id, _profile_user_id) => {
+    if (compareID(_profile_user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 // Edit Profile Page Request
 const getUserID = async (id) => {
     return await User.find({_id: id}, {_id: 1, email_address: 1, first_name: 1, last_name: 1, username: 1, password: 1, picture_address: 1, biography: 1})
@@ -488,4 +496,5 @@ module.exports = {
     addRestaurant,
     checkUserReviewOwner,
     checkUserCommentOwner,
+    checkUserProfileOwner,
 };
