@@ -25,11 +25,16 @@ const getRestaurantOfType = async (_type) => {
 }
 
 // Search Restaurant Page Request
+// Searches and filters out restaurants based on the given filter data.
+// When filter category is not selected, it should be undefined.
 const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _pricing_to) => {
     let filters = {};
 
     if (_name) {
-        filters.name = {$regex: _name, $options: "i"};
+        filters.$or = [
+            {name: {$regex: _name, $options: "i"}},
+            {address: {$regex: _name, $options: "i"}},
+        ];
     }
 
     if (_type) {
@@ -53,11 +58,20 @@ const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _p
 }
 
 // Edit Restaurant Page Request
+// Gets restaurant data based on the given restaurant name.
 const getRestaurantOfName = async (_name) => {
     return await Restaurant.find({name: _name})
                             .lean();
 }
 
+// Checks whether the given restaurant name already exists in the database. 
+// To ensure that whenever editing or creating,  restaurant name is still unique.
+const verifyRestaurantName = async (_name) => {
+    const exists = await Restaurant.exists({name: _name});
+    return !exists;
+};
+
+// Updates restaurant info based on the given data.
 const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _pricing_from, _pricing_to, _picture_address) => {
     let restaurant = await Restaurant.findByIdAndUpdate(
         id,
@@ -77,6 +91,7 @@ const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _
 }
 
 // Create Restaurant Page Request
+// Create new restaurant record based on the given data.
 const addRestaurant = async (_name, _type, _address, _phone_number, _pricing_from, _pricing_to, _picture_address, _user_id) => {
     const restaurant = Restaurant({
         name: _name,
@@ -157,6 +172,7 @@ const updateReviewDislikesOfID = async (id, status) => {
 }
 
 // Search Review Request
+// Searches and filters out reviews based on the given filter data.
 const searchReviews = async (id, _content) => {
     let search = {restaurant_id: id};
 
@@ -181,6 +197,7 @@ const searchReviews = async (id, _content) => {
 }
 
 // Individual Review Page Request
+// Gets review data based on the given review id with the necessary data to be displayed in the individual review page.
 const getReviewOfID = async (id) => {
     let review = await Review.find({_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1, user_id: 1})
                                 .populate("user_id", "first_name last_name picture_address")
@@ -191,7 +208,7 @@ const getReviewOfID = async (id) => {
     return review;
 }
 
-//Adds new comment
+// Creates new comment record based on the given data.
 const addComment = async (_user_id, _review_id, _content) => {
     const comment = Comment({
         user_id: _user_id,
@@ -204,7 +221,7 @@ const addComment = async (_user_id, _review_id, _content) => {
     let res = await comment.save();
 }
 
-//Get comments of review given review ID
+// Gets the list of comments under the concerned review based on the given review id.
 const getReviewCommentsOfID = async (id) => {
     let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1})
                         .populate("user_id", "first_name last_name")
@@ -219,7 +236,7 @@ const getReviewCommentsOfID = async (id) => {
 
         if (user_restaurant) {
             if (compareID(user_restaurant._id, owner_restaurant.restaurant_id)) {
-                comment.owner = true;
+                comment.owner = true; // Owner indication
             }
             else {
                 comment.owner = false;
@@ -233,7 +250,7 @@ const getReviewCommentsOfID = async (id) => {
     return comments;
 }
 
-//Edit content given comment ID and new content
+// Edits comment data based on the given data.
 const editCommentOfID = async (id, _content) => {
     let comment = await Comment.findByIdAndUpdate(
         id,
@@ -247,6 +264,7 @@ const editCommentOfID = async (id, _content) => {
 }
 
 // Write Review Page Request
+// Creates new review record based on the given data.
 const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, _picture_address) => {
     const review = Review({
         user_id: _user_id,
@@ -268,6 +286,7 @@ const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, _p
 }
 
 // Edit Review Page Request
+// Updates review data based on the given info.
 const editReviewOfID = async (id, _title, _rating, _content, _picture_address) => {
     let review = await Review.findByIdAndUpdate(
         id,
@@ -275,7 +294,8 @@ const editReviewOfID = async (id, _title, _rating, _content, _picture_address) =
             title: _title,
             rating: _rating,
             content: _content,
-            picture_address: _picture_address
+            picture_address: _picture_address,
+            edit_status: true, // Edit indication
         },
         {new: true}
     );
@@ -290,6 +310,7 @@ const editReviewOfID = async (id, _title, _rating, _content, _picture_address) =
 }
 
 // Update Rating Request
+// Updates rating of the restaurant based on the given restaurant id whenever a review has been created or edited.
 const updateRestaurantRatingOfID = async (_restaurant_id) => {
     const reviews = await Review.find({restaurant_id: _restaurant_id}, {rating: 1})
                                 .lean();
@@ -471,7 +492,7 @@ const checkUserCommentOwner = async (_user_id, _comment_id) => {
     }
 }
 
-// Get comment content given ID
+// Gets comment content based on the given comment id.
 const getCommentOfID = async (id) => {
     return await Comment.findOne({_id: id}, {_id: 1, content: 1})
                         .lean()
@@ -494,7 +515,7 @@ const updateUserID = async (id, first_name, last_name, username, biography, pict
 // Checks whether the given username already exists in the database. 
 // To ensure that whenever editing, username is still unique.
 const verifyUsername = async (_username) => {
-    const exists = await User.exists({ username: _username });
+    const exists = await User.exists({username: _username});
     return !exists;
 };
 
@@ -558,4 +579,5 @@ module.exports = {
     checkUserCommentOwner,
     checkUserProfileOwner,
     verifyUsername,
+    verifyRestaurantName,
 };
