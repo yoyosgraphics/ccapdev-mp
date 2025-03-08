@@ -291,6 +291,8 @@ const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, _p
         edit_status: false,
         delete_status: false
     })
+
+    await updateRestaurantRatingOfID(_restaurant_id);
     
     let res = await review.save();
 }
@@ -308,7 +310,28 @@ const editReviewOfID = async (id, _title, _rating, _content, _picture_address) =
         {new: true}
     );
 
+    let restaurant = await Review.findOne({_id: id})
+                                .populate("restaurant_id", "_id")
+                                .lean();
+
+    await updateRestaurantRatingOfID(restaurant.restaurant_id._id);
+
     return review;
+}
+
+// Update Rating Request
+const updateRestaurantRatingOfID = async (_restaurant_id) => {
+    const reviews = await Review.find({restaurant_id: _restaurant_id}, {rating: 1})
+                                .lean();
+    
+    if (reviews.length === 0) {
+        await Restaurant.findByIdAndUpdate(_restaurant_id, {rating: 0}, {new: true});
+    } else {
+        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+        const averageRating = parseFloat((totalRating / reviews.length).toFixed(2));
+
+        await Restaurant.findByIdAndUpdate(_restaurant_id, {rating: averageRating}, {new: true});
+    }
 }
 
 // Profile Page Request
