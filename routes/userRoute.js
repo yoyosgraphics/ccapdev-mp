@@ -1,22 +1,30 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('../controllers/userController');
+const { 
+    register, 
+    login, 
+    getUserById, 
+    updateUser, 
+    getAllUsersList,
+    showRegisterForm,
+    showLoginForm,
+    showEditForm
+} = require("../controller/userController");
 
-// Registration Routes
-router.get('/register', userController.getRegisterPageOne);
-router.post('/register', userController.processRegisterPageOne);
-router.post('/register/complete', userController.completeRegistration);
+// View rendering routes
+// Registration routes
+router.get('/register', userController.showRegisterForm); 
+router.post('/register/step1', userController.registerStepOne); // Process step 1 and show step 2
+router.post('/register', userController.register); // Complete registration
 
-// Login Routes
-router.get('/login', userController.getLoginPage);
-router.post('/login', userController.loginUser);
+router.get("/login", showLoginForm);
+router.get("/:id/edit", showEditForm);
 
-// Profile Routes
-router.get('/profile/:userId', userController.getUserProfile);
-router.get('/profile/:userId/edit', userController.getEditProfilePage);
-router.post('/profile/:userId/edit', userController.updateUserProfile);
-
-// Logout Route
-router.get('/logout', userController.logoutUser);
+// API routes
+router.post("/register", register);
+router.post("/login", login);
+router.get("/:id", getUserById);
+router.put("/:id", updateUser);
+router.get("/", getAllUsersList);
 
 module.exports = router;
