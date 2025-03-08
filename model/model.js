@@ -105,6 +105,7 @@ const getRestaurantReviewsOfID = async (id) => {
     return reviews;
 }
 
+//Check if user is the owner of restaurant, given user_id and restaurant_id
 const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
     let owner_restaurant = await Restaurant.findOne({_id: _restaurant_id}, {user_id: 1})
                                             .lean();
@@ -116,6 +117,7 @@ const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
     }
 }
 
+//Updates number of likes of review, given review ID and status 1 indicating +1 like, -1 indicating -1 likes
 const updateReviewLikesOfID = async (id, status) => {
     let update = 0;
 
@@ -135,6 +137,7 @@ const updateReviewLikesOfID = async (id, status) => {
     return review;
 }
 
+//Updates number of dislikes of review, given review ID and status 1 indicating +1 dislike, -1 indicating -1 dislikes
 const updateReviewDislikesOfID = async (id, status) => {
     let update = 0;
 
@@ -189,6 +192,7 @@ const getReviewOfID = async (id) => {
     return review;
 }
 
+//Checks if User is the owner of the review
 const checkUserReviewOwner = async (_user_id, _review_id) => {
     let owner_review = await Review.findOne({_id: _review_id}, {user_id: 1})
                                             .lean();
@@ -200,6 +204,7 @@ const checkUserReviewOwner = async (_user_id, _review_id) => {
     }
 }
 
+//Adds new comment
 const addComment = async (_user_id, _review_id, _content) => {
     const comment = Comment({
         user_id: _user_id,
@@ -216,6 +221,7 @@ const compareID = (id1, id2) => {
     return new mongoose.Types.ObjectId(id1).equals(id2);
 }
 
+//Get comments of review given review ID
 const getReviewCommentsOfID = async (id) => {
     let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1})
                         .populate("user_id", "first_name last_name")
@@ -244,6 +250,7 @@ const getReviewCommentsOfID = async (id) => {
     return comments;
 }
 
+//Checks if User is the owner of comment
 const checkUserCommentOwner = async (_user_id, _comment_id) => {
     let owner_comment = await Comment.findOne({_id: _comment_id}, {user_id: 1})
                                             .lean();
@@ -255,11 +262,8 @@ const checkUserCommentOwner = async (_user_id, _comment_id) => {
     }
 }
 
-const getCommentOfID = async (id) => {
-    return await Comment.findOne({_id: id}, {_id: 1, content: 1})
-                        .lean()
-}
 
+//Edit content given comment ID and new content
 const editCommentOfID = async (id, _content) => {
     let comment = await Comment.findByIdAndUpdate(
         id,
@@ -313,6 +317,7 @@ const getUserID = async (id) => {
                             .lean();
 }
 
+//Updates user info
 const updateUserID = async (id, first_name, last_name, username, biography, picture_address) => {
     return await User.findByIdAndUpdate(
         id,
@@ -362,7 +367,7 @@ const createUser = async(email_address, first_name, last_name, username, passwor
     }
 }
 
-//Log in
+//Log in User
 const logInUser = async(email_address, password) => {
     try {
         const existingUser = await User.findOne({ email_address });
@@ -384,53 +389,69 @@ const logInUser = async(email_address, password) => {
     }
 }
 
-// Core
+// Get Restaurant info given ID
 const getRestaurantOfID = async (id) => {
     return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1, user_id: 1})
                             .lean();
 }
 
 // Getters
+
+//Returns all Users of Database
 const getAllUsers = async () => {
     return await User.find({})
                         .lean();
 }
 
+//Returns all Restaurants of Database
 const getAllRestaurants = async () => {
     return await Restaurant.find({})
                             .lean();
 }
 
+//Returns all Reviews of Database
 const getAllReviews = async () => {
     return await Review.find({})
                         .lean();
 }
 
+//Returns all Comments of Database
 const getAllComments = async () => {
     return await Comment.find({})
                         .lean();
 }
 
+//Convert ID to ObjectID
 const toObjectId = (id) => {
     return typeof id === 'string' ? new mongoose.Types.ObjectId(id) : id;
 };
 
+//Get all Restaurants User owns given User ID
 const getAllRestaurantsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
     return await Restaurant.find({user_id: objectId})
                             .lean();
 }
 
+//Get all Reviews from user given user ID
 const getAllReviewsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
     return await Review.find({user_id: objectId})
                             .lean();
 }
 
+
+//Get all Comments of user given user ID
 const getAllCommentsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
     return await Comment.find({user_id: objectId})
                             .lean();
+}
+
+// Get comment content given ID
+const getCommentOfID = async (id) => {
+    return await Comment.findOne({_id: id}, {_id: 1, content: 1})
+                        .lean()
 }
 
 
