@@ -244,6 +244,17 @@ const getReviewCommentsOfID = async (id) => {
     return comments;
 }
 
+const checkUserCommentOwner = async (_user_id, _comment_id) => {
+    let owner_comment = await Comment.findOne({_id: _comment_id}, {user_id: 1})
+                                            .lean();
+
+    if (compareID(owner_comment.user_id, _user_id)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const getCommentOfID = async (id) => {
     return await Comment.findOne({_id: id}, {_id: 1, content: 1})
                         .lean()
@@ -455,4 +466,5 @@ module.exports = {
     checkUserRestaurantOwner,
     addRestaurant,
     checkUserReviewOwner,
+    checkUserCommentOwner,
 };
