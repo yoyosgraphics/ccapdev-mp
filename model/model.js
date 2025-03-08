@@ -444,10 +444,18 @@ const getAllRestaurantsOfUser = async (userID) => {
 //Get all Reviews from user given user ID
 const getAllReviewsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
-    return await Review.find({user_id: objectId})
-                            .lean();
-}
 
+    let reviews = await Review.find({user_id: objectId}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
+                                .populate("user_id", "first_name last_name picture_address")
+                                .populate("restaurant_id", "_id name")
+                                .lean();
+    
+    for (let review of reviews) {
+        review.num_comments = await Comment.countDocuments({review_id: review._id});
+    }
+    
+    return reviews;
+}
 
 //Get all Comments of user given user ID
 const getAllCommentsOfUser = async (userID) => {
