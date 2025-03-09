@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const commentController = require('../controllers/commentController');
+const commentController = require('../controller/commentController');
 const authMiddleware = require('../middleware/auth'); // Assuming you have auth middleware
 
 // Route to view a review with its comments
