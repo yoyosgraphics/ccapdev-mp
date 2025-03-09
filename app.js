@@ -17,6 +17,10 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/restaurant-review-db');
 
 const dataModule = require('./data_export'); // remove this once you get the db working
+const sampleUser = {
+    username : "imuserone",
+    picture_address : "/uploads/user-common.png"
+}
 
 // home
 server.get('/', function(req, resp){
@@ -74,7 +78,8 @@ server.get('/edit/restaurant/:id', function(req, resp){
         title: 'Edit '+selected.name,
         selected: selected,
         show_auth: false,
-        logged_in: true
+        logged_in: true,
+        logged_user: sampleUser
     });
 });
 
@@ -117,7 +122,8 @@ server.get('/:id/create_review', function(req, resp){
         title: "Write a Review",
         selected: selected,
         show_auth: false,
-        logged_in: true
+        logged_in: true,
+        logged_user: sampleUser
     });
 });
 
@@ -130,7 +136,8 @@ server.get('/edit/review/:id', function(req, resp){
         title: "Edit Your Review",
         selected: selected,
         show_auth: false,
-        logged_in: true
+        logged_in: true,
+        logged_user: sampleUser
     });
 });
 
@@ -147,7 +154,8 @@ server.get('/view/reviews/:id/edit/:comment_id', function(req, resp){
         comments: comments,
         selectedComment: selectedComment,
         show_auth: false,
-        logged_in: true
+        logged_in: true,
+        logged_user: sampleUser
     });
 });
 
@@ -186,7 +194,8 @@ server.get('/:username', function(req, resp){
         comments: comments,
         restaurants: restaurants,
         show_auth: false,
-        logged_in: true
+        logged_in: true,
+        logged_user: sampleUser
     });
 });
 
@@ -196,7 +205,8 @@ server.get('/edit/profile', function(req, resp){
         layout: 'index',
         title: 'TopNotch',
         show_auth: false,
-        logged_in: true
+        logged_in: true,
+        logged_user: sampleUser
     });
 });
 

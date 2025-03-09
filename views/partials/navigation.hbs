@@ -13,8 +13,8 @@
 
         {{#if logged_in}}
         <div class="header-img-profile">
-            <a href="/imuserone">
-            <img src="/common/user-icon.png" alt="User Avatar" class="header-avatar">
+            <a href="/{{logged_user.username}}">
+            <img src="{{logged_user.picture_address}}" alt="User Avatar" class="header-avatar">
             </a>
         </div>
         <div class="auth-buttons">
