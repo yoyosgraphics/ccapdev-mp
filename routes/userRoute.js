@@ -79,8 +79,8 @@ router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 
 // Public profile route (no authentication required)
-router.get('/:id', userController.getUserById);
-
+// router.get('/users/:id', userController.getUserById);
+router.get('/:id', userController.getUserProfile);
 // Protected profile routes (require authentication AND ownership)
 router.get('/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
 router.post('/:id/edit', isAuthenticated, isOwnProfile, upload.single('picture_address'), userController.updateUser);
