@@ -1,5 +1,9 @@
+// npm i mongoose bcrypt
+
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
+const fs = require("fs");
+const path = require("path");
 
 const User = require("./User");
 const Restaurant = require("./Restaurant");
@@ -92,7 +96,7 @@ const updateRestaurantOfID = async (id, _name, _type, _address, _phone_number, _
 
 // Create Restaurant Page Request
 // Create new restaurant record based on the given data.
-const addRestaurant = async (_name, _type, _address, _phone_number, _pricing_from, _pricing_to, _picture_address, _user_id) => {
+const addRestaurant = async (_name, _type, _address, _phone_number, _pricing_from, _pricing_to, picture_file, _user_id) => {
     const restaurant = Restaurant({
         name: _name,
         type: _type,
@@ -101,12 +105,40 @@ const addRestaurant = async (_name, _type, _address, _phone_number, _pricing_fro
         pricing_from: _pricing_from,
         pricing_to: _pricing_to,
         delete_status: false,
-        picture_address: _picture_address,
+        picture_address: "",
         rating: 0,
         user_id: _user_id
     })
 
-    let res = await restaurant.save();
+    await restaurant.save();
+
+    const restaurantID = restaurant._id;
+
+    let _picture_address;
+
+    if (picture_file){
+        _picture_address = await saveRestaurantImage(picture_file, restaurantID);
+    } else {
+        _picture_address = "/uploads/restaurant-common.png"
+    }
+
+    await Restaurant.findByIdAndUpdate(restaurantID, {picture_address: _picture_address}, {new: true});
+
+}
+
+// Save Restaurant Image
+const saveRestaurantImage = async (file, _restaurant_id) => {
+    if (!file) 
+        return null;
+
+    const dir = "/uploads/";
+
+    const fileName = "restaurant-" + _restaurant_id + path.extname(file.originalname);
+    const filePath = path.join(dir, fileName);
+
+    fs.renameSync(file.path, filePath);
+
+    return "/uploads/" + fileName;
 }
 
 // Restaurant Reviews Page
@@ -119,7 +151,7 @@ const getRestaurantOfID = async (id) => {
 // Gets the reviews of the concerned restaurant based on the given restaurant id with the necessary data to be displayed in the restaurant reviews page.
 // Comments themselves under the reviews are not displayed when not under individual review page.
 const getRestaurantReviewsOfID = async (id) => {
-    let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
                         .populate("user_id", "_id first_name last_name picture_address")
                         .sort({likes: -1})
                         .lean();
@@ -184,7 +216,7 @@ const searchReviews = async (id, _content) => {
         ]
     }
 
-    let reviews = await Review.find(search, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find(search, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .sort({likes: -1})
                                 .lean();
@@ -199,7 +231,7 @@ const searchReviews = async (id, _content) => {
 // Individual Review Page Request
 // Gets review data based on the given review id with the necessary data to be displayed in the individual review page.
 const getReviewOfID = async (id) => {
-    let review = await Review.find({_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1, user_id: 1})
+    let review = await Review.find({_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .lean();
     
@@ -265,7 +297,7 @@ const editCommentOfID = async (id, _content) => {
 
 // Write Review Page Request
 // Creates new review record based on the given data.
-const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, _picture_address) => {
+const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, picture_files) => {
     const review = Review({
         user_id: _user_id,
         restaurant_id: _restaurant_id,
@@ -273,28 +305,56 @@ const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, _p
         title: _title,
         rating: _rating,
         content: _content,
-        picture_address: _picture_address,
+        picture_addresses: [],
         likes: 0,
         dislikes: 0,
         edit_status: false,
         delete_status: false
     })
+    
+    await review.save();
+
+    const reviewID = review._id;
+
+    let _picture_addresses = [];
+
+    if (picture_files) {
+        let num = 0;
+        for (let picture of picture_files) {
+            let _picture_address = await saveReviewImage(picture, reviewID, num);
+            _picture_addresses.push(_picture_address);
+            num++;
+        }       
+        await Review.findByIdAndUpdate(reviewID, {$push: {picture_addresses: {$each: _picture_addresses}}}, { new: true });
+    }
 
     await updateRestaurantRatingOfID(_restaurant_id);
-    
-    let res = await review.save();
+}
+
+const saveReviewImage = async (file, _review_id, num) => {
+    if (!file) 
+        return null;
+
+    const dir = "/uploads/";
+
+    const fileName = "review-" + num + "-" + _review_id + path.extname(file.originalname);
+    const filePath = path.join(dir, fileName);
+
+    fs.renameSync(file.path, filePath);
+
+    return "/uploads/" + fileName;
 }
 
 // Edit Review Page Request
 // Updates review data based on the given info.
-const editReviewOfID = async (id, _title, _rating, _content, _picture_address) => {
+const editReviewOfID = async (id, _title, _rating, _content, _picture_addresses) => {
     let review = await Review.findByIdAndUpdate(
         id,
         {
             title: _title,
             rating: _rating,
             content: _content,
-            picture_address: _picture_address,
+            picture_addresses: _picture_addresses,
             edit_status: true, // Edit indication
         },
         {new: true}
@@ -327,7 +387,7 @@ const updateRestaurantRatingOfID = async (_restaurant_id) => {
 
 // Register User Page Request
 // Verifies the user registration status and creates the user data with the necessary information if successful.
-const createUser = async(email_address, first_name, last_name, username, password, confirm_password, picture_address, biography) => {
+const createUser = async(email_address, first_name, last_name, username, password, confirm_password, picture_file, biography) => {
     try {
         if (password !== confirm_password) {
             return { success: false, message: "Passwords do not match" };
@@ -350,17 +410,44 @@ const createUser = async(email_address, first_name, last_name, username, passwor
             last_name,
             username,
             password: hashedPassword,
-            picture_address,
+            picture_address: "",
             biography
         });
 
         await newUser.save(); 
+
+        const newUserID = newUser._id;
+
+        let _picture_address;
+
+        if (picture_file){
+            _picture_address = await saveUserImage(picture_file, newUserID);
+        } else {
+            _picture_address = "/uploads/user-common.png"
+        }
+
+        await User.findByIdAndUpdate(newUserID, {picture_address: _picture_address}, {new: true});
 
         return { success: true, message: "User created successfully" };
 
     } catch (error) {
         return { success: false, message: error.message };
     }
+}
+
+// Save User Image
+const saveUserImage = async (file, _user_id) => {
+    if (!file) 
+        return null;
+
+    const dir = "/uploads/";
+
+    const fileName = "user-" + _user_id + path.extname(file.originalname);
+    const filePath = path.join(dir, fileName);
+
+    fs.renameSync(file.path, filePath);
+
+    return "/uploads/" + fileName;
 }
 
 // Login User Page Request
@@ -441,7 +528,7 @@ const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
 const getAllReviewsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
-    let reviews = await Review.find({user_id: objectId}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find({user_id: objectId}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .populate("restaurant_id", "_id name")
                                 .lean();
