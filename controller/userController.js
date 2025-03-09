@@ -2,38 +2,38 @@ const {
     createUser, 
     logInUser, 
     getUserID, 
-    updateUserID, 
-    getAllUsers 
+    updateUserID 
 } = require("../model/model");
 
-// Show first registration page
+// ========== REGISTRATION ==========
+
+// Show registration form
 const showRegisterForm = (req, res) => {
     res.render('register', { 
         formData: {}, 
         showPage: 'one',
-        messages: req.flash() 
+        alerts: []
     });
 };
 
-// Process first registration step and show second page
+// Process first registration step
 const registerStepOne = (req, res) => {
     const { email_address, first_name, last_name } = req.body;
     
     // Basic validation
     if (!email_address || !first_name || !last_name) {
-        req.flash('error', 'All fields are required');
         return res.render('register', { 
             formData: req.body, 
             showPage: 'one',
-            messages: req.flash()
+            alerts: [{ type: 'error', message: 'All fields are required' }]
         });
     }
     
-    // Render register page with second step visible
+    // Render second registration step
     res.render('register', { 
         formData: req.body, 
         showPage: 'two',
-        messages: req.flash()
+        alerts: []
     });
 };
 
@@ -44,19 +44,33 @@ const register = async (req, res) => {
     const result = await createUser(email_address, first_name, last_name, username, password, confirm_password, picture_address, biography);
     
     if (result.success) {
-        req.flash('success', 'Registration successful! Please log in.');
-        res.redirect('/login');
+        res.redirect('/login?alert=success&message=' + encodeURIComponent('Registration successful! Please log in.'));
     } else {
-        req.flash('error', result.message);
         res.render('register', { 
             formData: req.body, 
             showPage: 'two',
-            messages: req.flash()
+            alerts: [{ type: 'error', message: result.message }]
         });
     }
 };
 
-// Log in User
+// ========== LOGIN ==========
+
+// Show login form
+const showLoginForm = (req, res) => {
+    // Get alert from query parameters if present
+    const alerts = [];
+    if (req.query.alert && req.query.message) {
+        alerts.push({ type: req.query.alert, message: req.query.message });
+    }
+    
+    res.render('login', { 
+        email: '',
+        alerts: alerts
+    });
+};
+
+// Process login
 const login = async (req, res) => {
     const { email_address, password } = req.body;
     
@@ -64,119 +78,11 @@ const login = async (req, res) => {
     
     if (result.success) {
         req.session.user = result.user;
-        req.flash('success', 'You are now logged in');
-        res.redirect('/home');
+        res.redirect('/home?alert=success&message=' + encodeURIComponent('You are now logged in'));
     } else {
-        req.flash('error', result.message || 'Invalid credentials');
         res.render('login', { 
             email: email_address,
-            messages: req.flash() 
-        });
-    }
-};
-
-// Render login form
-const showLoginForm = (req, res) => {
-    res.render('login', { 
-        email: '',
-        messages: req.flash() 
-    });
-};
-
-// Get User by ID (view user profile)
-const getUserById = async (req, res) => {
-    try {
-        const user = await getUserID(req.params.id);
-        
-        if (!user || user.length === 0) {
-            req.flash('error', 'User not found');
-            return res.status(404).render('404', { 
-                message: 'User not found',
-                messages: req.flash()
-            });
-        }
-        
-        res.render('user_profile', { 
-            user: user[0],
-            messages: req.flash()
-        });
-    } catch (error) {
-        req.flash('error', error.message);
-        res.status(500).render('error', { 
-            error: error.message,
-            messages: req.flash()
-        });
-    }
-};
-
-// Update User
-const updateUser = async (req, res) => {
-    try {
-        const { first_name, last_name, username, biography, picture_address } = req.body;
-        const updatedUser = await updateUserID(req.params.id, first_name, last_name, username, biography, picture_address);
-        
-        if (!updatedUser) {
-            req.flash('error', 'User not found');
-            return res.status(404).render('404', { 
-                message: 'User not found',
-                messages: req.flash()
-            });
-        }
-        
-        req.flash('success', 'Profile updated successfully');
-        res.redirect(`/users/${req.params.id}`);
-    } catch (error) {
-        req.flash('error', error.message);
-        res.status(500).render('edit_profile', { 
-            error: error.message, 
-            user: { 
-                _id: req.params.id,
-                ...req.body
-            },
-            messages: req.flash()
-        });
-    }
-};
-
-// Render edit profile form
-const showEditForm = async (req, res) => {
-    try {
-        const user = await getUserID(req.params.id);
-        
-        if (!user || user.length === 0) {
-            req.flash('error', 'User not found');
-            return res.status(404).render('404', { 
-                message: 'User not found',
-                messages: req.flash()
-            });
-        }
-        
-        res.render('edit_profile', { 
-            user: user[0],
-            messages: req.flash()
-        });
-    } catch (error) {
-        req.flash('error', error.message);
-        res.status(500).render('error', { 
-            error: error.message,
-            messages: req.flash()
-        });
-    }
-};
-
-// Get All Users
-const getAllUsersList = async (req, res) => {
-    try {
-        const users = await getAllUsers();
-        res.render('users', { 
-            users: users,
-            messages: req.flash()
-        });
-    } catch (error) {
-        req.flash('error', error.message);
-        res.status(500).render('error', { 
-            error: error.message,
-            messages: req.flash()
+            alerts: [{ type: 'error', message: result.message || 'Invalid credentials' }]
         });
     }
 };
@@ -187,20 +93,101 @@ const logout = (req, res) => {
         if (err) {
             console.error('Error destroying session:', err);
         }
-        req.flash('success', 'You have been logged out');
-        res.redirect('/login');
+        res.redirect('/login?alert=success&message=' + encodeURIComponent('You have been logged out'));
     });
 };
 
+// ========== VIEW PROFILE ==========
+
+// View user profile by ID
+const getUserById = async (req, res) => {
+    try {
+        const user = await getUserID(req.params.id);
+        
+        if (!user || user.length === 0) {
+            return res.status(404).render('404', { 
+                message: 'User not found',
+                alerts: [{ type: 'error', message: 'User not found' }]
+            });
+        }
+        
+        const alerts = [];
+        if (req.query.alert && req.query.message) {
+            alerts.push({ type: req.query.alert, message: req.query.message });
+        }
+        
+        res.render('user_profile', { 
+            user: user[0],
+            alerts: alerts
+        });
+    } catch (error) {
+        res.status(500).render('error', { 
+            error: error.message,
+            alerts: [{ type: 'error', message: error.message }]
+        });
+    }
+};
+
+// ========== EDIT PROFILE DETAILS ==========
+
+// Show edit profile form
+const showEditForm = async (req, res) => {
+    try {
+        const user = await getUserID(req.params.id);
+        
+        if (!user || user.length === 0) {
+            return res.status(404).render('404', { 
+                message: 'User not found',
+                alerts: [{ type: 'error', message: 'User not found' }]
+            });
+        }
+        
+        res.render('edit_profile', { 
+            user: user[0],
+            alerts: []
+        });
+    } catch (error) {
+        res.status(500).render('error', { 
+            error: error.message,
+            alerts: [{ type: 'error', message: error.message }]
+        });
+    }
+};
+
+// Update user profile
+const updateUser = async (req, res) => {
+    try {
+        const { first_name, last_name, username, biography, picture_address } = req.body;
+        const updatedUser = await updateUserID(req.params.id, first_name, last_name, username, biography, picture_address);
+        
+        if (!updatedUser) {
+            return res.status(404).render('404', { 
+                message: 'User not found',
+                alerts: [{ type: 'error', message: 'User not found' }]
+            });
+        }
+        
+        res.redirect(`/users/${req.params.id}?alert=success&message=` + encodeURIComponent('Profile updated successfully'));
+    } catch (error) {
+        res.status(500).render('edit_profile', { 
+            error: error.message, 
+            user: { 
+                _id: req.params.id,
+                ...req.body
+            },
+            alerts: [{ type: 'error', message: error.message }]
+        });
+    }
+};
+
 module.exports = {
-    register,
-    registerStepOne,
-    login,
-    getUserById,
-    updateUser,
-    getAllUsersList,
     showRegisterForm,
+    registerStepOne,
+    register,
     showLoginForm,
+    login,
+    logout,
+    getUserById,
     showEditForm,
-    logout
+    updateUser
 };
