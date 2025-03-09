@@ -1,7 +1,8 @@
+<!-- cards.hbs -->
 <div class="food-scroll-container">
     {{#each restaurants}}
         <div class="food-card" onclick="window.location.href='/view/restaurant/{{id}}'">
-            <img src={{banner}} alt={{name}}>
+            <img src={{picture_address}}>
             <div class="food-info">
                 <h3>{{name}}</h3>
                 <p>{{type}}</p>

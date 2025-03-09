@@ -21,7 +21,7 @@ const displayHome = async (req, res) => {
                     id: restaurant._id,
                     name: restaurant.name,
                     type: restaurant.type,
-                    banner: restaurant.picture_address,
+                    picture_address: restaurant.picture_address,
                     rating: restaurant.rating || 0
                 });
             });
@@ -121,7 +121,7 @@ function groupRestaurantsByCategory(restaurants) {
             id: restaurant._id,
             name: restaurant.name,
             type: restaurant.type,
-            banner: restaurant.picture_address,
+            picture_address: restaurant.picture_address,
             rating: restaurant.rating || 0,
             address: restaurant.address || '',
             phone_number: restaurant.phone_number || '',
