@@ -131,20 +131,19 @@ server.get('/login', (req, res) => {
     res.redirect('/users/login');
 });
 
-
 server.get('/search', async function(req, res) {
     try {
         const searchQuery = req.query.q || '';
-        const filteredRestaurants = searchQuery.trim() !== '' 
+        const restaurants = searchQuery.trim() !== '' 
             ? await db.getRestaurantWithFilters(searchQuery, undefined, undefined, undefined, undefined)
-            : [];
+            : await db.getAllRestaurants();
             
         res.render('search', {
             layout: 'index',
             title: (searchQuery.trim() !== '') ? searchQuery : "Search for your next meal",
             searchQuery: searchQuery,
             hasQuery: searchQuery.trim() !== '',
-            restaurants: filteredRestaurants
+            restaurants: restaurants
         });
     } catch (err) {
         console.error('Error searching restaurants:', err);
