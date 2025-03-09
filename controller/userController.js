@@ -9,7 +9,8 @@ console.log("User Controller");
 
 // Show registration form
 const showRegisterForm = (req, res) => {
-    res.render('register', { 
+    // For the initial form display
+    res.render('register', {
         formData: {},
         showPage: true,
         showPageTwo: false,
@@ -17,44 +18,56 @@ const showRegisterForm = (req, res) => {
     });
 };
 
-const registerStepOne = (req, res) => {
-    const { email_address, first_name, last_name, username, password, confirm_password } = req.body;
-    
-    // Basic validation
-    if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
-        return res.render('register', { 
-            formData: req.body, 
-            showPage: true,
-            showPageTwo: false,
-            alerts: [{ type: 'error', message: 'All fields are required' }]
+const registerStepOne = async (req, res) => {
+    try {
+        const { email_address, first_name, last_name, username, password, confirm_password } = req.body;
+        
+        // Check if any required fields are missing
+        if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
+            return res.render('register', { 
+                formData: req.body,
+                showPage: true,
+                showPageTwo: false,
+                alerts: [{ type: 'error', message: 'All fields are required' }]
+            });
+        }
+        
+        // Optional: Basic validation
+        if (password !== confirm_password) {
+            return res.render('register', { 
+                formData: req.body,
+                showPage: true,
+                showPageTwo: false,
+                alerts: [{ type: 'error', message: 'Passwords do not match' }]
+            });
+        }
+        
+        // If validation passes, show step two with the form data
+        res.render('register', { 
+            formData: req.body,
+            showPage: false,
+            showPageTwo: true,
+            alerts: []
         });
-    }
-    
-    // Additional validation can be added here (password matching, email format, etc.)
-    if (password !== confirm_password) {
-        return res.render('register', { 
+    } catch (error) {
+        console.error("Registration step one error:", error);
+        res.render('register', { 
             formData: req.body,
             showPage: true,
             showPageTwo: false,
-            alerts: [{ type: 'error', message: 'Passwords do not match' }]
+            alerts: [{ type: 'error', message: 'An error occurred during form processing' }]
         });
     }
-    
-    // Render second registration step
-    res.render('register', { 
-        formData: req.body,
-        showPage: false,
-        showPageTwo: true,
-        alerts: []
-    });
 };
 
-// Complete registration process
+// Final Registration Handler - Your existing function with minor improvements
 const register = async (req, res) => {
     try {
-        const { email_address, first_name, last_name, username, password, confirm_password, picture_address, biography } = req.body;
+        const { email_address, first_name, last_name, username, password, confirm_password, biography } = req.body;
+        console.log("Request body:", req.body);
+        console.log("Uploaded file:", req.file);
         
-        // Check if any required first-step fields are missing
+        // Check if any required fields are missing
         if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
             return res.render('register', { 
                 formData: req.body,
@@ -64,7 +77,17 @@ const register = async (req, res) => {
             });
         }
         
-        const result = await createUser(email_address, first_name, last_name, username, password, confirm_password, picture_address, biography);
+        // Pass the file object directly, not the path
+        const result = await createUser(
+            email_address, 
+            first_name, 
+            last_name, 
+            username, 
+            password, 
+            confirm_password, 
+            req.file, // Pass the file object, not a path
+            biography
+        );
         
         if (result.success) {
             res.redirect('/login?alert=success&message=' + encodeURIComponent('Registration successful! Please log in.'));
@@ -112,31 +135,24 @@ const login = async (req, res) => {
     
     try {
         console.log("Login attempt with:", email_address);
-        
         const result = await logInUser(email_address, password);
-        
         console.log("Login result:", result);
         
         if (result.success && result.user) {
-            // Store user in session
-            const userToStore = {...result.user};
+            // Store user directly with proper ID handling
+            req.session.user = {
+                _id: result.user.id ? result.user.id.toString() : null,
+                username: result.user.username,
+                email_address: result.user.email_address,
+                first_name: result.user.first_name,
+                last_name: result.user.last_name,
+                picture_address: result.user.picture_address,
+                biography: result.user.biography
+            };
             
-            // Ensure _id is stored as a string
-            if (userToStore._id) {
-                if (typeof userToStore._id === 'object' && userToStore._id.toString) {
-                    userToStore._id = userToStore._id.toString();
-                } else if (typeof userToStore._id === 'object' && userToStore._id.$oid) {
-                    userToStore._id = userToStore._id.$oid;
-                }
-            }
+            req.session.isProfileOwner = true;
             
-            req.session.user = userToStore;
-            
-            // Fix: Use proper function to check profile ownership
-            // Or set it directly based on the user's own ID
-            req.session.isProfileOwner = true; // User owns their own profile
-            
-            console.log("User set in session:", req.session.user);
+            console.log("Simplified user set in session:", req.session.user);
             
             req.session.save((err) => {
                 if (err) {
@@ -150,8 +166,10 @@ const login = async (req, res) => {
                     });
                 }
                 
-                console.log("Session saved successfully, redirecting to user profile");
-                return res.redirect(`/users/${userToStore._id}?alert=success&message=` + encodeURIComponent('You are now logged in'));
+                console.log("Session saved, redirecting with username:", req.session.user.username);
+                
+                // Use username for URL since it appears to be your route parameter
+                return res.redirect(`/profile/${req.session.user.username}?alert=success&message=` + encodeURIComponent('You are now logged in'));
             });
         } else {
             // Render login page with error
@@ -174,7 +192,6 @@ const login = async (req, res) => {
         });
     }
 };
-
 // Logout user
 const logout = (req, res) => {
     req.session.destroy((err) => {
@@ -186,13 +203,49 @@ const logout = (req, res) => {
 };
 
 // ========== VIEW PROFILE ==========
-
+const getUserProfile = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        
+        // Find user by ID
+        const user = await db.getUserById(userId);
+        
+        if (!user) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'User Not Found',
+                alerts: [{ type: 'error', message: 'User not found' }]
+            });
+        }
+        
+        const reviews = await db.getAllReviewsOfUser(userId);
+        const comments = await db.getAllCommentsOfUser(userId);
+        const restaurants = await db.getAllRestaurants();
+        
+        res.render('user_profile', {
+            layout: 'index',
+            title: user.first_name + "'s Profile",
+            selected: user,
+            reviews: reviews,
+            comments: comments,
+            restaurants: restaurants
+        });
+    } catch (err) {
+        console.error('Error fetching user profile:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load user profile' }]
+        });
+    }
+};
 // View user profile by ID
 const getUserById = async (req, res) => {
     try {
         console.log("Fetching user with ID:", req.params.id);
         const user = await getUserID(req.params.id);
-        
+
         if (!user || !Array.isArray(user) || user.length === 0) {
             console.log("User not found:", req.params.id);
             return res.status(404).render('404', { 
@@ -202,26 +255,26 @@ const getUserById = async (req, res) => {
                 alerts: [{ type: 'error', message: 'User not found' }]
             });
         }
-        
+
         console.log("User found:", user[0]);
-        
+
         const alerts = [];
         if (req.query.alert && req.query.message) {
             alerts.push({ type: req.query.alert, message: req.query.message });
         }
-        
+
         // Check if the profile belongs to the logged-in user
         // Ensure we're comparing strings to handle ObjectId cases
         const loggedInUserId = req.session.user && req.session.user._id ? req.session.user._id.toString() : '';
         const profileUserId = user[0]._id ? user[0]._id.toString() : '';
         const isOwnProfile = !!req.session.user && loggedInUserId === profileUserId;
-        
+
         console.log("Profile comparison:", {
             loggedInUserId,
             profileUserId,
             isOwnProfile
         });
-        
+
         res.render('user_profile', { 
             user: user[0],
             viewing_user: req.session.user || null,
@@ -364,5 +417,6 @@ module.exports = {
     logout,
     getUserById,
     showEditForm,
-    updateUser
+    updateUser,
+    getUserProfile
 };
