@@ -106,32 +106,10 @@ server.get('/', async function(req, res) {
         // Get all restaurants from database using the model
         const allRestaurants = await db.getAllRestaurants();
         
-        // Group restaurants by category
-        const restaurants = {};
-        
-        // If we have restaurants, group them by category
-        if (allRestaurants && allRestaurants.length > 0) {
-            allRestaurants.forEach(restaurant => {
-                const category = restaurant.type || 'Uncategorized';
-                
-                if (!restaurants[category]) {
-                    restaurants[category] = [];
-                }
-                
-                restaurants[category].push({
-                    id: restaurant._id,
-                    name: restaurant.name,
-                    type: restaurant.type,
-                    banner: restaurant.picture_address,
-                    rating: restaurant.rating || 0
-                });
-            });
-        }
-        
         res.render('home', {
             layout: 'index',
             title: 'TopNotch',
-            restaurants: restaurants,
+            restaurants: allRestaurants,
             alerts: []
         });
     } catch (err) {

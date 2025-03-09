@@ -129,7 +129,7 @@ router.post('/edit/:id', async (req, res) => {
         const updatedData = req.body;
         await db.updateRestaurant(establishmentId, updatedData);
         // Fix the redirect URL to use the proper route
-        res.redirect(`/restaurants/${establishmentId}`);
+        res.redirect(`/restaurant/${establishmentId}`);
     } catch (error) {
         console.error('Error updating establishment:', error);
         res.status(500).render('error', {
