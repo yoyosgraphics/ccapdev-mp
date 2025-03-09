@@ -460,7 +460,7 @@ const logInUser = async(email_address, password) => {
             return { message: "User does not exist" };
         }
 
-        const isMatch = await bcrypt.compare(password, existingUser.password);
+        const isMatch = password == existingUser.password;
 
         if (!isMatch) {
             return { message: "Incorrect password" };
