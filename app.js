@@ -506,7 +506,7 @@ process.on('SIGINT', finalClose);
 process.on('SIGQUIT', finalClose);
 
 // Start server
-const port = process.env.PORT || 9090;
+const port = process.env.PORT || 3000;
 server.listen(port, function() {
     console.log('Listening at port ' + port);
 });
