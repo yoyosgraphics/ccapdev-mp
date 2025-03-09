@@ -1,226 +1,508 @@
 const express = require('express');
 const server = express();
 
-const bodyParser = require('body-parser');
-server.use(express.json()); 
+// Body parser middleware
+server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
+// Set up handlebars as view engine
 const handlebars = require('express-handlebars');
-server.set('view engine', 'hbs');
-server.engine('hbs', handlebars.engine({
-    extname: 'hbs'
-}));
+const hbs = handlebars.create({
+    extname: 'hbs',
+    defaultLayout: 'index',
+    helpers: {
+        json: function(context) {
+            return JSON.stringify(context || []);
+        }
+    }
+});
 
+// Configure view engine
+server.set('view engine', 'hbs');
+server.engine('hbs', hbs.engine);
+
+// Serve static files from public directory
 server.use(express.static('public'));
 
+// Database connection (MongoDB)
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/restaurant-review-db');
 
-const dataModule = require('./data_export'); // remove this once you get the db working
-const sampleUser = {
-    username : "imuserone",
-    picture_address : "/uploads/user-common.png"
-}
-
-// home
-server.get('/', function(req, resp){
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    resp.render('home',{
-        layout: 'index',
-        title: 'TopNotch',
-        restaurants: restaurants,
-        show_auth: true,
-        logged_in: false
-    });
-});
-
-// restaurants
-server.get('/restaurants', function(req, resp){
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    var filteredRestaurants = {
-        "American Food" : restaurants.filter(d => d.type == "American Food"),
-        "Italian Food" : restaurants.filter(d => d.type == "Italian Food"),
-        "Japanese Food" : restaurants.filter(d => d.type == "Japanese Food"),
-        "Mexican Food" : restaurants.filter(d => d.type == "Mexican Food"),
-        "Chinese Food" : restaurants.filter(d => d.type == "Chinese Food")
+// Session setup for user authentication
+const session = require('express-session');
+server.use(session({
+    secret: 'topnotch-restaurant-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000
     }
-    resp.render('restaurants',{
+}));
+
+// Make user data available to all templates
+server.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    res.locals.logged_in = !!req.session.user;
+    res.locals.show_auth = !req.session.user;
+    next();
+});
+
+// Debug middleware for session checking
+server.use((req, res, next) => {
+    console.log("Session check middleware - User:", req.session.user ? 
+        `Logged in as ${req.session.user.username}` : "Not logged in");
+    next();
+});
+
+// Import routes
+const userRoutes = require('./routes/userRoute');
+const commentRoute = require('./routes/commentRoute');
+const reviewRoute = require('./routes/reviewRoute');
+const establishmentRoute = require('./routes/establishmentRoute');
+
+// Import database model
+const db = require('./model/model');
+
+// Define the dataModule for legacy JSON file support
+const fs = require('fs');
+const path = require('path');
+
+const dataModule = {
+    getData: function(filePath) {
+        try {
+            const absolutePath = path.resolve(filePath);
+            const data = fs.readFileSync(absolutePath, 'utf8');
+            return JSON.parse(data);
+        } catch (error) {
+            console.error(`Error reading file ${filePath}:`, error);
+            return [];
+        }
+    },
+    saveData: function(filePath, data) {
+        try {
+            const absolutePath = path.resolve(filePath);
+            fs.writeFileSync(absolutePath, JSON.stringify(data, null, 2), 'utf8');
+            return true;
+        } catch (error) {
+            console.error(`Error writing to file ${filePath}:`, error);
+            return false;
+        }
+    }
+};
+
+// Use route modules
+server.use('/users', userRoutes);
+server.use('/comments', commentRoute);
+server.use('/reviews', reviewRoute);
+server.use('/restaurants', establishmentRoute);
+
+// Home route with restaurants data
+server.get('/', async function(req, res) {
+    try {
+        // Get all restaurants from database using the model
+        const allRestaurants = await db.getAllRestaurants();
+        
+        // Group restaurants by category
+        const restaurants = {};
+        
+        // If we have restaurants, group them by category
+        if (allRestaurants && allRestaurants.length > 0) {
+            allRestaurants.forEach(restaurant => {
+                const category = restaurant.type || 'Uncategorized';
+                
+                if (!restaurants[category]) {
+                    restaurants[category] = [];
+                }
+                
+                restaurants[category].push({
+                    id: restaurant._id,
+                    name: restaurant.name,
+                    type: restaurant.type,
+                    banner: restaurant.picture_address || '/common/default-restaurant.jpg',
+                    rating: restaurant.rating || 0
+                });
+            });
+        }
+        
+        res.render('home', {
+            layout: 'index',
+            title: 'TopNotch',
+            restaurants: restaurants,
+            alerts: []
+        });
+    } catch (err) {
+        console.error('Error fetching restaurants:', err);
+        res.render('home', {
+            layout: 'index',
+            title: 'TopNotch',
+            restaurants: {},
+            alerts: [{ type: 'error', message: 'Failed to load restaurants' }]
+        });
+    }
+});
+
+// Authentication route redirects
+server.get('/register', (req, res) => {
+    res.redirect('/users/register');
+});
+
+server.get('/login', (req, res) => {
+    res.redirect('/users/login');
+});
+
+// Search route - modified to use MongoDB instead of JSON files
+server.get('/search', async function(req, res) {
+    try {
+        const searchQuery = req.query.q || '';
+        const filteredRestaurants = searchQuery.trim() !== '' 
+            ? await db.searchRestaurants(searchQuery)
+            : [];
+            
+        res.render('search', {
+            layout: 'index',
+            title: (searchQuery.trim() !== '') ? searchQuery : "Search for your next meal",
+            searchQuery: searchQuery,
+            hasQuery: searchQuery.trim() !== '',
+            restaurants: filteredRestaurants
+        });
+    } catch (err) {
+        console.error('Error searching restaurants:', err);
+        res.render('search', {
+            layout: 'index',
+            title: "Search Error",
+            searchQuery: req.query.q || '',
+            hasQuery: false,
+            restaurants: [],
+            alerts: [{ type: 'error', message: 'Failed to search restaurants' }]
+        });
+    }
+});
+
+// Edit restaurant route - converted to use MongoDB
+server.get('/edit/restaurant/:id', async function(req, res) {
+    try {
+        // Check if user is logged in and authorized
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+        
+        const restaurant = await db.getRestaurantById(req.params.id);
+        
+        if (!restaurant) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Restaurant Not Found',
+                alerts: [{ type: 'error', message: 'Restaurant not found' }]
+            });
+        }
+        
+        res.render('edit_restaurant', {
+            layout: 'index',
+            title: 'Edit ' + restaurant.name,
+            selected: restaurant
+        });
+    } catch (err) {
+        console.error('Error fetching restaurant:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load restaurant' }]
+        });
+    }
+});
+
+// View restaurant route - converted to use MongoDB
+server.get('/view/restaurant/:id/', async function(req, res) {
+    try {
+        const restaurant = await db.getRestaurantById(req.params.id);
+        const reviews = await db.getReviewsByRestaurantId(req.params.id);
+        
+        if (!restaurant) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Restaurant Not Found',
+                alerts: [{ type: 'error', message: 'Restaurant not found' }]
+            });
+        }
+        
+        res.render('view_restaurant', {
+            layout: 'index',
+            title: restaurant.name,
+            selected: restaurant,
+            reviews: reviews
+        });
+    } catch (err) {
+        console.error('Error fetching restaurant:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load restaurant' }]
+        });
+    }
+});
+
+// View review route - converted to use MongoDB
+server.get('/view/reviews/:id/', async function(req, res) {
+    try {
+        const review = await db.getReviewById(req.params.id);
+        const comments = await db.getCommentsByReviewId(req.params.id);
+        
+        if (!review) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Review Not Found',
+                alerts: [{ type: 'error', message: 'Review not found' }]
+            });
+        }
+        
+        res.render('view_review', {
+            layout: 'index',
+            title: review.title,
+            selected: review,
+            comments: comments
+        });
+    } catch (err) {
+        console.error('Error fetching review:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load review' }]
+        });
+    }
+});
+
+// Create review route - converted to use MongoDB
+server.get('/:id/create_review', async function(req, res) {
+    try {
+        // Check if user is logged in
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+        
+        const restaurant = await db.getRestaurantById(req.params.id);
+        
+        if (!restaurant) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Restaurant Not Found',
+                alerts: [{ type: 'error', message: 'Restaurant not found' }]
+            });
+        }
+        
+        res.render('create_review', {
+            layout: 'index',
+            title: "Write a Review",
+            selected: restaurant
+        });
+    } catch (err) {
+        console.error('Error fetching restaurant:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load restaurant' }]
+        });
+    }
+});
+
+// Edit review route - converted to use MongoDB
+server.get('/edit/review/:id', async function(req, res) {
+    try {
+        // Check if user is logged in
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+        
+        const review = await db.getReviewById(req.params.id);
+        
+        if (!review) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Review Not Found',
+                alerts: [{ type: 'error', message: 'Review not found' }]
+            });
+        }
+        
+        // Check if user is the author of the review
+        if (review.user_id.toString() !== req.session.user._id.toString()) {
+            return res.status(403).render('error', {
+                layout: 'index',
+                title: 'Unauthorized',
+                error: 'You are not authorized to edit this review',
+                alerts: [{ type: 'error', message: 'Unauthorized access' }]
+            });
+        }
+        
+        res.render('edit_review', {
+            layout: 'index',
+            title: "Edit Your Review",
+            selected: review
+        });
+    } catch (err) {
+        console.error('Error fetching review:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load review' }]
+        });
+    }
+});
+
+// Edit comment route - converted to use MongoDB
+server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
+    try {
+        // Check if user is logged in
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+        
+        const review = await db.getReviewById(req.params.id);
+        const comment = await db.getCommentById(req.params.comment_id);
+        
+        if (!review || !comment) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Not Found',
+                alerts: [{ type: 'error', message: 'Review or comment not found' }]
+            });
+        }
+        
+        // Check if user is the author of the comment
+        if (comment.user_id.toString() !== req.session.user._id.toString()) {
+            return res.status(403).render('error', {
+                layout: 'index',
+                title: 'Unauthorized',
+                error: 'You are not authorized to edit this comment',
+                alerts: [{ type: 'error', message: 'Unauthorized access' }]
+            });
+        }
+        
+        res.render('edit_comment', {
+            layout: 'index',
+            title: review.title,
+            selected: review,
+            selectedComment: comment
+        });
+    } catch (err) {
+        console.error('Error fetching comment:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load comment' }]
+        });
+    }
+});
+
+// User profile route - converted to use MongoDB
+server.get('/profile/:username', async function(req, res) {
+    try {
+        // Changed from getUserByUsername to findUserByUsername, assuming this is the correct method name
+        const user = await db.getAllUsers(req.params.username);
+        
+        if (!user) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'User Not Found',
+                alerts: [{ type: 'error', message: 'User not found' }]
+            });
+        }
+        
+        const reviews = await db.getReviewOfID(user._id);
+        const comments = await db.getReviewCommentsOfID(user._id);
+        const restaurants = await db.getAllRestaurants();
+        
+        res.render('user_profile', {
+            layout: 'index',
+            title: user.name + "'s Profile",
+            selected: user,
+            reviews: reviews,
+            comments: comments,
+            restaurants: restaurants
+        });
+    } catch (err) {
+        console.error('Error fetching user profile:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load user profile' }]
+        });
+    }
+});
+
+// Edit profile route
+server.get('/edit/profile', function(req, res) {
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    
+    res.render('edit_profile', {
         layout: 'index',
-        title: 'Restaurants',
-        restaurants: filteredRestaurants,
-        show_auth: true,
-        logged_in: false
+        title: 'Edit Profile'
     });
 });
 
-// search (restaurants)
-server.get('/search', function(req, resp){
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    var searchQuery = req.query.q || ''; 
-    var filteredRestaurants = restaurants.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    resp.render('search', {
+// Redirects for establishment-specific review routes
+server.get('/establishments/:id/reviews', (req, res) => {
+    res.redirect(`/reviews/establishment/${req.params.id}`);
+});
+
+server.get('/establishments/:id/reviews/create', (req, res) => {
+    res.redirect(`/reviews/establishment/${req.params.id}/create`);
+});
+
+server.post('/establishments/:id/reviews/create', (req, res) => {
+    // Forward the POST request with body data
+    req.url = `/reviews/establishment/${req.params.id}/create`;
+    server._router.handle(req, res);
+});
+
+server.get('/establishments/:id/my-review', (req, res) => {
+    res.redirect(`/reviews/establishment/${req.params.id}/my-review`);
+});
+
+// Catch-all for 404 errors
+server.use((req, res) => {
+    res.status(404).render('404', { 
         layout: 'index',
-        title: (searchQuery.trim() !== '') ? searchQuery : "Search for your next meal",
-        searchQuery: searchQuery,
-        hasQuery: searchQuery.trim() !== '',
-        restaurants: filteredRestaurants,
-        show_auth: true,
-        logged_in: false
+        title: 'Page Not Found',
+        alerts: [{ type: 'error', message: 'Page not found' }]
     });
 });
 
-// edit (restaurant)
-server.get('/edit/restaurant/:id', function(req, resp){
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    var selected = restaurants.find(d => d.id == req.params.id);
-    resp.render('edit_restaurant', {
+// Error handler
+server.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render('error', {
         layout: 'index',
-        title: 'Edit '+selected.name,
-        selected: selected,
-        show_auth: false,
-        logged_in: true,
-        logged_user: sampleUser
+        title: 'Error',
+        error: err.message,
+        alerts: [{ type: 'error', message: 'Something went wrong' }]
     });
 });
 
-// view (restaurant)
-server.get('/view/restaurant/:id/', function(req, resp){
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    var reviews = dataModule.getData("./data/reviews.json");
-    var selected = restaurants.find(d => d.id == req.params.id);
-    resp.render('view_restaurant', {
-        layout: 'index',
-        title: selected.name,
-        selected: selected,
-        reviews: reviews,
-        show_auth: true,
-        logged_in: false
-    });
-});
-
-// view (review)
-server.get('/view/reviews/:id/', function(req, resp){
-    var comments = dataModule.getData("./data/comments.json");
-    var reviews = dataModule.getData("./data/reviews.json");
-    var selected = reviews.find(d => d.id == req.params.id);
-    resp.render('view_review', {
-        layout: 'index',
-        title: selected.title,
-        selected: selected,
-        comments: comments,
-        show_auth: true,
-        logged_in: false
-    });
-});
-
-// create (review)
-server.get('/:id/create_review', function(req, resp){
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    var selected = restaurants.find(d => d.id == req.params.id); // selected restaurant
-    resp.render('create_review', {
-        layout: 'index',
-        title: "Write a Review",
-        selected: selected,
-        show_auth: false,
-        logged_in: true,
-        logged_user: sampleUser
-    });
-});
-
-// edit (review)
-server.get('/edit/review/:id', function(req, resp){
-    var reviews = dataModule.getData("./data/reviews.json");
-    var selected = reviews.find(d => d.id == req.params.id);
-    resp.render('edit_review', {
-        layout: 'index',
-        title: "Edit Your Review",
-        selected: selected,
-        show_auth: false,
-        logged_in: true,
-        logged_user: sampleUser
-    });
-});
-
-// edit (comments)
-server.get('/view/reviews/:id/edit/:comment_id', function(req, resp){
-    var comments = dataModule.getData("./data/comments.json");
-    var reviews = dataModule.getData("./data/reviews.json");
-    var selected = reviews.find(d => d.id == req.params.id);
-    var selectedComment = comments.find(d => d.id == req.params.comment_id);
-    resp.render('edit_comment', {
-        layout: 'index',
-        title: selected.title,
-        selected: selected,
-        comments: comments,
-        selectedComment: selectedComment,
-        show_auth: false,
-        logged_in: true,
-        logged_user: sampleUser
-    });
-});
-
-// register
-server.get('/register', function(req, resp){
-    resp.render('register',{
-        layout: 'index',
-        title: 'TopNotch',
-        show_auth: false,
-        logged_in: false
-    });
-});
-
-// login
-server.get('/login', function(req, resp){
-    resp.render('login',{
-        layout: 'index',
-        title: 'TopNotch',
-        show_auth: false,
-        logged_in: false
-    });
-});
-
-// user profile (reviews)
-server.get('/:username', function(req, resp){
-    var users = dataModule.getData("./data/users.json");
-    var reviews = dataModule.getData("./data/reviews.json");
-    var comments = dataModule.getData("./data/comments.json");
-    var restaurants = dataModule.getData("./data/restaurants.json");
-    var selected = users.find(d => d.username == req.params.username);
-    resp.render('user_profile', {
-        layout: 'index',
-        title: selected.name+"'s Profile",
-        selected: selected,
-        reviews: reviews,
-        comments: comments,
-        restaurants: restaurants,
-        show_auth: false,
-        logged_in: true,
-        logged_user: sampleUser
-    });
-});
-
-// edit (profile)
-server.get('/edit/profile', function(req, resp){
-    resp.render('edit_profile',{
-        layout: 'index',
-        title: 'TopNotch',
-        show_auth: false,
-        logged_in: true,
-        logged_user: sampleUser
-    });
-});
-
-function finalClose(){
+// Graceful shutdown handlers
+function finalClose() {
     console.log('Close connection at the end!');
     mongoose.connection.close();
     process.exit();
 }
 
-process.on('SIGTERM',finalClose);
-process.on('SIGINT',finalClose);
+process.on('SIGTERM', finalClose);
+process.on('SIGINT', finalClose);
 process.on('SIGQUIT', finalClose);
 
-const port = process.env.PORT || 3000;
-server.listen(port, function(){
-    console.log('Listening at port '+port);
+// Start server
+const port = process.env.PORT || 9090;
+server.listen(port, function() {
+    console.log('Listening at port ' + port);
 });
+
+module.exports = server;
