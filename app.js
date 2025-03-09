@@ -1,3 +1,4 @@
+//AS OF MARCH 9 10:11 PM
 const express = require('express');
 const server = express();
 
@@ -26,7 +27,9 @@ server.use(express.static('public'));
 
 // Database connection (MongoDB)
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/restaurant-review-db');
+mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // Session setup for user authentication
 const session = require('express-session');
@@ -55,7 +58,7 @@ server.use((req, res, next) => {
     next();
 });
 
-// Import routes
+ // Import routes
 const userRoutes = require('./routes/userRoute');
 const commentRoute = require('./routes/commentRoute');
 const reviewRoute = require('./routes/reviewRoute');
@@ -119,7 +122,7 @@ server.get('/', async function(req, res) {
                     id: restaurant._id,
                     name: restaurant.name,
                     type: restaurant.type,
-                    banner: restaurant.picture_address || '/common/default-restaurant.jpg',
+                    banner: restaurant.picture_address,
                     rating: restaurant.rating || 0
                 });
             });
@@ -142,7 +145,6 @@ server.get('/', async function(req, res) {
     }
 });
 
-// Authentication route redirects
 server.get('/register', (req, res) => {
     res.redirect('/users/register');
 });
@@ -151,7 +153,7 @@ server.get('/login', (req, res) => {
     res.redirect('/users/login');
 });
 
-// Search route - modified to use correct function from model
+
 server.get('/search', async function(req, res) {
     try {
         const searchQuery = req.query.q || '';
