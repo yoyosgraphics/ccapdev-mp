@@ -151,12 +151,12 @@ server.get('/login', (req, res) => {
     res.redirect('/users/login');
 });
 
-// Search route - modified to use MongoDB instead of JSON files
+// Search route - modified to use correct function from model
 server.get('/search', async function(req, res) {
     try {
         const searchQuery = req.query.q || '';
         const filteredRestaurants = searchQuery.trim() !== '' 
-            ? await db.searchRestaurants(searchQuery)
+            ? await db.getRestaurantWithFilters(searchQuery, undefined, undefined, undefined, undefined)
             : [];
             
         res.render('search', {
@@ -179,7 +179,7 @@ server.get('/search', async function(req, res) {
     }
 });
 
-// Edit restaurant route - converted to use MongoDB
+// Edit restaurant route - fix to use the array return
 server.get('/edit/restaurant/:id', async function(req, res) {
     try {
         // Check if user is logged in and authorized
@@ -187,15 +187,17 @@ server.get('/edit/restaurant/:id', async function(req, res) {
             return res.redirect('/login');
         }
         
-        const restaurant = await db.getRestaurantById(req.params.id);
+        const restaurants = await db.getRestaurantOfID(req.params.id);
         
-        if (!restaurant) {
+        if (!restaurants || restaurants.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
                 title: 'Restaurant Not Found',
                 alerts: [{ type: 'error', message: 'Restaurant not found' }]
             });
         }
+        
+        const restaurant = restaurants[0];
         
         res.render('edit_restaurant', {
             layout: 'index',
@@ -213,19 +215,20 @@ server.get('/edit/restaurant/:id', async function(req, res) {
     }
 });
 
-// View restaurant route - converted to use MongoDB
 server.get('/view/restaurant/:id/', async function(req, res) {
     try {
-        const restaurant = await db.getRestaurantById(req.params.id);
-        const reviews = await db.getReviewsByRestaurantId(req.params.id);
+        const restaurants = await db.getRestaurantOfID(req.params.id);
         
-        if (!restaurant) {
+        if (!restaurants || restaurants.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
                 title: 'Restaurant Not Found',
                 alerts: [{ type: 'error', message: 'Restaurant not found' }]
             });
         }
+        
+        const restaurant = restaurants[0]; // The function returns an array, so get the first item
+        const reviews = await db.getRestaurantReviewsOfID(req.params.id);
         
         res.render('view_restaurant', {
             layout: 'index',
@@ -244,11 +247,12 @@ server.get('/view/restaurant/:id/', async function(req, res) {
     }
 });
 
-// View review route - converted to use MongoDB
-server.get('/view/reviews/:id/', async function(req, res) {
+
+// Fix in getReviewById - need to ensure we're calling the correct function
+server.get('/view/review/:id/', async function(req, res) {
     try {
-        const review = await db.getReviewById(req.params.id);
-        const comments = await db.getCommentsByReviewId(req.params.id);
+        const review = await db.getReviewOfID(req.params.id);
+        const comments = await db.getReviewCommentsOfID(req.params.id);
         
         if (!review) {
             return res.status(404).render('404', {
@@ -398,12 +402,13 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
         });
     }
 });
-
-// User profile route - converted to use MongoDB
+// User profile route - fixed to use correct function
 server.get('/profile/:username', async function(req, res) {
     try {
-        // Changed from getUserByUsername to findUserByUsername, assuming this is the correct method name
-        const user = await db.getAllUsers(req.params.username);
+        // Find user by username (this function doesn't exist directly, we need to modify approach)
+        // Get all users and filter by username
+        const users = await db.getAllUsers();
+        const user = users.find(u => u.username === req.params.username);
         
         if (!user) {
             return res.status(404).render('404', {
@@ -413,13 +418,14 @@ server.get('/profile/:username', async function(req, res) {
             });
         }
         
-        const reviews = await db.getReviewOfID(user._id);
-        const comments = await db.getReviewCommentsOfID(user._id);
+        // Use correct function names and parameters
+        const reviews = await db.getAllReviewsOfUser(user._id);
+        const comments = await db.getAllCommentsOfUser(user._id);
         const restaurants = await db.getAllRestaurants();
         
         res.render('user_profile', {
             layout: 'index',
-            title: user.name + "'s Profile",
+            title: user.first_name + "'s Profile",
             selected: user,
             reviews: reviews,
             comments: comments,
