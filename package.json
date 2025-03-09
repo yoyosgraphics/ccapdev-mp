@@ -1,25 +1,9 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
     "express-handlebars": "^8.0.1",
     "express-session": "^1.18.1",
     "mongoose": "^8.12.1"
-  },
-  "name": "ccapdev-mp",
-  "version": "1.0.0",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yoyosgraphics/ccapdev-mp.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yoyosgraphics/ccapdev-mp/issues"
-  },
-  "homepage": "https://github.com/yoyosgraphics/ccapdev-mp#readme",
-  "description": ""
+  }
 }

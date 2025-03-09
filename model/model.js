@@ -390,7 +390,7 @@ const updateRestaurantRatingOfID = async (_restaurant_id) => {
 const createUser = async(email_address, first_name, last_name, username, password, confirm_password, picture_file, biography) => {
     try {
         if (password !== confirm_password) {
-            return { success: false, message: "Passwords do not match" };
+            return { message: "Passwords do not match" };
         }
 
         const existingUser = await User.findOne({ 
@@ -398,7 +398,7 @@ const createUser = async(email_address, first_name, last_name, username, passwor
         });
 
         if (existingUser) {
-            return { success: false, message: "Email or username already taken" };
+            return { message: "Email or username already taken" };
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -410,7 +410,7 @@ const createUser = async(email_address, first_name, last_name, username, passwor
             last_name,
             username,
             password: hashedPassword,
-            picture_address: "",
+            picture_address: "/uploads/user-common.png",
             biography
         });
 
@@ -428,10 +428,10 @@ const createUser = async(email_address, first_name, last_name, username, passwor
 
         await User.findByIdAndUpdate(newUserID, {picture_address: _picture_address}, {new: true});
 
-        return { success: true, message: "User created successfully" };
+        return { message: "User created successfully" };
 
     } catch (error) {
-        return { success: false, message: error.message };
+        return { message: error.message };
     }
 }
 
@@ -457,19 +457,19 @@ const logInUser = async(email_address, password) => {
         const existingUser = await User.findOne({ email_address });
 
         if (!existingUser) {
-            return { success: false, message: "User does not exist" };
+            return { message: "User does not exist" };
         }
 
         const isMatch = await bcrypt.compare(password, existingUser.password);
 
         if (!isMatch) {
-            return { success: false, message: "Incorrect password" };
+            return { message: "Incorrect password" };
         }
 
-        return { success: true, message: "Login successful", user: existingUser };
+        return { message: "Login successful", user: existingUser };
 
     } catch (error) {
-        return { success: false, message: error.message };
+        return { message: error.message };
     }
 }
 
