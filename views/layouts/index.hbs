@@ -11,5 +11,37 @@
   </head>
   <body>
 {{{body}}}
+    <!-- error handling -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // check for alerts in the page
+        const alerts = {{{json alerts}}};
+        
+        // display alerts
+        if (alerts && alerts.length > 0) {
+          alerts.forEach(function(alert) {
+            showAlert(alert.type, alert.message);
+          });
+        }
+        
+        // check URL parameters for alerts
+        const urlParams = new URLSearchParams(window.location.search);
+        const alertType = urlParams.get('alert');
+        const alertMessage = urlParams.get('message');
+        
+        if (alertType && alertMessage) {
+          showAlert(alertType, alertMessage);
+          
+          // remove alert parameters from URL
+          const newUrl = window.location.pathname;
+          window.history.replaceState({}, document.title, newUrl);
+        }
+        
+        // function to show alert
+        function showAlert(type, message) {
+          alert(message);
+        }
+      });
+    </script>
   </body>
 </html>
