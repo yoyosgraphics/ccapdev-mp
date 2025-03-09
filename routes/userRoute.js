@@ -17,7 +17,7 @@ router.get("/logout", userController.logout);
 // User profile routes
 router.get("/users/:id", userController.getUserById);
 router.get("/users/:id/edit", userController.showEditForm);
-router.post("/users/:id", userController.updateUser); // Consider using PUT with method-override
+router.post("/users/:id", userController.updateUser);
 
 // User list route
 // router.get("/users", userController.getAllUsersList);
