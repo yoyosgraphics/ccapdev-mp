@@ -1,4 +1,48 @@
 const db = require('../model/model'); // Adjust path as needed
+console.log("Establisment Controller:");
+const displayHome = async (req, res) => {
+    try {
+        // Get all restaurants from database using the model
+        const allRestaurants = await db.getAllRestaurants();
+        
+        // Group restaurants by category
+        const restaurants = {};
+        
+        // If we have restaurants, group them by category
+        if (allRestaurants && allRestaurants.length > 0) {
+            allRestaurants.forEach(restaurant => {
+                const category = restaurant.type || 'Uncategorized';
+                
+                if (!restaurants[category]) {
+                    restaurants[category] = [];
+                }
+                
+                restaurants[category].push({
+                    id: restaurant._id,
+                    name: restaurant.name,
+                    type: restaurant.type,
+                    banner: restaurant.picture_address,
+                    rating: restaurant.rating || 0
+                });
+            });
+        }
+        
+        res.render('home', {
+            layout: 'index',
+            title: 'TopNotch',
+            restaurants: restaurants,
+            alerts: []
+        });
+    } catch (err) {
+        console.error('Error fetching restaurants:', err);
+        res.render('home', {
+            layout: 'index',
+            title: 'TopNotch',
+            restaurants: {},
+            alerts: [{ type: 'error', message: 'Failed to load restaurants' }]
+        });
+    }
+};
 
 // View all establishments
 const getAllEstablishments = async (req, res) => {
@@ -11,24 +55,26 @@ const getAllEstablishments = async (req, res) => {
         
         // Render the restaurants template with categorized data
         res.render('restaurants', { 
+            layout: 'index',
             title: 'All Establishments',
-            restaurants: restaurantsByCategory,
-            user: req.session.user || null
+            restaurants: restaurantsByCategory
         });
     } catch (error) {
         console.error('Error fetching establishments:', error);
-        // Assuming alert is a global function or provided by middleware
-        alert('error', 'Failed to retrieve establishments');
-        res.redirect('/');
+        res.render('restaurants', {
+            layout: 'index',
+            title: 'All Establishments',
+            restaurants: {},
+            alerts: [{ type: 'error', message: 'Failed to retrieve establishments' }]
+        });
     }
 };
 
-// View the previous user's establishments
+// View the current user's establishments
 const getUserEstablishments = async (req, res) => {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            alert('error', 'You must be logged in to view your establishments');
             return res.redirect('/login');
         }
         
@@ -39,20 +85,28 @@ const getUserEstablishments = async (req, res) => {
         const userRestaurantsByCategory = groupRestaurantsByCategory(userRestaurants);
         
         res.render('restaurants', { 
+            layout: 'index',
             title: 'My Establishments',
-            restaurants: userRestaurantsByCategory,
-            user: req.session.user
+            restaurants: userRestaurantsByCategory
         });
     } catch (error) {
         console.error('Error fetching user establishments:', error);
-        alert('error', 'Failed to retrieve your establishments');
-        res.redirect('/');
+        res.render('restaurants', {
+            layout: 'index',
+            title: 'My Establishments',
+            restaurants: {},
+            alerts: [{ type: 'error', message: 'Failed to retrieve your establishments' }]
+        });
     }
 };
 
-// Helper function to group restaurants by category - UPDATED to match restaurants.json format
+// Helper function to group restaurants by category
 function groupRestaurantsByCategory(restaurants) {
     const restaurantsByCategory = {};
+    
+    if (!restaurants || restaurants.length === 0) {
+        return restaurantsByCategory;
+    }
     
     restaurants.forEach(restaurant => {
         // Use type from the restaurant data or fallback to 'Uncategorized'
@@ -62,25 +116,24 @@ function groupRestaurantsByCategory(restaurants) {
             restaurantsByCategory[category] = [];
         }
         
-        // Use the structure format from restaurants.json
+        // Format restaurant data consistently
         restaurantsByCategory[category].push({
-            id: restaurant.id || restaurant._id, // Support both id formats
+            id: restaurant._id,
             name: restaurant.name,
             type: restaurant.type,
-            banner: restaurant.banner || restaurant.picture_address || '/common/default-restaurant.jpg',
+            banner: restaurant.picture_address,
             rating: restaurant.rating || 0,
-            // Adding additional fields that might be needed
-            address: restaurant.address,
-            phone_number: restaurant.phone_number,
-            min_price: restaurant.min_price || restaurant.pricing_from,
-            max_price: restaurant.max_price || restaurant.pricing_to
+            address: restaurant.address || '',
+            phone_number: restaurant.phone_number || '',
+            min_price: restaurant.pricing_from || 0,
+            max_price: restaurant.pricing_to || 0
         });
     });
     
     return restaurantsByCategory;
 }
 
-// Function that returns restaurant data without rendering a view
+// Get restaurants data for API endpoints
 const getRestaurantsData = async () => {
     try {
         // Get all restaurants from database
@@ -91,14 +144,47 @@ const getRestaurantsData = async () => {
         
         return restaurantsByCategory;
     } catch (error) {
-        console.error('Error fetching establishments:', error);
-        throw error; // Re-throw the error to be handled by the caller
+        console.error('Error fetching establishments data:', error);
+        return {};
     }
 };
 
-// Don't forget to add this to your module.exports
+// Get a single establishment by ID
+const getEstablishmentById = async (req, res) => {
+    try {
+        const establishmentId = req.params.id;
+        const restaurants = await db.getRestaurantOfID(establishmentId);
+        
+        if (!restaurants || restaurants.length === 0) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Establishment Not Found',
+                alerts: [{ type: 'error', message: 'Establishment not found' }]
+            });
+        }
+        
+        const establishment = restaurants[0]; // The function returns an array
+        
+        res.render('establishment', { 
+            layout: 'index',
+            title: establishment.name,
+            establishment
+        });
+    } catch (error) {
+        console.error('Error fetching establishment:', error);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: error.message,
+            alerts: [{ type: 'error', message: 'Failed to load establishment' }]
+        });
+    }
+};
+
 module.exports = {
+    displayHome,
     getAllEstablishments,
     getUserEstablishments,
-    getRestaurantsData
+    getRestaurantsData,
+    getEstablishmentById
 };

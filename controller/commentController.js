@@ -1,5 +1,5 @@
 const model = require('../model/model');
-
+console.log("Comment Controller:");
 // Controller for adding a new comment to a review
 const addCommentToReview = async (req, res) => {
     try {

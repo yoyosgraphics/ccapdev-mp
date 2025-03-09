@@ -4,7 +4,7 @@ const {
     getUserID, 
     updateUserID 
 } = require("../model/model");
-
+console.log("User Controller");
 // ========== REGISTRATION ==========
 
 // Show registration form
@@ -24,7 +24,7 @@ const registerStepOne = (req, res) => {
     if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
         return res.render('register', { 
             formData: req.body, 
-            showPage: true, // Added this line
+            showPage: true,
             showPageTwo: false,
             alerts: [{ type: 'error', message: 'All fields are required' }]
         });
@@ -34,7 +34,7 @@ const registerStepOne = (req, res) => {
     if (password !== confirm_password) {
         return res.render('register', { 
             formData: req.body,
-            showPage: true, // Added this line
+            showPage: true,
             showPageTwo: false,
             alerts: [{ type: 'error', message: 'Passwords do not match' }]
         });
@@ -43,7 +43,7 @@ const registerStepOne = (req, res) => {
     // Render second registration step
     res.render('register', { 
         formData: req.body,
-        showPage: false, // Added this line to hide first step
+        showPage: false,
         showPageTwo: true,
         alerts: []
     });
@@ -58,7 +58,7 @@ const register = async (req, res) => {
         if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
             return res.render('register', { 
                 formData: req.body,
-                showPage: false, // Added this line 
+                showPage: false,
                 showPageTwo: true,
                 alerts: [{ type: 'error', message: 'Missing required information' }]
             });
@@ -71,7 +71,7 @@ const register = async (req, res) => {
         } else {
             res.render('register', { 
                 formData: req.body,
-                showPage: false, // Added this line
+                showPage: false,
                 showPageTwo: true,
                 alerts: [{ type: 'error', message: result.message }]
             });
@@ -80,7 +80,7 @@ const register = async (req, res) => {
         console.error("Registration error:", error);
         res.render('register', { 
             formData: req.body,
-            showPage: false, // Added this line
+            showPage: false,
             showPageTwo: true,
             alerts: [{ type: 'error', message: 'An error occurred during registration' }]
         });
@@ -111,15 +111,14 @@ const login = async (req, res) => {
     const { email_address, password } = req.body;
     
     try {
-        console.log("Login attempt with:", email_address); // Debug logging
+        console.log("Login attempt with:", email_address);
         
         const result = await logInUser(email_address, password);
         
-        console.log("Login result:", result); // Debug logging
+        console.log("Login result:", result);
         
-        if (result.success && result.user) { // Added check for result.user
+        if (result.success && result.user) {
             // Store user in session
-            // Convert MongoDB ObjectId to string to avoid serialization issues
             const userToStore = {...result.user};
             
             // Ensure _id is stored as a string
@@ -133,17 +132,33 @@ const login = async (req, res) => {
             
             req.session.user = userToStore;
             
-            // Log session state for debugging
+            // Fix: Use proper function to check profile ownership
+            // Or set it directly based on the user's own ID
+            req.session.isProfileOwner = true; // User owns their own profile
+            
             console.log("User set in session:", req.session.user);
             
-            // Redirect to home page after successful login
-            return res.redirect('/?alert=success&message=' + encodeURIComponent('You are now logged in'));
+            req.session.save((err) => {
+                if (err) {
+                    console.error("Error saving session:", err);
+                    return res.render('login', { 
+                        email: email_address,
+                        alerts: [{ type: 'error', message: 'Error saving session' }],
+                        logged_in: true,
+                        show_auth: true,
+                        user: null
+                    });
+                }
+                
+                console.log("Session saved successfully, redirecting to user profile");
+                return res.redirect(`/users/${userToStore._id}?alert=success&message=` + encodeURIComponent('You are now logged in'));
+            });
         } else {
             // Render login page with error
             return res.render('login', { 
                 email: email_address,
                 alerts: [{ type: 'error', message: result.message || 'Invalid credentials' }],
-                logged_in: false, // Added these missing properties
+                logged_in: false,
                 show_auth: true,
                 user: null
             });
@@ -153,7 +168,7 @@ const login = async (req, res) => {
         return res.render('login', { 
             email: email_address,
             alerts: [{ type: 'error', message: 'An error occurred during login' }],
-            logged_in: false, // Added these missing properties
+            logged_in: false,
             show_auth: true,
             user: null
         });

@@ -1,13 +1,5 @@
 const db = require('../model/model'); // Adjust path as needed
-
-/*
- * Review Controller Functions
- * - View all reviews
- * - Leave a review on the establishment
- * - Edit the review on the establishment
- * - Find the newly created review
- */
-
+console.log("Review Controller:");
 // View all reviews
 async function getAllReviews(req, res) {
     try {
@@ -28,7 +20,14 @@ async function getAllReviews(req, res) {
             user: req.session.user || null
         });
     } catch (error) {
-        res.send(`<script>alert('Failed to retrieve reviews'); window.location.href='/';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve reviews",
+            alert: {
+                type: 'danger',
+                message: "Failed to retrieve reviews"
+            }
+        });
     }
 }
 
@@ -39,7 +38,14 @@ async function getEstablishmentReviews(req, res) {
         const restaurant = await db.getRestaurantOfID(id);
         
         if (!restaurant || restaurant.length === 0) {
-            return res.send(`<script>alert('Establishment not found'); window.location.href='/establishments';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "Establishment not found",
+                alert: {
+                    type: 'danger',
+                    message: "Establishment not found"
+                }
+            });
         }
         
         const reviews = await db.getRestaurantReviewsOfID(id);
@@ -51,7 +57,14 @@ async function getEstablishmentReviews(req, res) {
             user: req.session.user || null
         });
     } catch (error) {
-        res.send(`<script>alert('Failed to retrieve establishment reviews'); window.location.href='/establishments';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve establishment reviews",
+            alert: {
+                type: 'danger',
+                message: "Failed to retrieve establishment reviews"
+            }
+        });
     }
 }
 
@@ -62,7 +75,14 @@ async function getReviewById(req, res) {
         const review = await db.getReviewOfID(id);
         
         if (!review || review.length === 0) {
-            return res.send(`<script>alert('Review not found'); window.location.href='/reviews';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "Review not found",
+                alert: {
+                    type: 'danger',
+                    message: "Review not found"
+                }
+            });
         }
         
         const restaurant = await db.getRestaurantOfID(review[0].id);
@@ -83,7 +103,14 @@ async function getReviewById(req, res) {
             user: req.session.user || null
         });
     } catch (error) {
-        res.send(`<script>alert('Failed to retrieve review details'); window.location.href='/reviews';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve review details",
+            alert: {
+                type: 'danger',
+                message: "Failed to retrieve review details"
+            }
+        });
     }
 }
 
@@ -92,13 +119,27 @@ async function showCreateForm(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to leave a review'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to leave a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to leave a review"
+                }
+            });
         }
         const id = req.params.id; // restaurant id
         const restaurant = await db.getRestaurantOfID(id);
         
         if (!restaurant || restaurant.length === 0) {
-            return res.send(`<script>alert('Establishment not found'); window.location.href='/establishments';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "Establishment not found",
+                alert: {
+                    type: 'danger',
+                    message: "Establishment not found"
+                }
+            });
         }
         
         res.render('reviews/create', {
@@ -107,7 +148,14 @@ async function showCreateForm(req, res) {
             user: req.session.user
         });
     } catch (error) {
-        res.send(`<script>alert('Failed to load review form'); window.location.href='/establishments/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to load review form",
+            alert: {
+                type: 'danger',
+                message: "Failed to load review form"
+            }
+        });
     }
 }
 
@@ -116,19 +164,40 @@ async function createReview(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to leave a review'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to leave a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to leave a review"
+                }
+            });
         }
         const restaurantId = req.params.id;
         const { title, rating, review, image_links } = req.body;
         
         // Validate input
         if (!title || !rating || !review) {
-            return res.send(`<script>alert('Please fill in all required fields'); window.location.href='/reviews/establishment/${restaurantId}/create';</script>`);
+            return res.status(400).json({
+                success: false,
+                message: "Please fill in all required fields",
+                alert: {
+                    type: 'danger',
+                    message: "Please fill in all required fields"
+                }
+            });
         }
         
         // Validate rating is between 1 and 5
         if (rating < 1 || rating > 5) {
-            return res.send(`<script>alert('Rating must be between 1 and 5'); window.location.href='/reviews/establishment/${restaurantId}/create';</script>`);
+            return res.status(400).json({
+                success: false,
+                message: "Rating must be between 1 and 5",
+                alert: {
+                    type: 'danger',
+                    message: "Rating must be between 1 and 5"
+                }
+            });
         }
         
         // Format current timestamp
@@ -163,9 +232,24 @@ async function createReview(req, res) {
         // Create review
         await db.addReview(newReview);
         
-        res.send(`<script>alert('Review submitted successfully'); window.location.href='/reviews/${newReview.id}';</script>`);
+        res.status(201).json({
+            success: true,
+            message: "Review submitted successfully",
+            reviewId: newReview.id,
+            alert: {
+                type: 'success',
+                message: "Review submitted successfully"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to create review'); window.location.href='/reviews/establishment/${req.params.id}/create';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to create review",
+            alert: {
+                type: 'danger',
+                message: "Failed to create review"
+            }
+        });
     }
 }
 
@@ -174,18 +258,39 @@ async function showEditForm(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to edit a review'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to edit a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to edit a review"
+                }
+            });
         }
         const id = req.params.id;
         const review = await db.getReviewOfID(id);
         
         if (!review || review.length === 0) {
-            return res.send(`<script>alert('Review not found'); window.location.href='/reviews';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "Review not found",
+                alert: {
+                    type: 'danger',
+                    message: "Review not found"
+                }
+            });
         }
         
         // Check if user is the owner
         if (req.session.user.username !== review[0].username) {
-            return res.send(`<script>alert('You do not have permission to edit this review'); window.location.href='/reviews/${id}';</script>`);
+            return res.status(403).json({
+                success: false,
+                message: "You do not have permission to edit this review",
+                alert: {
+                    type: 'danger',
+                    message: "You do not have permission to edit this review"
+                }
+            });
         }
         
         const restaurant = await db.getRestaurantOfID(review[0].restaurant_id);
@@ -197,7 +302,14 @@ async function showEditForm(req, res) {
             user: req.session.user
         });
     } catch (error) {
-        res.send(`<script>alert('Failed to load edit form'); window.location.href='/reviews/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to load edit form",
+            alert: {
+                type: 'danger',
+                message: "Failed to load edit form"
+            }
+        });
     }
 }
 
@@ -206,30 +318,65 @@ async function updateReview(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to update a review'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to update a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to update a review"
+                }
+            });
         }
         const id = req.params.id;
         
         const review = await db.getReviewOfID(id);
         if (!review || review.length === 0) {
-            return res.send(`<script>alert('Review not found'); window.location.href='/reviews';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "Review not found",
+                alert: {
+                    type: 'danger',
+                    message: "Review not found"
+                }
+            });
         }
         
         // Check if user is the owner
         if (req.session.user.username !== review[0].username) {
-            return res.send(`<script>alert('You do not have permission to update this review'); window.location.href='/reviews/${id}';</script>`);
+            return res.status(403).json({
+                success: false,
+                message: "You do not have permission to update this review",
+                alert: {
+                    type: 'danger',
+                    message: "You do not have permission to update this review"
+                }
+            });
         }
         
         const { title, rating, review: reviewText, image_links } = req.body;
         
         // Validate input
         if (!title || !rating || !reviewText) {
-            return res.send(`<script>alert('Please fill in all required fields'); window.location.href='/reviews/${id}/edit';</script>`);
+            return res.status(400).json({
+                success: false,
+                message: "Please fill in all required fields",
+                alert: {
+                    type: 'danger',
+                    message: "Please fill in all required fields"
+                }
+            });
         }
         
         // Validate rating is between 1 and 5
         if (rating < 1 || rating > 5) {
-            return res.send(`<script>alert('Rating must be between 1 and 5'); window.location.href='/reviews/${id}/edit';</script>`);
+            return res.status(400).json({
+                success: false,
+                message: "Rating must be between 1 and 5",
+                alert: {
+                    type: 'danger',
+                    message: "Rating must be between 1 and 5"
+                }
+            });
         }
         
         // Update review object
@@ -245,9 +392,23 @@ async function updateReview(req, res) {
         // Update review in database
         await db.editReviewOfID(id, updatedReview);
         
-        res.send(`<script>alert('Review updated successfully'); window.location.href='/reviews/${id}';</script>`);
+        res.status(200).json({
+            success: true,
+            message: "Review updated successfully",
+            alert: {
+                type: 'success',
+                message: "Review updated successfully"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to update review'); window.location.href='/reviews/${req.params.id}/edit';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to update review",
+            alert: {
+                type: 'danger',
+                message: "Failed to update review"
+            }
+        });
     }
 }
 
@@ -256,16 +417,35 @@ async function likeReview(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to like a review'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to like a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to like a review"
+                }
+            });
         }
         const id = req.params.id;
         await db.updateReviewLikesOfID(id, 1);
         
-        // Redirect back to the referring page
-        const referer = req.get('referer') || '/reviews/' + id;
-        res.redirect(referer);
+        res.status(200).json({
+            success: true,
+            message: "Review liked successfully",
+            alert: {
+                type: 'success',
+                message: "Review liked successfully"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to like review'); window.location.href='/reviews/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to like review",
+            alert: {
+                type: 'danger',
+                message: "Failed to like review"
+            }
+        });
     }
 }
 
@@ -274,16 +454,35 @@ async function dislikeReview(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to dislike a review'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to dislike a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to dislike a review"
+                }
+            });
         }
         const id = req.params.id;
         await db.updateReviewDislikesOfID(id, 1);
         
-        // Redirect back to the referring page
-        const referer = req.get('referer') || '/reviews/' + id;
-        res.redirect(referer);
+        res.status(200).json({
+            success: true,
+            message: "Review disliked successfully",
+            alert: {
+                type: 'success',
+                message: "Review disliked successfully"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to dislike review'); window.location.href='/reviews/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to dislike review",
+            alert: {
+                type: 'danger',
+                message: "Failed to dislike review"
+            }
+        });
     }
 }
 
@@ -292,35 +491,59 @@ async function addComment(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to comment'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to comment",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to comment"
+                }
+            });
         }
         const reviewId = req.params.id;
         const { comment } = req.body;
         
         // Validate input
         if (!comment) {
-            return res.send(`<script>alert('Comment cannot be empty'); window.location.href='/reviews/${reviewId}';</script>`);
+            return res.status(400).json({
+                success: false,
+                message: "Comment cannot be empty",
+                alert: {
+                    type: 'danger',
+                    message: "Comment cannot be empty"
+                }
+            });
         }
         
-        // Get next comment ID
-        const nextCommentId = await db.getNextCommentId();
-        
-        // Create comment object
+        // Create comment object in MongoDB format
         const newComment = {
-            user: req.session.user.user,
-            username: req.session.user.username,
-            id: nextCommentId,
-            review_id: parseInt(reviewId),
-            is_owner: false, // Determine if user is restaurant owner
-            comment: comment
+            user_id: req.session.user._id, // Assuming user has _id in session
+            review_id: reviewId, 
+            content: comment,
+            edit_status: false,
+            delete_status: false
         };
         
         // Add comment
         await db.addComment(newComment);
         
-        res.send(`<script>alert('Comment added successfully'); window.location.href='/reviews/${reviewId}';</script>`);
+        res.status(201).json({
+            success: true,
+            message: "Comment added successfully",
+            alert: {
+                type: 'success',
+                message: "Comment added successfully"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to add comment'); window.location.href='/reviews/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to add comment",
+            alert: {
+                type: 'danger',
+                message: "Failed to add comment"
+            }
+        });
     }
 }
 
@@ -329,7 +552,14 @@ async function addOwnerReply(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to reply'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to reply",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to reply"
+                }
+            });
         }
         
         const reviewId = req.params.id;
@@ -337,18 +567,39 @@ async function addOwnerReply(req, res) {
         
         // Validate input
         if (!comment) {
-            return res.send(`<script>alert('Reply cannot be empty'); window.location.href='/reviews/${reviewId}';</script>`);
+            return res.status(400).json({
+                success: false,
+                message: "Reply cannot be empty",
+                alert: {
+                    type: 'danger',
+                    message: "Reply cannot be empty"
+                }
+            });
         }
         
         // Check if user is an owner
         if (!req.session.user.isOwner) {
-            return res.send(`<script>alert('Only restaurant owners can add owner replies'); window.location.href='/reviews/${reviewId}';</script>`);
+            return res.status(403).json({
+                success: false,
+                message: "Only restaurant owners can add owner replies",
+                alert: {
+                    type: 'danger',
+                    message: "Only restaurant owners can add owner replies"
+                }
+            });
         }
         
         // Get the review
         const review = await db.getReviewOfID(reviewId);
         if (!review || review.length === 0) {
-            return res.send(`<script>alert('Review not found'); window.location.href='/reviews';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "Review not found",
+                alert: {
+                    type: 'danger',
+                    message: "Review not found"
+                }
+            });
         }
         
         // Update the review with owner reply
@@ -363,25 +614,35 @@ async function addOwnerReply(req, res) {
         // Update review in database
         await db.editReviewOfID(reviewId, updatedReview);
         
-        // Also add as a comment
-        const nextCommentId = await db.getNextCommentId();
-        
-        // Create comment object
         const newComment = {
-            user: req.session.user.user,
-            username: req.session.user.username,
-            id: nextCommentId,
-            review_id: parseInt(reviewId),
-            is_owner: true,
-            comment: comment
+            user_id: req.session.user._id, // Assuming user has _id in session
+            review_id: reviewId, 
+            content: comment,
+            edit_status: false,
+            delete_status: false,
+            is_owner: true
         };
         
         // Add comment
         await db.addComment(newComment);
         
-        res.send(`<script>alert('Owner reply added successfully'); window.location.href='/reviews/${reviewId}';</script>`);
+        res.status(201).json({
+            success: true,
+            message: "Owner reply added successfully",
+            alert: {
+                type: 'success',
+                message: "Owner reply added successfully"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to add owner reply'); window.location.href='/reviews/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to add owner reply",
+            alert: {
+                type: 'danger',
+                message: "Failed to add owner reply"
+            }
+        });
     }
 }
 
@@ -390,7 +651,14 @@ async function findNewReview(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            return res.send(`<script>alert('You must be logged in to view your reviews'); window.location.href='/login';</script>`);
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to view your reviews",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to view your reviews"
+                }
+            });
         }
         const restaurantId = req.params.id;
         
@@ -401,17 +669,38 @@ async function findNewReview(req, res) {
         );
         
         if (userReviews.length === 0) {
-            return res.send(`<script>alert('No reviews found for this establishment'); window.location.href='/establishments/${restaurantId}';</script>`);
+            return res.status(404).json({
+                success: false,
+                message: "No reviews found for this establishment",
+                alert: {
+                    type: 'warning',
+                    message: "No reviews found for this establishment"
+                }
+            });
         }
         
-        // Redirect to the newest review
-        res.redirect('/reviews/' + userReviews[0].id);
+        // Return info about the newest review
+        res.status(200).json({
+            success: true,
+            reviewId: userReviews[0].id,
+            message: "Review found",
+            alert: {
+                type: 'success',
+                message: "Review found"
+            }
+        });
     } catch (error) {
-        res.send(`<script>alert('Failed to find your review'); window.location.href='/establishments/${req.params.id}';</script>`);
+        res.status(500).json({
+            success: false,
+            message: "Failed to find your review",
+            alert: {
+                type: 'danger',
+                message: "Failed to find your review"
+            }
+        });
     }
 }
 
-// Export all functions at the end of the file
 module.exports = {
     getAllReviews,
     getEstablishmentReviews,
