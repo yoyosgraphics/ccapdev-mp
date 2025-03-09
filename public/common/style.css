@@ -265,6 +265,7 @@ input[type="password"] {
     left: 0;
     width: calc(var(--rating) * 20%);
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .headerViewEstablishments {
