@@ -103,9 +103,8 @@ server.use('/restaurants', establishmentRoute);
 // Home route with restaurants data
 server.get('/', async function(req, res) {
     try {
-        // Get all restaurants from database using the model
         const allRestaurants = await db.getAllRestaurants();
-        
+
         res.render('home', {
             layout: 'index',
             title: 'TopNotch',
