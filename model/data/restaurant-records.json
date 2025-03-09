@@ -9,7 +9,7 @@
   "pricing_from": 200,
   "pricing_to": 400,
   "delete_status": false,
-  "picture_address": "",
+  "picture_address": "/uploads/restaurant-67c9af68d220f3bd703c75ad.png",
   "rating": 4.5,
   "user_id": {
     "$oid": "67c9a5edd220f3bd703c75a1"
@@ -26,7 +26,7 @@
   "pricing_from": 200,
   "pricing_to": 400,
   "delete_status": false,
-  "picture_address": "",
+  "picture_address": "/uploads/restaurant-67c9ba00d220f3bd703c75df.jpeg",
   "rating": 5,
   "user_id": {
     "$oid": "67c9b74ad220f3bd703c75cc"
@@ -36,14 +36,14 @@
   "_id": {
     "$oid": "67c9ba5dd220f3bd703c75e2"
   },
-  "name": "Piccolino Restaurant Taft",
+  "name": "Piccolino Restaurant",
   "type": "Italian",
   "address": "One Archers Place, Castro Street, Taft Ave, Malate, Manila, 1004 Metro Manila",
-  "phone_number": " 09150579395",
+  "phone_number": "09150579395",
   "pricing_from": 200,
   "pricing_to": 400,
   "delete_status": false,
-  "picture_address": "",
+  "picture_address": "/uploads/restaurant-67c9ba5dd220f3bd703c75e2.jpg",
   "rating": 0,
   "user_id": {
     "$oid": "67c9b775d220f3bd703c75cd"
@@ -60,7 +60,7 @@
   "pricing_from": 300,
   "pricing_to": 500,
   "delete_status": false,
-  "picture_address": "",
+  "picture_address": "/uploads/restaurant-67c9badfd220f3bd703c75e6.jpg",
   "rating": 4,
   "user_id": {
     "$oid": "67c9b78ad220f3bd703c75ce"
@@ -77,7 +77,7 @@
   "pricing_from": 400,
   "pricing_to": 600,
   "delete_status": false,
-  "picture_address": "",
+  "picture_address": "/uploads/restaurant-67c9bb5cd220f3bd703c75ea.jpeg",
   "rating": 0,
   "user_id": {
     "$oid": "67c9b7a3d220f3bd703c75cf"
