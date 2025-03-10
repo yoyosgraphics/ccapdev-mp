@@ -7,7 +7,7 @@
             <div class="reply-container">
                 <div class="reply-heading-container">
                     <b><p>Reply from {{user_id.first_name}} {{user_id.last_name}}  <span class="text-clickable" onclick="window.location.href='/users/{{user_id._id}}'">{{user}} {{#if is_owner}}(Owner){{/if}}</span></p></b>
-                    {{#if user_id}}
+                    {{#if user}}
                     <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{id}}'">
                     <div class="divider"></div>
                     <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
