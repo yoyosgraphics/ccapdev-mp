@@ -139,9 +139,11 @@ const login = async (req, res) => {
         console.log("Login result:", result);
         
         if (result.success && result.user) {
-            // Store user directly with proper ID handling
+            // Store user in session with consistent ID handling
+            const userId = result.user._id || result.user.id;
+            
             req.session.user = {
-                _id: result.user.id ? result.user.id.toString() : null,
+                _id: userId ? userId.toString() : null,
                 username: result.user.username,
                 email_address: result.user.email_address,
                 first_name: result.user.first_name,
@@ -152,7 +154,7 @@ const login = async (req, res) => {
             
             req.session.isProfileOwner = true;
             
-            console.log("Simplified user set in session:", req.session.user);
+            console.log("User set in session:", req.session.user);
             
             req.session.save((err) => {
                 if (err) {
@@ -160,22 +162,23 @@ const login = async (req, res) => {
                     return res.render('login', { 
                         email: email_address,
                         alerts: [{ type: 'error', message: 'Error saving session' }],
-                        logged_in: true,
+                        isLoggedIn: false,
+                        logged_in: false,
                         show_auth: true,
                         user: null
                     });
                 }
                 
-                console.log("Session saved, redirecting with username:", req.session.user.username);
+                console.log("Session saved, redirecting to user profile");
                 
-                // Use username for URL since it appears to be your route parameter
-                return res.redirect(`/profile/${req.session.user.username}?alert=success&message=` + encodeURIComponent('You are now logged in'));
+                return res.redirect(`/profile/${req.session.user._id}?alert=success&message=` + encodeURIComponent('You are now logged in'));
             });
         } else {
             // Render login page with error
             return res.render('login', { 
                 email: email_address,
                 alerts: [{ type: 'error', message: result.message || 'Invalid credentials' }],
+                isLoggedIn: false,
                 logged_in: false,
                 show_auth: true,
                 user: null
@@ -186,6 +189,7 @@ const login = async (req, res) => {
         return res.render('login', { 
             email: email_address,
             alerts: [{ type: 'error', message: 'An error occurred during login' }],
+            isLoggedIn: false,
             logged_in: false,
             show_auth: true,
             user: null
@@ -203,43 +207,7 @@ const logout = (req, res) => {
 };
 
 // ========== VIEW PROFILE ==========
-const getUserProfile = async (req, res) => {
-    try {
-        const userId = req.params.id;
-        
-        // Find user by ID
-        const user = await db.getUserById(userId);
-        
-        if (!user) {
-            return res.status(404).render('404', {
-                layout: 'index',
-                title: 'User Not Found',
-                alerts: [{ type: 'error', message: 'User not found' }]
-            });
-        }
-        
-        const reviews = await db.getAllReviewsOfUser(userId);
-        const comments = await db.getAllCommentsOfUser(userId);
-        const restaurants = await db.getAllRestaurants();
-        
-        res.render('user_profile', {
-            layout: 'index',
-            title: user.first_name + "'s Profile",
-            selected: user,
-            reviews: reviews,
-            comments: comments,
-            restaurants: restaurants
-        });
-    } catch (err) {
-        console.error('Error fetching user profile:', err);
-        res.status(500).render('error', {
-            layout: 'index',
-            title: 'Error',
-            error: err.message,
-            alerts: [{ type: 'error', message: 'Failed to load user profile' }]
-        });
-    }
-};
+
 // View user profile by ID
 const getUserById = async (req, res) => {
     try {
@@ -418,5 +386,5 @@ module.exports = {
     getUserById,
     showEditForm,
     updateUser,
-    getUserProfile
+    getUserById
 };
