@@ -31,6 +31,9 @@ const displayHome = async (req, res) => {
             layout: 'index',
             title: 'TopNotch',
             restaurants: restaurants,
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
+            user: req.session.user,
             alerts: []
         });
     } catch (err) {
@@ -39,6 +42,9 @@ const displayHome = async (req, res) => {
             layout: 'index',
             title: 'TopNotch',
             restaurants: {},
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
+            user: req.session.user,
             alerts: [{ type: 'error', message: 'Failed to load restaurants' }]
         });
     }
@@ -57,7 +63,10 @@ const getAllEstablishments = async (req, res) => {
         res.render('restaurants', { 
             layout: 'index',
             title: 'All Restaurants',
-            restaurants: restaurantsByCategory
+            restaurants: restaurantsByCategory,
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
+            user: req.session.user
         });
     } catch (error) {
         console.error('Error fetching establishments:', error);
@@ -65,6 +74,9 @@ const getAllEstablishments = async (req, res) => {
             layout: 'index',
             title: 'All Restaurants',
             restaurants: {},
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
+            user: req.session.user,
             alerts: [{ type: 'error', message: 'Failed to retrieve retaurants' }]
         });
     }
