@@ -1,19 +1,24 @@
 {{#each comments}}
-    {{#if is_owner}}
-        <div class="reply-background">
+    {{#if owner}}
+        <div class="reply-background owner-background">
     {{else}}
         <div class="reply-background-2">
     {{/if}}
-            <div class="reply-container">
-                <div class="reply-heading-container">
-                    <b><p>Reply from {{user_id.first_name}} {{user_id.last_name}}  <span class="text-clickable" onclick="window.location.href='/users/{{user_id._id}}'">{{user}} {{#if is_owner}}(Owner){{/if}}</span></p></b>
-                    {{#if user}}
-                    <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{id}}'">
-                    <div class="divider"></div>
-                    <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
-                    {{/if}}
-                </div>
-                <p>{{content}}</p>
+        <div class="reply-container">
+            <div class="reply-heading-container">
+                <b><p>Reply from {{user_id.first_name}} {{user_id.last_name}}  
+                    <span class="text-clickable" onclick="window.location.href='/users/{{user_id._id}}'">
+                        {{user}} 
+                        {{#if owner}}(Owner){{/if}}
+                    </span>
+                </p></b>
+                {{#if user}}
+                <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{id}}'">
+                <div class="divider"></div>
+                <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
+                {{/if}}
             </div>
+            <p>{{content}}</p>
         </div>
+    </div>
 {{/each}}
