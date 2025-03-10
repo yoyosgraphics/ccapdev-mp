@@ -1,16 +1,14 @@
-<form action="/users/register-step-one" method="POST" id="register-form-step1">
-    <div id="reg-page-1">
-        <input type="email" name="email_address" placeholder="Email Address*" value="{{formData.email_address}}" required>
-        <div class="name-group">
-            <input type="text" name="first_name" placeholder="First Name*" value="{{formData.first_name}}" required>
-            <input type="text" name="last_name" placeholder="Last Name*" value="{{formData.last_name}}" required>
-        </div>
-        <input type="text" name="username" placeholder="Username*" value="{{formData.username}}" required>
-        <input type="password" name="password" placeholder="Password*" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password*" required>
-        
-        <div class="reg-container">
-            <button type="submit" class="next-btn">Next</button>
-        </div>
+<div id="reg-page-1">
+    <input type="text" placeholder="Email Address*" required>
+    <div class="name-group">
+        <input type="text" placeholder="First Name*" required>
+        <input type="text" placeholder="Last Name*" required>
     </div>
-</form>
+    <input type="text" placeholder="Username*" required>
+    <input type="password" placeholder="Password*" required>
+    <input type="password" placeholder="Confirm Password*" required>
+    
+    <div class="reg-container">
+        <button class="next-btn">Next</button>
+    </div>
+</div>
