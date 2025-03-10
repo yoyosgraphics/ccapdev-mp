@@ -1,7 +1,7 @@
 <div class="profile-container">
     <div class="profile-pic-container">
         <div class="profile-img-wrapper">
-        <img src="/common/user-icon.png" alt="Profile Image" class="profile-img">
+        <img src="{{user.picture_address}}" alt="Profile Image" class="profile-img">
         </div>
         <div class="image-delete-container button-container-attributes">
             <button class="btn"><img src="/common/picture-icon.png" width="15px" height="15px"></button>
@@ -11,21 +11,22 @@
     </div>
 
     <div class="editprofile-section">
-        <form id="editProfileForm" method="POST" action="/profile/{{user._id}}">
+        <form id="editProfileForm" method="POST" action="/users/{{user._id}}">
             <div class="name-group">
-                <input type="text" name="firstName" placeholder="First Name*" required>
-                <input type="text" name="lastName" placeholder="Last Name*" required>
+                <input type="text" name="firstName" value="{{user.first_name}}" placeholder="First Name*" required>
+                <input type="text" name="lastName" value="{{user.last_name}}" placeholder="Last Name*" required>
             </div>
-            <input type="text" name="username" placeholder="Username*" required>
+            <input type="text" name="username" value="{{user.username}}" placeholder="Username*" required>
 
             <div class="bio-box">
-                <textarea id="bio" name="bio" maxlength="1500" placeholder="Biography"></textarea>
-                <span class="char-counter" id="char-counter">0/1500</span>
+                <textarea id="bio" name="bio" maxlength="1500" placeholder="Biography">{{user.biography}}</textarea>
+                {{!-- <span class="char-counter" id="char-counter">0/1500</span> --}}
             </div>
 
             <div class="buttons">
                 <button type="button" class="cancel-btn" onclick="history.back()">Cancel</button>
-                <button type="submit" class="save-btn" onclick="history.back()" >Save Changes</button>
+                {{!-- Changed to button first --}}
+                <button type="button" class="save-btn" onclick="history.back()">Save Changes</button>
             </div>
         </form>
     </div>
