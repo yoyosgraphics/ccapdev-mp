@@ -104,8 +104,8 @@ server.use('/restaurants', restaurantRoute);
 server.get('/', async function(req, res) {
     try {
         // Get top-rated restaurants from database
-        const topRestaurants = await db.getTopNumRestaurants(5); // Gets top 10 restaurants
-        
+        const topRestaurants = await db.getTopNumRestaurants(5); // Gets top 5 restaurants
+
         res.render('home', {
             layout: 'index',
             title: 'TopNotch',
@@ -267,7 +267,7 @@ server.get('/:id/create_review', async function(req, res) {
         }
         
         const restaurant = await db.getRestaurantById(req.params.id);
-        
+
         if (!restaurant) {
             return res.status(404).render('404', {
                 layout: 'index',
