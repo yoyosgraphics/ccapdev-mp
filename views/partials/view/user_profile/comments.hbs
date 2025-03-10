@@ -7,10 +7,12 @@
     {{/if}}
             <div class="reply-container">
                 <div class="reply-heading-container">
-                    <b><p>Reply from <span class="text-clickable" onclick="window.location.href='/profile/{{user_id._id}}'">{{user_id.first_name}} {{user_id.last_name}} {{#if is_owner}}(Owner){{/if}}</span></p></b>
+                    <b><p>Reply from <span class="text-clickable">{{user_id.first_name}} {{user_id.last_name}} {{#if is_owner}}(Owner){{/if}}</span></p></b>
+                    {{#if user}}
                     <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id._id}}/edit/{{_id}}'">
                     <div class="divider"></div>
                     <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
+                    {{/if}}
                 </div>
                 <p>{{content}}</p>
             </div>

@@ -52,6 +52,19 @@ input[type="text"] {
     display: block;
 }
 
+input[type="email"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: Inter;
+    background: var(--white1);
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    display: block;
+}
+
 input[type="password"] {
     width: 100%;
     max-width: 300px;
