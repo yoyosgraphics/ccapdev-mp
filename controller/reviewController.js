@@ -125,51 +125,47 @@ async function showCreateForm(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
-            // Redirect to login instead of JSON response (because it's a form view)
-            return res.redirect('/login');
-        }
-
-        const id = req.params.id; // restaurant id
-        const restaurant = await db.getRestaurantOfID(id);
-
-        // If restaurant not found, render 404 page instead of sending JSON
-        if (!restaurant || restaurant.length === 0) {
-            return res.status(404).render('404', {
-                layout: 'index', // Use your main layout if needed
-                title: 'Restaurant Not Found',
-                alerts: [{ type: 'error', message: 'Restaurant not found' }],
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                user: req.session.user
+            return res.status(401).json({
+                success: false,
+                message: "You must be logged in to leave a review",
+                alert: {
+                    type: 'danger',
+                    message: "You must be logged in to leave a review"
+                }
             });
         }
-
-        // Render the review creation form
+        const id = req.params.id; // restaurant id
+        const restaurant = await db.getRestaurantOfID(id);
+        
+        if (!restaurant || restaurant.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Restaurant not found",
+                alert: {
+                    type: 'danger',
+                    message: "Restaurant not found"
+                }
+            });
+        }
+        
         res.render('reviews/create', {
-            layout: 'index', // Assuming you use a layout
             title: 'Review ' + restaurant[0].name,
             restaurant: restaurant[0],
             logged_in: !!req.session.user,
             show_auth: !req.session.user,
             user: req.session.user
         });
-
     } catch (error) {
-        console.error('Error showing create review form:', error); // Properly log error
-
-        // Render error page (not just JSON since it's a view flow)
-        res.status(500).render('error', {
-            layout: 'index',
-            title: 'Error',
-            error: error.message,
-            alerts: [{ type: 'error', message: 'Failed to load review form' }],
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
-            user: req.session.user
+        res.status(500).json({
+            success: false,
+            message: "Failed to load review form",
+            alert: {
+                type: 'danger',
+                message: "Failed to load review form"
+            }
         });
     }
 }
-
 
 // Create a new review
 async function createReview(req, res) {
@@ -715,6 +711,47 @@ async function findNewReview(req, res) {
     }
 }
 
+const viewReview = async (req, res) => {
+    const reviewId = req.params.id;
+
+    if (!reviewId || isNaN(reviewId)) {
+        return res.status(400).render('error', {
+            layout: 'index',
+            title: 'Invalid Review ID',
+            alerts: [{ type: 'error', message: 'Invalid review ID provided' }]
+        });
+    }
+
+    try {
+        const review = await Review.getReviewById(reviewId);
+        const comments = await Review.getReviewCommentsById(reviewId);
+
+        if (!review) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Review Not Found',
+                alerts: [{ type: 'error', message: 'Review not found' }]
+            });
+        }
+
+        res.render('view_review', {
+            layout: 'index',
+            title: review.title,
+            selected: review,
+            comments: comments
+        });
+
+    } catch (err) {
+        console.error('Error fetching review:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: err.message,
+            alerts: [{ type: 'error', message: 'Failed to load review' }]
+        });
+    }
+};
+
 module.exports = {
     getAllReviews,
     getRestaurantReviews,
@@ -727,5 +764,6 @@ module.exports = {
     dislikeReview,
     addComment,
     addOwnerReply,
-    findNewReview
+    findNewReview,
+    viewReview
 };

@@ -172,9 +172,12 @@ const login = async (req, res) => {
         
         // Assign to session
         req.session.user = userForSession;
-        req.session.isProfileOwner = true;
+        
+        // Check if user is the profile owner before setting isProfileOwner
+        req.session.isProfileOwner = await checkUserProfileOwner(userIdString, userIdString);
         
         console.log("User set in session:", req.session.user);
+        console.log("Is profile owner:", req.session.isProfileOwner);
         
         // Handle session save with proper error handling
         return new Promise((resolve, reject) => {

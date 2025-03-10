@@ -19,5 +19,6 @@ router.post('/:id/like', reviewController.likeReview);
 router.post('/:id/dislike', reviewController.dislikeReview);
 router.post('/:id/comment', reviewController.addComment);
 router.post('/:id/owner-reply', reviewController.addOwnerReply);
+router.get('/view_review/:id/', reviewController.viewReview);
 
 module.exports = router;
