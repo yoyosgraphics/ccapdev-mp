@@ -891,6 +891,59 @@ input[type="password"] {
     color: var(--grey1);
 }
 
+.about-section {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-left: 55px;
+    padding-right: 55px;
+    justify-content: center;
+    background-color: var(--white2);
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white1);
+    justify-content: flex-start;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 20px;
+}
+
+.about-background {
+    background-color: var(--white1);
+    padding-left: 5px;
+    border-radius: 28px;
+}
+
+.about-container p {
+    font-family: 'Inter';
+    font-size: 14px;
+    line-height: 3px;
+    color: var(--grey1);
+}
+
+.about-container h1 {
+    font-family: 'Inter';
+    font-size: 24px;
+    color: var(--grey1);
+}
+
+.about-heading-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.about-heading-container p {
+    margin-right: 20px;
+}
+
 .individual-review-container {
     display: flex;
     flex-direction: column;
