@@ -59,5 +59,5 @@ Before you begin, ensure you have the following installed:
 ├── public/             # Static files
 ├── routes/             # Express routes
 ├── views/              # Templates
-└── app.js           # Main application file
+└── app.js              # Main application file
 ```
