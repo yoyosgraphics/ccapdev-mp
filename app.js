@@ -315,7 +315,7 @@ server.get('/edit/review/:id', async function(req, res) {
             return res.redirect('/login');
         }
         
-        const review = await db.getReviewById(req.params.id);
+        const review = await db.getReviewOfID(req.params.id);
         
         if (!review) {
             return res.status(404).render('404', {
@@ -325,15 +325,6 @@ server.get('/edit/review/:id', async function(req, res) {
             });
         }
         
-        // Check if user is the author of the review
-        if (review.user_id.toString() !== req.session.user._id.toString()) {
-            return res.status(403).render('error', {
-                layout: 'index',
-                title: 'Unauthorized',
-                error: 'You are not authorized to edit this review',
-                alerts: [{ type: 'error', message: 'Unauthorized access' }]
-            });
-        }
         
         res.render('edit_review', {
             layout: 'index',
