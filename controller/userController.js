@@ -2,7 +2,8 @@ const {
     createUser, 
     logInUser, 
     getUserID, 
-    updateUserID 
+    updateUserID,
+    checkUserProfileOwner 
 } = require("../model/model");
 console.log("User Controller");
 // ========== REGISTRATION ==========
