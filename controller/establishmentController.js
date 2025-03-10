@@ -87,6 +87,8 @@ const getUserEstablishments = async (req, res) => {
         res.render('restaurants', { 
             layout: 'index',
             title: 'My Establishments',
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             restaurants: userRestaurantsByCategory
         });
     } catch (error) {
@@ -94,6 +96,8 @@ const getUserEstablishments = async (req, res) => {
         res.render('restaurants', {
             layout: 'index',
             title: 'My Establishments',
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             restaurants: {},
             alerts: [{ type: 'error', message: 'Failed to retrieve your retaurants' }]
         });
