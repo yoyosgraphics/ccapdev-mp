@@ -103,12 +103,13 @@ server.use('/restaurants', establishmentRoute);
 // Home route with restaurants data
 server.get('/', async function(req, res) {
     try {
-        const allRestaurants = await db.getAllRestaurants();
-
+        // Get top-rated restaurants from database
+        const topRestaurants = await db.getTopNumRestaurants(5); // Gets top 10 restaurants
+        
         res.render('home', {
             layout: 'index',
             title: 'TopNotch',
-            restaurants: allRestaurants,
+            restaurants: topRestaurants,
             alerts: []
         });
     } catch (err) {
