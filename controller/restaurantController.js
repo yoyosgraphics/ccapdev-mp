@@ -58,6 +58,7 @@ const getAllRestaurants = async (req, res) => {
         
         // Group restaurants by category for the template structure
         const restaurantsByCategory = groupRestaurantsByCategory(allRestaurants);
+        console.log(restaurantsByCategory);
         
         // Render the restaurants template with categorized data
         res.render('restaurants', { 
@@ -137,7 +138,7 @@ function groupRestaurantsByCategory(restaurants) {
             id: restaurant._id,
             name: restaurant.name,
             type: restaurant.type,
-            picture_addresses: restaurant.picture_addresses,
+            picture_address: restaurant.picture_address,
             rating: restaurant.rating || 0,
             address: restaurant.address || '',
             phone_number: restaurant.phone_number || '',

@@ -137,6 +137,8 @@ server.get('/search', async function(req, res) {
         const restaurants = searchQuery.trim() !== '' 
             ? await db.getRestaurantWithFilters(searchQuery, undefined, undefined, undefined, undefined)
             : await db.getAllRestaurants();
+
+        console.log(restaurants);
             
         res.render('search', {
             layout: 'index',

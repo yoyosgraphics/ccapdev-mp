@@ -282,6 +282,20 @@ input[type="password"] {
     pointer-events: auto;
 }
 
+.headerAbout {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--green2);
+    min-height: 20vh;
+    padding: 60px 10%;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: visible;
+    top: -10;
+    pointer-events: auto;
+}
+
 .hero {
     top: 0;
     display: flex;
@@ -574,6 +588,11 @@ input[type="password"] {
 
 .rating-3 {
     margin: 0px;
+}
+
+.horizontalAlignment .rating {
+    margin: 0px;
+    padding: 0px;
 }
 
 .buttons-space {
@@ -2040,6 +2059,11 @@ reg-section .buttons {
 
 .headerYellowColor {
     color: var(--orange1);
+    font-family: Raleway;
+}
+
+.headerGreenColor {
+    color: var(--green1);
     font-family: Raleway;
 }
 
