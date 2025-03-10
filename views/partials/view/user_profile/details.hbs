@@ -5,10 +5,12 @@
             <h2>{{user.first_name}} {{user.last_name}}<span class="prof-username">@{{user.username}}</span></h2>
         </div>
         <p class="prof-bio">{{user.biography}}</p>
-        {{#if isOwnProfile}}
-            <button class="editprofile-btn" onclick="window.location.href='/edit/profile'">
-                <img src="/common/edit-icon-white.png" alt="Edit Profile" class="prof-edit-icon-white">Edit Profile
-            </button>
+        {{#if user}}
+            {{#if isOwnProfile}}
+                <button class="editprofile-btn" onclick="window.location.href='/edit/profile'">
+                    <img src="/common/edit-icon-white.png" alt="Edit Profile" class="prof-edit-icon-white">Edit Profile
+                </button>
+            {{/if}}
         {{/if}}
     </div>
 </div>
