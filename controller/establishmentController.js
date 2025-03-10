@@ -4,7 +4,7 @@ const displayHome = async (req, res) => {
     try {
         // Get all restaurants from database using the model
         const allRestaurants = await db.getAllRestaurants();
-        
+
         // Group restaurants by category
         const restaurants = {};
         

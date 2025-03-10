@@ -104,8 +104,9 @@ server.use('/restaurants', establishmentRoute);
 server.get('/', async function(req, res) {
     try {
         // Get top-rated restaurants from database
-        const topRestaurants = await db.getTopNumRestaurants(5); // Gets top 10 restaurants
-        
+        const topRestaurants = await db.getTopNumRestaurants(5); // Gets top 5 restaurants
+        console.log(topRestaurants);
+
         res.render('home', {
             layout: 'index',
             title: 'TopNotch',
