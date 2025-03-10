@@ -229,6 +229,12 @@ const searchReviews = async (id, _content) => {
 
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id});
+
+        if (review.picture_addresses.length == 0) {
+            review.has_images = false;
+        } else {
+            review.has_images = true;
+        }
     }
 
     return reviews;
@@ -242,6 +248,12 @@ const getReviewOfID = async (id) => {
                                 .lean();
     
     review.num_comments = await Comment.countDocuments({review_id: review._id});
+
+    if (review.picture_addresses.length == 0) {
+        review.has_images = false;
+    } else {
+        review.has_images = true;
+    }
 
     return review;
 }
@@ -541,6 +553,12 @@ const getAllReviewsOfUser = async (userID) => {
     
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id});
+
+        if (review.picture_addresses.length == 0) {
+            review.has_images = false;
+        } else {
+            review.has_images = true;
+        }
     }
     
     return reviews;
@@ -629,6 +647,7 @@ const getAllRestaurants = async () => {
 const getAllReviews = async () => {
     return await Review.find({})
                         .lean();
+
 }
 
 // Returns all comments in database.
