@@ -325,11 +325,12 @@ server.get('/edit/review/:id', async function(req, res) {
             });
         }
         
+        console.log("Review: ", review[0]);
         
         res.render('edit_review', {
             layout: 'index',
             title: "Edit Your Review",
-            selected: review
+            selected: review[0]
         });
     } catch (err) {
         console.error('Error fetching review:', err);
