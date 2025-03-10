@@ -32,6 +32,14 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
+// Middleware to add login status to all routes
+router.use((req, res, next) => {
+  // Add isLoggedIn variable to all responses
+  res.locals.isLoggedIn = !!req.session.user;
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
+
 // Middleware to check if user is logged in
 const isAuthenticated = (req, res, next) => {
   if (req.session.user) {
@@ -54,6 +62,7 @@ const isOwnProfile = (req, res, next) => {
         error: 'Unauthorized',
         logged_in: !!req.session.user,
         show_auth: !req.session.user,
+        isLoggedIn: !!req.session.user,
         alerts: [{ type: 'error', message: 'You can only edit your own profile' }]
       });
     }
@@ -63,6 +72,7 @@ const isOwnProfile = (req, res, next) => {
       error: 'An error occurred while checking permissions',
       logged_in: !!req.session.user,
       show_auth: !req.session.user,
+      isLoggedIn: !!req.session.user,
       alerts: [{ type: 'error', message: 'An error occurred while checking permissions' }]
     });
   }
@@ -78,11 +88,11 @@ router.get('/login', userController.showLoginForm);
 router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 
-// Public profile route (no authentication required)
-// router.get('/users/:id', userController.getUserById);
-router.get('/:id', userController.getUserProfile);
-// Protected profile routes (require authentication AND ownership)
-router.get('/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
-router.post('/:id/edit', isAuthenticated, isOwnProfile, upload.single('picture_address'), userController.updateUser);
+// User profile routes
+router.get('/users/:id', userController.getUserById);
 
-module.exports = router;
+// Protected profile routes (require authentication AND ownership)
+router.get('/users/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
+router.post('/users/:id/edit', isAuthenticated, isOwnProfile, upload.single('picture_address'), userController.updateUser);
+
+module.exports = router;``
