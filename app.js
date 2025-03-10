@@ -62,7 +62,7 @@ server.use((req, res, next) => {
 const userRoutes = require('./routes/userRoute');
 const commentRoute = require('./routes/commentRoute');
 const reviewRoute = require('./routes/reviewRoute');
-const establishmentRoute = require('./routes/establishmentRoute');
+const restaurantRoute = require('./routes/restaurantRoute');
 
 // Import database model
 const db = require('./model/model');
@@ -98,7 +98,7 @@ const dataModule = {
 server.use('/users', userRoutes);
 server.use('/comments', commentRoute);
 server.use('/reviews', reviewRoute);
-server.use('/restaurants', establishmentRoute);
+server.use('/restaurants', restaurantRoute);
 
 // Home route with restaurants data
 server.get('/', async function(req, res) {
@@ -476,23 +476,23 @@ server.get('/edit/profile', function(req, res) {
     });
 });
 
-// Redirects for establishment-specific review routes
-server.get('/establishments/:id/reviews', (req, res) => {
-    res.redirect(`/reviews/establishment/${req.params.id}`);
+// Redirects for restaurant-specific review routes
+server.get('/restaurants/:id/reviews', (req, res) => {
+    res.redirect(`/reviews/restaurant/${req.params.id}`);
 });
 
-server.get('/establishments/:id/reviews/create', (req, res) => {
-    res.redirect(`/reviews/establishment/${req.params.id}/create`);
+server.get('/restaurants/:id/reviews/create', (req, res) => {
+    res.redirect(`/reviews/restaurant/${req.params.id}/create`);
 });
 
-server.post('/establishments/:id/reviews/create', (req, res) => {
+server.post('/restaurants/:id/reviews/create', (req, res) => {
     // Forward the POST request with body data
-    req.url = `/reviews/establishment/${req.params.id}/create`;
+    req.url = `/reviews/restaurant/${req.params.id}/create`;
     server._router.handle(req, res);
 });
 
-server.get('/establishments/:id/my-review', (req, res) => {
-    res.redirect(`/reviews/establishment/${req.params.id}/my-review`);
+server.get('/restaurants/:id/my-review', (req, res) => {
+    res.redirect(`/reviews/restaurant/${req.params.id}/my-review`);
 });
 
 // Catch-all for 404 errors

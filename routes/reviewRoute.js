@@ -5,11 +5,11 @@ const reviewController = require('../controller/reviewController');
 // Review routes - general
 router.get('/', reviewController.getAllReviews);
 
-// Establishment-specific review routes
-router.get('/establishment/:id', reviewController.getEstablishmentReviews);
-router.get('/establishment/:id/create', reviewController.showCreateForm);
-router.post('/establishment/:id/create', reviewController.createReview);
-router.get('/establishment/:id/my-review', reviewController.findNewReview);
+// Restaurant-specific review routes
+router.get('/restaurant/:id', reviewController.getrestaurantReviews);
+router.get('/restaurant/:id/create', reviewController.showCreateForm);
+router.post('/restaurant/:id/create', reviewController.createReview);
+router.get('/restaurant/:id/my-review', reviewController.findNewReview);
 
 // Individual review routes
 router.get('/:id', reviewController.getReviewById);

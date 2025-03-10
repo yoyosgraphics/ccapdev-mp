@@ -17,6 +17,8 @@ async function getAllReviews(req, res) {
         res.render('view_review', { 
             title: 'All Reviews',
             reviews: reviews,
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             user: req.session.user || null
         });
     } catch (error) {
@@ -31,8 +33,8 @@ async function getAllReviews(req, res) {
     }
 }
 
-// View reviews for a specific establishment
-async function getEstablishmentReviews(req, res) {
+// View reviews for a specific restaurant
+async function getRestaurantReviews(req, res) {
     try {
         const id = req.params.id;
         const restaurant = await db.getRestaurantOfID(id);
@@ -40,29 +42,31 @@ async function getEstablishmentReviews(req, res) {
         if (!restaurant || restaurant.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "Establishment not found",
+                message: "Restaurant not found",
                 alert: {
                     type: 'danger',
-                    message: "Establishment not found"
+                    message: "Restaurant not found"
                 }
             });
         }
         
         const reviews = await db.getRestaurantReviewsOfID(id);
         
-        res.render('reviews/establishment', { 
+        res.render('reviews/restaurant', { 
             title: restaurant[0].name + ' Reviews',
             restaurant: restaurant[0],
             reviews: reviews,
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             user: req.session.user || null
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Failed to retrieve establishment reviews",
+            message: "Failed to retrieve restaurant reviews",
             alert: {
                 type: 'danger',
-                message: "Failed to retrieve establishment reviews"
+                message: "Failed to retrieve restaurant reviews"
             }
         });
     }
@@ -99,7 +103,9 @@ async function getReviewById(req, res) {
             review: review[0],
             restaurant: restaurant[0],
             comments: comments,
-            isOwner: isOwner,
+            isOwner: true, // hard-coded for now
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             user: req.session.user || null
         });
     } catch (error) {
@@ -134,10 +140,10 @@ async function showCreateForm(req, res) {
         if (!restaurant || restaurant.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "Establishment not found",
+                message: "Restaurant not found",
                 alert: {
                     type: 'danger',
-                    message: "Establishment not found"
+                    message: "Restaurant not found"
                 }
             });
         }
@@ -145,6 +151,8 @@ async function showCreateForm(req, res) {
         res.render('reviews/create', {
             title: 'Review ' + restaurant[0].name,
             restaurant: restaurant[0],
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             user: req.session.user
         });
     } catch (error) {
@@ -299,6 +307,8 @@ async function showEditForm(req, res) {
             title: 'Edit Review',
             review: review[0],
             restaurant: restaurant[0],
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             user: req.session.user
         });
     } catch (error) {
@@ -671,10 +681,10 @@ async function findNewReview(req, res) {
         if (userReviews.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "No reviews found for this establishment",
+                message: "No reviews found for this restaurant",
                 alert: {
                     type: 'warning',
-                    message: "No reviews found for this establishment"
+                    message: "No reviews found for this restaurant"
                 }
             });
         }
@@ -703,7 +713,7 @@ async function findNewReview(req, res) {
 
 module.exports = {
     getAllReviews,
-    getEstablishmentReviews,
+    getRestaurantReviews,
     getReviewById,
     showCreateForm,
     createReview,

@@ -102,6 +102,8 @@ const viewReviewWithComments = async (req, res) => {
             },
             comments: comments,
             user_id: user_id,
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
             alert: alert // Pass alert to the template
         });
     } catch (error) {
