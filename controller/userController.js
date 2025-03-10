@@ -220,11 +220,14 @@ const login = async (req, res) => {
 };
 // Logout user
 const logout = (req, res) => {
+    console.log('trying to logout!!!!');
     req.session.destroy((err) => {
         if (err) {
             console.error('Error destroying session:', err);
+            return res.redirect('/?alert=error&message=' + encodeURIComponent('Error during logout'));
         }
-        res.redirect('/login?alert=success&message=' + encodeURIComponent('You have been logged out'));
+        // Redirect to home page
+        res.redirect('/');
     });
 };
 
