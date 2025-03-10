@@ -382,16 +382,12 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
     }
 });
 // User profile route
-server.get('/profile/:id', async function(req, res) {
+server.get('/users/:id', async function (req, res) {
     try {
-        // Check if user is logged in first
-        if (!req.session.user) {
-            // Redirect to login page with a return URL
-            return res.redirect('/login?returnTo=' + encodeURIComponent('/profile/' + req.params.id));
-        }
-
+        // Fetch user profile
         const user = await db.getUserID(req.params.id);
-        
+
+        // Handle user not found
         if (!user || !Array.isArray(user) || user.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
@@ -405,52 +401,48 @@ server.get('/profile/:id', async function(req, res) {
 
         // Get the user object from the array
         const userProfile = user[0];
-        
-        // Log the user profile ID to see what we're working with
-        console.log('User Profile ID:', userProfile._id);
-        console.log('User Profile ID type:', typeof userProfile._id);
-        
-        // Ensure we have a proper ID - MongoDB might return ObjectId instead of string
+        console.log('User Profile:', userProfile);
+
+        // Format the user ID properly
         const userId = userProfile._id.toString();
-        console.log('Converted User ID:', userId);
-        
-        // Use the properly formatted ID for database queries
+
+        // Fetch related data
         const reviews = await db.getAllReviewsOfUser(userId);
         const comments = await db.getAllCommentsOfUser(userId);
         const restaurants = await db.getAllRestaurants();
-        
-        // Check if any reviews were found
-        console.log('Number of reviews found:', reviews ? reviews.length : 0);
-        console.log('Number of comments found:', comments ? comments.length : 0);
-        
-        // Check if the profile belongs to the logged-in user
-        const loggedInUserId = req.session.user._id.toString();
-        const isOwnProfile = loggedInUserId === userId;
 
-        // Get alerts from query parameters if present
+        // Check if viewer is logged in and if they own the profile
+        let isOwnProfile = false;
+        if (req.session.user && req.session.user._id) {
+            const loggedInUserId = req.session.user._id.toString();
+            isOwnProfile = (loggedInUserId === userId);
+        }
+
+        // Prepare alerts if any
         const alerts = [];
         if (req.query.alert && req.query.message) {
             alerts.push({ type: req.query.alert, message: req.query.message });
         }
-        
+
+        // Render profile
         res.render('user_profile', {
             layout: 'index',
             title: userProfile.first_name + "'s Profile",
             user: userProfile,
-            viewing_user: req.session.user,
-            logged_in: true,
-            show_auth: false,
-            isLoggedIn: true,
-            isOwnProfile: isOwnProfile,
-            selected: req.query.selected, //|| 'reviews',
-            reviews: reviews || [], 
+            viewing_user: req.session.user || null,
+            logged_in: !!req.session.user,       // true if logged in
+            show_auth: !req.session.user,        // show login/register if not logged in
+            isLoggedIn: !!req.session.user,      // consistent flag usage
+            isOwnProfile: isOwnProfile,          // whether viewer owns the profile
+            selected: req.query.selected || 'reviews', // default tab
+            reviews: reviews || [],
             comments: comments || [],
             restaurants: restaurants || [],
             alerts: alerts
         });
+
     } catch (err) {
         console.error('Error fetching user profile:', err);
-        console.error('Error details:', err.stack); 
         res.status(500).render('error', {
             layout: 'index',
             title: 'Error',
@@ -462,6 +454,7 @@ server.get('/profile/:id', async function(req, res) {
         });
     }
 });
+
 
 // Edit profile route
 server.get('/edit/profile', function(req, res) {

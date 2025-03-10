@@ -405,5 +405,4 @@ module.exports = {
     getUserById,
     showEditForm,
     updateUser,
-    getUserById
 };
