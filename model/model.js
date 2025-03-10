@@ -158,6 +158,12 @@ const getRestaurantReviewsOfID = async (id) => {
 
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id});
+
+        if (review.picture_addresses.length == 0) {
+            review.has_images = false;
+        } else {
+            review.has_images = true;
+        }
     }
 
     return reviews;
