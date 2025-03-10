@@ -17,8 +17,6 @@ async function getAllReviews(req, res) {
         res.render('view_review', { 
             title: 'All Reviews',
             reviews: reviews,
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
             user: req.session.user || null
         });
     } catch (error) {
@@ -56,8 +54,6 @@ async function getEstablishmentReviews(req, res) {
             title: restaurant[0].name + ' Reviews',
             restaurant: restaurant[0],
             reviews: reviews,
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
             user: req.session.user || null
         });
     } catch (error) {
@@ -103,9 +99,7 @@ async function getReviewById(req, res) {
             review: review[0],
             restaurant: restaurant[0],
             comments: comments,
-            isOwner: true, // hard-coded for now
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
+            isOwner: isOwner,
             user: req.session.user || null
         });
     } catch (error) {
@@ -151,8 +145,6 @@ async function showCreateForm(req, res) {
         res.render('reviews/create', {
             title: 'Review ' + restaurant[0].name,
             restaurant: restaurant[0],
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
             user: req.session.user
         });
     } catch (error) {
@@ -307,8 +299,6 @@ async function showEditForm(req, res) {
             title: 'Edit Review',
             review: review[0],
             restaurant: restaurant[0],
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
             user: req.session.user
         });
     } catch (error) {

@@ -1,10 +1,20 @@
-<!-- user_profile.hbs file -->
-{{> navigation}}
+ <!-- user_profile.hbs file -->
+{{!-- {{> navigation}}
 <div class="prof-container">
     {{> view/user_profile/details selected=selected}}
     {{> view/user_profile/filters}}
     {{> view/user_profile/reviews reviews=reviews}}
     {{> view/user_profile/comments comments=comments}}
     {{> view/user_profile/restaurant restaurants=restaurants}}
+</div>
+{{> footer}} --}}
+
+{{> navigation isLoggedIn=isLoggedIn logged_in=logged_in show_auth=show_auth}}
+<div class="prof-container">
+    {{> view/user_profile/details selected=selected isLoggedIn=isLoggedIn}}
+    {{> view/user_profile/filters isLoggedIn=isLoggedIn}}
+    {{> view/user_profile/reviews reviews=reviews isLoggedIn=isLoggedIn}}
+    {{> view/user_profile/comments comments=comments isLoggedIn=isLoggedIn}}
+    {{> view/user_profile/restaurant restaurants=restaurants isLoggedIn=isLoggedIn}}
 </div>
 {{> footer}}

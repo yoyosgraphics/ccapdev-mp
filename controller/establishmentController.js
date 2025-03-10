@@ -4,7 +4,7 @@ const displayHome = async (req, res) => {
     try {
         // Get all restaurants from database using the model
         const allRestaurants = await db.getAllRestaurants();
-
+        
         // Group restaurants by category
         const restaurants = {};
         
@@ -56,16 +56,16 @@ const getAllEstablishments = async (req, res) => {
         // Render the restaurants template with categorized data
         res.render('restaurants', { 
             layout: 'index',
-            title: 'All Restaurants',
+            title: 'All Establishments',
             restaurants: restaurantsByCategory
         });
     } catch (error) {
         console.error('Error fetching establishments:', error);
         res.render('restaurants', {
             layout: 'index',
-            title: 'All Restaurants',
+            title: 'All Establishments',
             restaurants: {},
-            alerts: [{ type: 'error', message: 'Failed to retrieve retaurants' }]
+            alerts: [{ type: 'error', message: 'Failed to retrieve establishments' }]
         });
     }
 };
@@ -87,8 +87,6 @@ const getUserEstablishments = async (req, res) => {
         res.render('restaurants', { 
             layout: 'index',
             title: 'My Establishments',
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
             restaurants: userRestaurantsByCategory
         });
     } catch (error) {
@@ -96,10 +94,8 @@ const getUserEstablishments = async (req, res) => {
         res.render('restaurants', {
             layout: 'index',
             title: 'My Establishments',
-            logged_in: !!req.session.user,
-            show_auth: !req.session.user,
             restaurants: {},
-            alerts: [{ type: 'error', message: 'Failed to retrieve your retaurants' }]
+            alerts: [{ type: 'error', message: 'Failed to retrieve your establishments' }]
         });
     }
 };
@@ -148,7 +144,7 @@ const getRestaurantsData = async () => {
         
         return restaurantsByCategory;
     } catch (error) {
-        console.error('Error fetching restaurant data:', error);
+        console.error('Error fetching establishments data:', error);
         return {};
     }
 };
@@ -162,8 +158,8 @@ const getEstablishmentById = async (req, res) => {
         if (!restaurants || restaurants.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
-                title: 'Restaurant Not Found',
-                alerts: [{ type: 'error', message: 'Restaurant Not Found' }]
+                title: 'Establishment Not Found',
+                alerts: [{ type: 'error', message: 'Establishment not found' }]
             });
         }
         
@@ -175,12 +171,12 @@ const getEstablishmentById = async (req, res) => {
             establishment
         });
     } catch (error) {
-        console.error('Error fetching restaurant:', error);
+        console.error('Error fetching establishment:', error);
         res.status(500).render('error', {
             layout: 'index',
             title: 'Error',
             error: error.message,
-            alerts: [{ type: 'error', message: 'Failed to load restaurant' }]
+            alerts: [{ type: 'error', message: 'Failed to load establishment' }]
         });
     }
 };

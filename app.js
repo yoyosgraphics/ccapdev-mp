@@ -442,7 +442,7 @@ server.get('/profile/:id', async function(req, res) {
             show_auth: false,
             isLoggedIn: true,
             isOwnProfile: isOwnProfile,
-            selected: req.query.selected || 'reviews',
+            selected: req.query.selected, //|| 'reviews',
             reviews: reviews || [], 
             comments: comments || [],
             restaurants: restaurants || [],

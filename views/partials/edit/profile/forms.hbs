@@ -11,23 +11,25 @@
     </div>
 
     <div class="editprofile-section">
-        <div class="name-group">
-            <input type="text" placeholder="First Name*" required>
-            <input type="text" placeholder="Last Name*" required>
-        </div>
-        <input type="text" placeholder="Username*" required>
+        <form id="editProfileForm" method="POST" action="/profile/{{user._id}}">
+            <div class="name-group">
+                <input type="text" name="firstName" placeholder="First Name*" required>
+                <input type="text" name="lastName" placeholder="Last Name*" required>
+            </div>
+            <input type="text" name="username" placeholder="Username*" required>
 
-        <div class="bio-box">
-            <textarea id="bio" maxlength="1500" placeholder="Biography"></textarea>
-            <span class="char-counter" id="char-counter">0/1500</span>
-        </div>
+            <div class="bio-box">
+                <textarea id="bio" name="bio" maxlength="1500" placeholder="Biography"></textarea>
+                <span class="char-counter" id="char-counter">0/1500</span>
+            </div>
 
-        <div class="buttons">
-            <button class="cancel-btn" onclick="history.back()">Cancel</button>
-            <button class="save-btn" onclick="window.location.href='/imuserone'">Save Changes</button>
-        </div>
+            <div class="buttons">
+                <button type="button" class="cancel-btn" onclick="history.back()">Cancel</button>
+                <button type="submit" class="save-btn" onclick="history.back()" >Save Changes</button>
+            </div>
+        </form>
     </div>
-
+</div>
     {{!-- <!--Profile Details-->
     <div class="profile-details-container">
         <div class="profile-form-container">

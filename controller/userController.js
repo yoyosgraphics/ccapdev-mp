@@ -14,8 +14,6 @@ const showRegisterForm = (req, res) => {
         formData: {},
         showPage: true,
         showPageTwo: false,
-        logged_in: false,
-        show_auth: false,
         alerts: []
     });
 };
@@ -30,8 +28,6 @@ const registerStepOne = async (req, res) => {
                 formData: req.body,
                 showPage: true,
                 showPageTwo: false,
-                logged_in: false,
-                show_auth: false,
                 alerts: [{ type: 'error', message: 'All fields are required' }]
             });
         }
@@ -42,8 +38,6 @@ const registerStepOne = async (req, res) => {
                 formData: req.body,
                 showPage: true,
                 showPageTwo: false,
-                logged_in: false,
-                show_auth: false,
                 alerts: [{ type: 'error', message: 'Passwords do not match' }]
             });
         }
@@ -53,8 +47,6 @@ const registerStepOne = async (req, res) => {
             formData: req.body,
             showPage: false,
             showPageTwo: true,
-            logged_in: false,
-            show_auth: false,
             alerts: []
         });
     } catch (error) {
@@ -63,8 +55,6 @@ const registerStepOne = async (req, res) => {
             formData: req.body,
             showPage: true,
             showPageTwo: false,
-            logged_in: false,
-            show_auth: false,
             alerts: [{ type: 'error', message: 'An error occurred during form processing' }]
         });
     }
@@ -83,8 +73,6 @@ const register = async (req, res) => {
                 formData: req.body,
                 showPage: false,
                 showPageTwo: true,
-                logged_in: false,
-                show_auth: false,
                 alerts: [{ type: 'error', message: 'Missing required information' }]
             });
         }
@@ -108,8 +96,6 @@ const register = async (req, res) => {
                 formData: req.body,
                 showPage: false,
                 showPageTwo: true,
-                logged_in: false,
-                show_auth: false,
                 alerts: [{ type: 'error', message: result.message }]
             });
         }
@@ -119,8 +105,6 @@ const register = async (req, res) => {
             formData: req.body,
             showPage: false,
             showPageTwo: true,
-            logged_in: false,
-            show_auth: false,
             alerts: [{ type: 'error', message: 'An error occurred during registration' }]
         });
     }
@@ -139,8 +123,8 @@ const showLoginForm = (req, res) => {
     res.render('login', { 
         email: '',
         alerts: alerts,
-        logged_in: false,
-        show_auth: false,
+        logged_in: !!req.session.user,
+        show_auth: !req.session.user,
         user: req.session.user || null
     });
 };
@@ -178,8 +162,9 @@ const login = async (req, res) => {
                     return res.render('login', { 
                         email: email_address,
                         alerts: [{ type: 'error', message: 'Error saving session' }],
+                        isLoggedIn: false,
                         logged_in: false,
-                        show_auth: false,
+                        show_auth: true,
                         user: null
                     });
                 }
@@ -193,8 +178,10 @@ const login = async (req, res) => {
             return res.render('login', { 
                 email: email_address,
                 alerts: [{ type: 'error', message: result.message || 'Invalid credentials' }],
+                isLoggedIn: false,
                 logged_in: false,
-                show_auth: false,
+                show_auth: true,
+                user: null
             });
         }
     } catch (error) {
@@ -202,8 +189,10 @@ const login = async (req, res) => {
         return res.render('login', { 
             email: email_address,
             alerts: [{ type: 'error', message: 'An error occurred during login' }],
+            isLoggedIn: false,
             logged_in: false,
-            show_auth: false,
+            show_auth: true,
+            user: null
         });
     }
 };
@@ -259,7 +248,7 @@ const getUserById = async (req, res) => {
             viewing_user: req.session.user || null,
             logged_in: !!req.session.user,
             show_auth: !req.session.user,
-            isOwnProfile: true, // hardcoded for now
+            isOwnProfile: isOwnProfile,
             selected: req.query.selected || 'reviews', // Default selected tab
             alerts: alerts
         });
