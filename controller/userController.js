@@ -2,7 +2,8 @@ const {
     createUser, 
     logInUser, 
     getUserID, 
-    updateUserID 
+    updateUserID,
+    checkUserProfileOwner 
 } = require("../model/model");
 console.log("User Controller");
 // ========== REGISTRATION ==========
@@ -220,13 +221,17 @@ const login = async (req, res) => {
 };
 // Logout user
 const logout = (req, res) => {
+    console.log('trying to logout!!!!');
     req.session.destroy((err) => {
         if (err) {
             console.error('Error destroying session:', err);
+            return res.redirect('/?alert=error&message=' + encodeURIComponent('Error during logout'));
         }
-        res.redirect('/login?alert=success&message=' + encodeURIComponent('You have been logged out'));
+        // Redirect to home page with query parameters to indicate logged out state
+        res.redirect('/?logged_in=false&show_auth=true');
     });
 };
+
 
 // ========== VIEW PROFILE ==========
 
@@ -235,48 +240,46 @@ const getUserById = async (req, res) => {
     try {
         console.log("Fetching user with ID:", req.params.id);
         const user = await getUserID(req.params.id);
-
+        
         if (!user || !Array.isArray(user) || user.length === 0) {
             console.log("User not found:", req.params.id);
-            return res.status(404).render('404', { 
+            return res.status(404).render('404', {
                 message: 'User not found',
                 logged_in: !!req.session.user,
                 show_auth: !req.session.user,
                 alerts: [{ type: 'error', message: 'User not found' }]
             });
         }
-
+        
         console.log("User found:", user[0]);
-
+        
         const alerts = [];
         if (req.query.alert && req.query.message) {
             alerts.push({ type: req.query.alert, message: req.query.message });
         }
-
-        // Check if the profile belongs to the logged-in user
-        // Ensure we're comparing strings to handle ObjectId cases
+        
         const loggedInUserId = req.session.user && req.session.user._id ? req.session.user._id.toString() : '';
         const profileUserId = user[0]._id ? user[0]._id.toString() : '';
         const isOwnProfile = !!req.session.user && loggedInUserId === profileUserId;
-
+        
         console.log("Profile comparison:", {
             loggedInUserId,
             profileUserId,
             isOwnProfile
         });
-
-        res.render('user_profile', { 
+        
+        res.render('user_profile', {
             user: user[0],
             viewing_user: req.session.user || null,
             logged_in: !!req.session.user,
             show_auth: !req.session.user,
-            isOwnProfile: true, // hardcoded for now
-            selected: req.query.selected || 'reviews', // Default selected tab
+            isOwnProfile: isOwnProfile,
+            selected: req.query.selected || 'reviews', 
             alerts: alerts
         });
     } catch (error) {
         console.error("Error fetching user profile:", error);
-        res.status(500).render('error', { 
+        res.status(500).render('error', {
             error: error.message,
             logged_in: !!req.session.user,
             show_auth: !req.session.user,

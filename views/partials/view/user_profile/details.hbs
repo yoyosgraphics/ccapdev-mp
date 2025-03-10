@@ -1,10 +1,10 @@
 <div class="prof-profile-container">
-    <img src="{{user.picture_address}}" alt="Profile Picture" class="prof-profile-pic">
+    <img src="{{profile_user.picture_address}}" alt="Profile Picture" class="prof-profile-pic">
     <div class="prof-profile-info"> 
         <div class="prof-profile-details">
-            <h2>{{user.first_name}} {{user.last_name}}<span class="prof-username">@{{user.username}}</span></h2>
+            <h2>{{profile_user.first_name}} {{profile_user.last_name}}<span class="prof-username">@{{profile_user.username}}</span></h2>
         </div>
-        <p class="prof-bio">{{user.biography}}</p>
+        <p class="prof-bio">{{profile_user.biography}}</p>
         {{#if user}}
             {{#if isOwnProfile}}
                 <button class="editprofile-btn" onclick="window.location.href='/edit/profile'">

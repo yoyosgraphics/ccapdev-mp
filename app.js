@@ -131,6 +131,10 @@ server.get('/login', (req, res) => {
     res.redirect('/users/login');
 });
 
+server.get('/logout', (req, res) => {
+    res.redirect('/users/logout');
+});
+
 server.get('/search', async function(req, res) {
     try {
         const searchQuery = req.query.q || '';
@@ -396,26 +400,25 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
 server.get('/users/:id', async function (req, res) {
     try {
         // Fetch user profile
-        const user = await db.getUserID(req.params.id);
+        const userProfile = await db.getUserID(req.params.id);
 
         // Handle user not found
-        if (!user || !Array.isArray(user) || user.length === 0) {
+        if (!userProfile || !Array.isArray(userProfile) || userProfile.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
                 title: 'User Not Found',
+                user: req.session.user || null,  // Pass the logged-in user
                 logged_in: !!req.session.user,
                 show_auth: !req.session.user,
-                isLoggedIn: !!req.session.user,
                 alerts: [{ type: 'error', message: 'User not found' }]
             });
         }
 
         // Get the user object from the array
-        const userProfile = user[0];
-        console.log('User Profile:', userProfile);
+        const profileData = userProfile[0];
 
         // Format the user ID properly
-        const userId = userProfile._id.toString();
+        const userId = profileData._id.toString();
 
         // Fetch related data
         const reviews = await db.getAllReviewsOfUser(userId);
@@ -435,17 +438,15 @@ server.get('/users/:id', async function (req, res) {
             alerts.push({ type: req.query.alert, message: req.query.message });
         }
 
-        // Render profile
         res.render('user_profile', {
             layout: 'index',
-            title: userProfile.first_name + "'s Profile",
-            user: userProfile,
-            viewing_user: req.session.user || null,
-            logged_in: !!req.session.user,       // true if logged in
-            show_auth: !req.session.user,        // show login/register if not logged in
-            isLoggedIn: !!req.session.user,      // consistent flag usage
-            isOwnProfile: isOwnProfile,          // whether viewer owns the profile
-            selected: req.query.selected || 'reviews', // default tab
+            title: profileData.first_name + "'s Profile",
+            user: req.session.user || null,       // The currently logged-in user (for navigation)
+            profile_user: profileData,            // The user whose profile is being viewed
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
+            isOwnProfile: isOwnProfile,
+            selected: req.query.selected || 'reviews',
             reviews: reviews || [],
             comments: comments || [],
             restaurants: restaurants || [],
@@ -458,13 +459,14 @@ server.get('/users/:id', async function (req, res) {
             layout: 'index',
             title: 'Error',
             error: err.message,
+            user: req.session.user || null,  // Pass the logged-in user
             logged_in: !!req.session.user,
             show_auth: !req.session.user,
-            isLoggedIn: !!req.session.user,
             alerts: [{ type: 'error', message: 'Failed to load user profile' }]
         });
     }
 });
+
 
 
 // Edit profile route
