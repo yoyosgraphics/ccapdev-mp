@@ -476,6 +476,14 @@ server.get('/edit/profile', function(req, res) {
     });
 });
 
+// About Page
+server.get('/about', async function(req, res) {
+        
+    res.render('about', {
+        layout: 'index'
+    });
+});
+
 // Redirects for restaurant-specific review routes
 server.get('/restaurants/:id/reviews', (req, res) => {
     res.redirect(`/reviews/restaurant/${req.params.id}`);
