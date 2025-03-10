@@ -10,7 +10,7 @@
                     <div class="reviewer-date">
                         <span>Comment on <span class="text-clickable" onclick="window.location.href='/view/reviews/{{review_id._id}}'">"{{review_id.title}}"</span></span>
                     </div>
-                    {{#if user}}
+                    {{#if ../isOwnProfile}}
                     <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id._id}}/edit/{{_id}}'">
                     <div class="divider"></div>
                     <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
