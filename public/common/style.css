@@ -268,7 +268,7 @@ input[type="password"] {
     white-space: nowrap;
 }
 
-.headerViewRestaurants {
+.headerViewEstablishments {
     display: flex;
     flex-direction: row;
     background-color: var(--orange2);
@@ -495,7 +495,7 @@ input[type="password"] {
 }
 
 
-.restaurantCategory {
+.establishmentCategory {
     margin-left: 55px;
     margin-right: 55px;
 }

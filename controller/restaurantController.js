@@ -165,9 +165,43 @@ const getRestaurantsData = async () => {
     }
 };
 
+// Get a single restaurant by ID
+const getRestaurantById = async (req, res) => {
+    try {
+        const restaurantId = req.params.id;
+        const restaurants = await db.getRestaurantOfID(restaurantId);
+
+        if (!restaurants || restaurants.length === 0) {
+            return res.status(404).render('404', {
+                layout: 'index',
+                title: 'Restaurant Not Found',
+                alerts: [{ type: 'error', message: 'Restaurant not found' }]
+            });
+        }
+
+        const restaurant = restaurants[0];
+        
+        // Render the restaurants template with categorized data
+        res.render('restaurants', { 
+            layout: 'index',
+            title: restaurant.name,
+            restaurants: restaurant.name
+        });
+    } catch (error) {
+        console.error('Error fetching restaurants:', error);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: error.message,
+            alerts: [{ type: 'error', message: 'Failed to load restaurant' }]
+        });
+    }
+};
+
 module.exports = {
     displayHome,
     getAllRestaurants,
     getUserRestaurants,
-    getRestaurantsData
+    getRestaurantsData,
+    getRestaurantById
 };
