@@ -15,14 +15,14 @@
             </div>
             <div class="review-content-container">
                 <div class="review-content">
-                    <h1 class="text-clickable" onclick="window.location.href='/view/reviews/{{id}}'">{{title}}</h1>
+                    <h1 class="text-clickable" onclick="window.location.href='/view/reviews/{{_id}}'">{{title}}</h1>
                     <div class="rating-container">
                         <p class="rating rating-3" style="--rating:{{rating}};"></p>
                     </div>
                     <p class="review-content">{{content}}</p>
                     {{#if has_images}}
                         <div class="review-image-container">
-                            {{#each image_links}}
+                            {{#each picture_addresses}}
                             <img src="{{this}}" alt="Review Image">
                             {{/each}}
                         </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="comments-container button-container-attributes1 button-clickable gray-button-clickable" onclick="window.location.href='/view/reviews/{{id}}'">
                         <img src="/common/comment-icon.png" alt="Comment Icon" class="icon-margin-right">
-                        <b>{{comment_count}} comments</b>
+                        <b>{{num_comments}} comments</b>
                     </div>
                 </div>
                 {{#if has_owner_reply}}
