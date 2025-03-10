@@ -382,41 +382,83 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
         });
     }
 });
-// User profile route - fixed to use correct function
-server.get('/profile/:username', async function(req, res) {
+// User profile route
+server.get('/profile/:id', async function(req, res) {
     try {
-        // Find user by username (this function doesn't exist directly, we need to modify approach)
-        // Get all users and filter by username
-        const users = await db.getAllUsers();
-        const user = users.find(u => u.username === req.params.username);
+        // Check if user is logged in first
+        if (!req.session.user) {
+            // Redirect to login page with a return URL
+            return res.redirect('/login?returnTo=' + encodeURIComponent('/profile/' + req.params.id));
+        }
+
+        const user = await db.getUserID(req.params.id);
         
-        if (!user) {
+        if (!user || !Array.isArray(user) || user.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
                 title: 'User Not Found',
+                logged_in: !!req.session.user,
+                show_auth: !req.session.user,
+                isLoggedIn: !!req.session.user,
                 alerts: [{ type: 'error', message: 'User not found' }]
             });
         }
+
+        // Get the user object from the array
+        const userProfile = user[0];
         
-        // Use correct function names and parameters
-        const reviews = await db.getAllReviewsOfUser(user._id);
-        const comments = await db.getAllCommentsOfUser(user._id);
+        // Log the user profile ID to see what we're working with
+        console.log('User Profile ID:', userProfile._id);
+        console.log('User Profile ID type:', typeof userProfile._id);
+        
+        // Ensure we have a proper ID - MongoDB might return ObjectId instead of string
+        const userId = userProfile._id.toString();
+        console.log('Converted User ID:', userId);
+        
+        // Use the properly formatted ID for database queries
+        const reviews = await db.getAllReviewsOfUser(userId);
+        const comments = await db.getAllCommentsOfUser(userId);
         const restaurants = await db.getAllRestaurants();
+        
+        // Check if any reviews were found
+        console.log('Number of reviews found:', reviews ? reviews.length : 0);
+        console.log('Number of comments found:', comments ? comments.length : 0);
+        
+        // Check if the profile belongs to the logged-in user
+        const loggedInUserId = req.session.user._id.toString();
+        const isOwnProfile = loggedInUserId === userId;
+
+        // Get alerts from query parameters if present
+        const alerts = [];
+        if (req.query.alert && req.query.message) {
+            alerts.push({ type: req.query.alert, message: req.query.message });
+        }
         
         res.render('user_profile', {
             layout: 'index',
-            title: user.first_name + "'s Profile",
-            selected: user,
-            reviews: reviews,
-            comments: comments,
-            restaurants: restaurants
+            title: userProfile.first_name + "'s Profile",
+            user: userProfile,
+            viewing_user: req.session.user,
+            logged_in: true,
+            show_auth: false,
+            isLoggedIn: true,
+            isOwnProfile: isOwnProfile,
+            selected: req.query.selected || 'reviews',
+            reviews: reviews || [], 
+            comments: comments || [],
+            restaurants: restaurants || [],
+            alerts: alerts
         });
     } catch (err) {
         console.error('Error fetching user profile:', err);
+        console.error('Error details:', err.stack); 
         res.status(500).render('error', {
             layout: 'index',
             title: 'Error',
             error: err.message,
+            logged_in: !!req.session.user,
+            show_auth: !req.session.user,
+            isLoggedIn: !!req.session.user,
             alerts: [{ type: 'error', message: 'Failed to load user profile' }]
         });
     }
