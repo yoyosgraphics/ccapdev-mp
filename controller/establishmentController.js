@@ -56,16 +56,16 @@ const getAllEstablishments = async (req, res) => {
         // Render the restaurants template with categorized data
         res.render('restaurants', { 
             layout: 'index',
-            title: 'All Establishments',
+            title: 'All Restaurants',
             restaurants: restaurantsByCategory
         });
     } catch (error) {
         console.error('Error fetching establishments:', error);
         res.render('restaurants', {
             layout: 'index',
-            title: 'All Establishments',
+            title: 'All Restaurants',
             restaurants: {},
-            alerts: [{ type: 'error', message: 'Failed to retrieve establishments' }]
+            alerts: [{ type: 'error', message: 'Failed to retrieve retaurants' }]
         });
     }
 };
@@ -95,7 +95,7 @@ const getUserEstablishments = async (req, res) => {
             layout: 'index',
             title: 'My Establishments',
             restaurants: {},
-            alerts: [{ type: 'error', message: 'Failed to retrieve your establishments' }]
+            alerts: [{ type: 'error', message: 'Failed to retrieve your retaurants' }]
         });
     }
 };
@@ -144,7 +144,7 @@ const getRestaurantsData = async () => {
         
         return restaurantsByCategory;
     } catch (error) {
-        console.error('Error fetching establishments data:', error);
+        console.error('Error fetching restaurant data:', error);
         return {};
     }
 };
@@ -158,8 +158,8 @@ const getEstablishmentById = async (req, res) => {
         if (!restaurants || restaurants.length === 0) {
             return res.status(404).render('404', {
                 layout: 'index',
-                title: 'Establishment Not Found',
-                alerts: [{ type: 'error', message: 'Establishment not found' }]
+                title: 'Restaurant Not Found',
+                alerts: [{ type: 'error', message: 'Restaurant Not Found' }]
             });
         }
         
@@ -171,12 +171,12 @@ const getEstablishmentById = async (req, res) => {
             establishment
         });
     } catch (error) {
-        console.error('Error fetching establishment:', error);
+        console.error('Error fetching restaurant:', error);
         res.status(500).render('error', {
             layout: 'index',
             title: 'Error',
             error: error.message,
-            alerts: [{ type: 'error', message: 'Failed to load establishment' }]
+            alerts: [{ type: 'error', message: 'Failed to load restaurant' }]
         });
     }
 };
