@@ -232,11 +232,10 @@ server.get('/view/restaurant/:id/', async function(req, res) {
 // Fix in getReviewById - need to ensure we're calling the correct function
 server.get('/view_review/:id/', async function(req, res) {
     try {
+        // Fetch review data based on the review ID
         const review = await db.getReviewOfID(req.params.id);
-        const comments = await db.getReviewCommentsOfID(req.params.id);
-        console.log('Review ID:', req.params.id); // Make sure ID is coming through
-console.log('Review data:', review); // Check if review is null
-
+        
+        // If no review is found, handle the error
         if (!review) {
             return res.status(404).render('404', {
                 layout: 'index',
@@ -245,11 +244,18 @@ console.log('Review data:', review); // Check if review is null
             });
         }
         
+        // Fetch comments for the review
+        const comments = await db.getReviewCommentsOfID(req.params.id);
+        
+        //console.log('Review:', review[0]);
+        console.log('Comments:', comments);
+
+
         res.render('view_review', {
             layout: 'index',
             title: review.title,
-            selected: review,
-            comments: comments
+            review: review[0],
+            comments: comments,
         });
     } catch (err) {
         console.error('Error fetching review:', err);
@@ -261,6 +267,7 @@ console.log('Review data:', review); // Check if review is null
         });
     }
 });
+
 
 // Create review route - converted to use MongoDB
 server.get('/:id/create_review', async function(req, res) {
