@@ -246,15 +246,18 @@ const getReviewOfID = async (id) => {
     let review = await Review.find({_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .lean();
-    
-    review.num_comments = await Comment.countDocuments({review_id: review._id});
-
-    if (review.picture_addresses.length == 0) {
-        review.has_images = false;
-    } else {
-        review.has_images = true;
-    }
-
+                                
+                                if (!review) {
+                                    throw new Error("Review not found");
+                                }
+                            
+                                review.num_comments = await Comment.countDocuments({review_id: review._id});
+                            
+                                if (review.picture_addresses && review.picture_addresses.length === 0) {
+                                    review.has_images = false;
+                                } else {
+                                    review.has_images = true;
+                                }
     return review;
 }
 

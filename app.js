@@ -230,11 +230,13 @@ server.get('/view/restaurant/:id/', async function(req, res) {
 
 
 // Fix in getReviewById - need to ensure we're calling the correct function
-server.get('/view/review/:id/', async function(req, res) {
+server.get('/view_review/:id/', async function(req, res) {
     try {
         const review = await db.getReviewOfID(req.params.id);
         const comments = await db.getReviewCommentsOfID(req.params.id);
-        
+        console.log('Review ID:', req.params.id); // Make sure ID is coming through
+console.log('Review data:', review); // Check if review is null
+
         if (!review) {
             return res.status(404).render('404', {
                 layout: 'index',
