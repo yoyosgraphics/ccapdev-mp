@@ -6,7 +6,7 @@
                 <b><span>{{selected.user}}</span></b>
             </div>
             <div class="reviewer-date">
-                <span>{{selected.timestamp}}</span>
+                <span>{{selected.date}}</span>
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
             <div class="rating-container">
                 <p class="rating rating-3" style="--rating:{{selected.rating}};"></p>
             </div>
-            <p class="review-content">{{selected.review}}</p>
+            <p class="review-content">{{selected.content}}</p>
             {{#if selected.has_images}}
                 <div class="review-image-container">
                     {{#each selected.image_links}}

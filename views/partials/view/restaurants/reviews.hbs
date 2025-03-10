@@ -5,11 +5,11 @@
             <div class="reviewer-container">
                 <img src="/common/user-icon.png" alt="User Icon">
                 <div class="reviewer-info">
-                    <div class="reviewer-name text-clickable" onclick="window.location.href='/{{username}}'">
-                        <b><span>User1</span></b>
+                    <div class="reviewer-name text-clickable" onclick="window.location.href='/{{user_id.username}}'">
+                        <b><span>{{user_id.first_name}} {{user_id.last_name}}</span></b>
                     </div>
                     <div class="reviewer-date">
-                        <span>{{timestamp}}</span>
+                        <span>{{date}}</span>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                     <div class="rating-container">
                         <p class="rating rating-3" style="--rating:{{rating}};"></p>
                     </div>
-                    <p class="review-content">{{review}}</p>
+                    <p class="review-content">{{content}}</p>
                     {{#if has_images}}
                         <div class="review-image-container">
                             {{#each image_links}}
