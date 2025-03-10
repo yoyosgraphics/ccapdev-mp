@@ -130,7 +130,6 @@ const register = async (req, res) => {
 
 // Show login form
 const showLoginForm = (req, res) => {
-    // Get alert from query parameters if present
     const alerts = [];
     if (req.query.alert && req.query.message) {
         alerts.push({ type: req.query.alert, message: req.query.message });
@@ -154,57 +153,64 @@ const login = async (req, res) => {
         const result = await logInUser(email_address, password);
         console.log("Login result:", result);
         
-        if (result.success && result.user) {
-            // Store user in session with consistent ID handling
-            const userId = result.user._id || result.user.id;
-            
-            req.session.user = {
-                _id: userId ? userId.toString() : null,
-                username: result.user.username,
-                email_address: result.user.email_address,
-                first_name: result.user.first_name,
-                last_name: result.user.last_name,
-                picture_address: result.user.picture_address,
-                biography: result.user.biography
-            };
-            
-            req.session.isProfileOwner = true;
-            
-            console.log("User set in session:", req.session.user);
-            
+        // Properly handle user ID - ensure it's a string
+        const userId = result.user._id || result.user.id;
+        const userIdString = userId ? userId.toString() : null;
+        
+        console.log("User ID for session:", userIdString);
+        
+        // Create user session object
+        const userForSession = {
+            _id: userIdString,
+            username: result.user.username || '',
+            email_address: result.user.email_address || '',
+            first_name: result.user.first_name || '',
+            last_name: result.user.last_name || '',
+            picture_address: result.user.picture_address || '',
+            biography: result.user.biography || ''
+        };
+        
+        // Assign to session
+        req.session.user = userForSession;
+        req.session.isProfileOwner = true;
+        
+        console.log("User set in session:", req.session.user);
+        
+        // Handle session save with proper error handling
+        return new Promise((resolve, reject) => {
             req.session.save((err) => {
                 if (err) {
                     console.error("Error saving session:", err);
-                    return res.render('login', { 
-                        email: email_address,
-                        alerts: [{ type: 'error', message: 'Error saving session' }],
-                        logged_in: false,
-                        show_auth: false,
-                        user: null
-                    });
+                    reject(err);
+                } else {
+                    console.log("Session saved successfully");
+                    resolve();
                 }
-                
-                console.log("Session saved, redirecting to user profile");
-                
-                return res.redirect(`/profile/${req.session.user._id}?alert=success&message=` + encodeURIComponent('You are now logged in'));
             });
-        } else {
-            // Render login page with error
+        })
+        .then(() => {
+            console.log("Redirecting to user profile:", `/users/${userIdString}`);
+            return res.redirect(`/profile/${userIdString}`);
+        })
+        .catch((saveErr) => {
+            console.error("Session save error:", saveErr);
             return res.render('login', { 
                 email: email_address,
-                alerts: [{ type: 'error', message: result.message || 'Invalid credentials' }],
+                alerts: [{ type: 'error', message: 'Error saving session' }],
+                isLoggedIn: false,
                 logged_in: false,
-                show_auth: false,
+                show_auth: true,
                 user: null
             });
-        }
+        });
     } catch (error) {
         console.error("Login error:", error);
         return res.render('login', { 
             email: email_address,
             alerts: [{ type: 'error', message: 'An error occurred during login' }],
+            isLoggedIn: false,
             logged_in: false,
-            show_auth: false,
+            show_auth: true,
             user: null
         });
     }
