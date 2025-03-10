@@ -251,12 +251,12 @@ const getReviewOfID = async (id) => {
                                     throw new Error("Review not found");
                                 }
                             
-                                review.num_comments = await Comment.countDocuments({review_id: review._id});
+                                review[0].num_comments = await Comment.countDocuments({review_id: review._id});
                             
-                                if (review.picture_addresses && review.picture_addresses.length === 0) {
-                                    review.has_images = false;
+                                if (review[0].picture_addresses.length == 0) {
+                                    review[0].has_images = false;
                                 } else {
-                                    review.has_images = true;
+                                    review[0].has_images = true;
                                 }
     return review;
 }
