@@ -12,8 +12,8 @@
                         {{#if owner}}(Owner){{/if}}
                     </span>
                 </p></b>
-                {{#if user}}
-                <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{id}}'">
+                {{#if ../user}}
+                <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{_id}}'">
                 <div class="divider"></div>
                 <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
                 {{/if}}
