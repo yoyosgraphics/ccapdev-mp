@@ -1817,6 +1817,7 @@ reg-section .buttons {
     text-decoration: none;
     background-color: var(--white1);
     color: var(--black);
+    font-family: 'Inter';
     border-radius: 25px;
     border: none;
     transition: background-color 0.3s ease, color 0.3s ease;
