@@ -131,6 +131,10 @@ server.get('/login', (req, res) => {
     res.redirect('/users/login');
 });
 
+server.get('/logout', (req, res) => {
+    res.redirect('/users/logout');
+});
+
 server.get('/search', async function(req, res) {
     try {
         const searchQuery = req.query.q || '';
