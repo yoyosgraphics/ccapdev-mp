@@ -339,7 +339,7 @@ server.get('/edit/review/:id', async function(req, res) {
 });
 
 // Edit comment route - converted to use MongoDB
-server.get('/view_review/:review_id', async function(req, res) {
+server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
@@ -411,7 +411,7 @@ server.get('/users/:id', async function (req, res) {
         // Fetch related data
         const reviews = await db.getAllReviewsOfUser(userId);
         const comments = await db.getAllCommentsOfUser(userId);
-        const restaurants = await db.getAllRestaurantsOfUser(userId);
+        const restaurants = await db.getAllRestaurants();
 
         // Check if viewer is logged in and if they own the profile
         let isOwnProfile = false;
