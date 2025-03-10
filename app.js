@@ -268,7 +268,7 @@ server.get('/:id/create_review', async function(req, res) {
             return res.redirect('/login');
         }
         
-        const restaurant = await db.getRestaurantById(req.params.id);
+        const restaurant = await db.getRestaurantOfID(req.params.id);
 
         if (!restaurant) {
             return res.status(404).render('404', {
