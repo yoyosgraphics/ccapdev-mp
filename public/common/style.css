@@ -263,6 +263,7 @@ input[type="password"] {
     letter-spacing: 5px;
     display: inline-block;
     position: relative;
+    pointer-events: none;
 }
 
 .rating::before {
@@ -272,7 +273,7 @@ input[type="password"] {
 
 .rating::after {
     content: "★★★★★";
-    color: gold;
+    color: var(--orange2);
     position: absolute;
     top: 0;
     left: 0;
@@ -280,6 +281,26 @@ input[type="password"] {
     overflow: hidden;
     white-space: nowrap;
 }
+
+.rating.unlocked {
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+}
+
+.rating.unlocked .star {
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    top: 0;
+    cursor: pointer;
+}
+
+.rating.unlocked .star:nth-child(1) { left: 0%; }
+.rating.unlocked .star:nth-child(2) { left: 20%; }
+.rating.unlocked .star:nth-child(3) { left: 40%; }
+.rating.unlocked .star:nth-child(4) { left: 60%; }
+.rating.unlocked .star:nth-child(5) { left: 80%; }
 
 .headerViewRestaurants {
     display: flex;

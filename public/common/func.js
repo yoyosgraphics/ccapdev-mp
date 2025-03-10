@@ -1,4 +1,33 @@
 $(document).ready(function () {
+    $(".rating.unlocked").each(function () {
+        let ratingValue = $(this).data("rating");
+        $(this).css("--rating", ratingValue);
+    });
+
+    $(".rating.unlocked .star").on("click", function () {
+        let ratingValue = $(this).data("value");
+        let ratingElement = $(this).closest(".rating.unlocked");
+
+        ratingElement.css("--rating", ratingValue);
+        ratingElement.attr("data-rating", ratingValue);
+
+        console.log("You selected: " + ratingValue + " stars ⭐");
+
+        $.ajax({
+            url: "/submit_rating",
+            type: "POST",
+            data: { rating: ratingValue },
+            success: function (data, status) {
+                if (status === "success") {
+                    console.log("Rating saved successfully!");
+                }
+            },
+            error: function () {
+                console.error("Failed to save rating.");
+            },
+        });
+    });
+
     $(".dropdown-btn").click(function (event) {
         event.stopPropagation(); // Prevents click from propagating
         $(this).siblings(".dropdown-content").toggleClass("show");
@@ -14,7 +43,6 @@ $(document).ready(function () {
         dropdown.find(".dropdown-btn").html(selectedText+arrowGraphic);
         dropdown.find(".dropdown-content").removeClass("show"); 
 
-        // AJAX Request (Modify the URL and data as needed)
         $.post('ajax_response', { option: selectedValue },
             function(data, status){
                 if(status == 'success')
