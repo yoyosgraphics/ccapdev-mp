@@ -326,7 +326,7 @@ server.get('/edit/review/:id', async function(req, res) {
         }
         
         console.log("Review: ", review[0]);
-        
+
         res.render('edit_review', {
             layout: 'index',
             title: "Edit Your Review",
@@ -351,8 +351,8 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
             return res.redirect('/login');
         }
         
-        const review = await db.getReviewById(req.params.id);
-        const comment = await db.getCommentById(req.params.comment_id);
+        const review = await db.getReviewOfID(req.params.id);
+        const comment = await db.getCommentOfID(req.params.comment_id);
         
         if (!review || !comment) {
             return res.status(404).render('404', {
@@ -362,20 +362,22 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
             });
         }
         
-        // Check if user is the author of the comment
-        if (comment.user_id.toString() !== req.session.user._id.toString()) {
-            return res.status(403).render('error', {
-                layout: 'index',
-                title: 'Unauthorized',
-                error: 'You are not authorized to edit this comment',
-                alerts: [{ type: 'error', message: 'Unauthorized access' }]
-            });
-        }
+        // // Check if user is the author of the comment
+        // if (comment.user_id.toString() !== req.session.user._id.toString()) {
+        //     return res.status(403).render('error', {
+        //         layout: 'index',
+        //         title: 'Unauthorized',
+        //         error: 'You are not authorized to edit this comment',
+        //         alerts: [{ type: 'error', message: 'Unauthorized access' }]
+        //     });
+        // }
+
+        console.log("1: ", review[0]);
         
         res.render('edit_comment', {
             layout: 'index',
             title: review.title,
-            selected: review,
+            selected: review[0],
             selectedComment: comment
         });
     } catch (err) {
