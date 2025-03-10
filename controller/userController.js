@@ -227,10 +227,11 @@ const logout = (req, res) => {
             console.error('Error destroying session:', err);
             return res.redirect('/?alert=error&message=' + encodeURIComponent('Error during logout'));
         }
-        // Redirect to home page
-        res.redirect('/');
+        // Redirect to home page with query parameters to indicate logged out state
+        res.redirect('/?logged_in=false&show_auth=true');
     });
 };
+
 
 // ========== VIEW PROFILE ==========
 
