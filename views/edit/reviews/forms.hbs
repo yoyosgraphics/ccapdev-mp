@@ -1,0 +1,55 @@
+<div class="edit-review-heading">
+    <h1>Edit Your Review</h1>
+</div>
+<div class="review-input-container">
+    <div class="review-title-container">
+        <div class="review-title-input">
+            <input type="text" id="title-input" value="{{selected.title}}" placeholder="Title" required>
+        </div>
+        <div class="review-title-counter">
+            <span>0/300</span>
+        </div>
+    </div>
+    <div class="review-rating-container">
+        <span>Select Your Rating: </span>
+        <div class="rating-container">
+            <p class="rating rating-3" style="--rating:{{selected.rating}};"></p>
+        </div>
+    </div>
+    <div class="review-body-container">
+        <div class="review-features-container">
+            <img src="/common/bold-icon.png" alt="Bold Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+            <img src="/common/italic-icon.png" alt="Italic Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+            <img src="/common/underline-icon.png" alt="Underline Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+            <div class="divider"></div>
+            <img src="/common/link-icon.png" alt="Link Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
+            <img src="/common/bullet-icon.png" alt="Bullet Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+            <div class="divider"></div>
+            <img src="/common/picture-icon.png" alt="Picture Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
+            <img src="/common/video-icon.png" alt="Video Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
+        </div>
+        <div class="review-body-input-container">
+            <div class="review-body">
+                <textarea name="review-body" placeholder="Body">{{selected.review}}</textarea>
+            </div>
+            <div class="review-body-counter">
+                <span>0/1500</span>
+            </div>
+        </div>
+    </div>
+    {{#if selected.has_images}}
+        <div class="review-image-container" style="padding-top: 20px;">
+            {{#each selected.image_links}}
+                <div class="review-image-container image-container-2">
+                    <img src="{{this}}" alt="Review Image">
+                    <button class="x-button gray-button-clickable">X</button>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+    <div class="button-container1 buttons-space-2">
+        <button class="delete-btn"><img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-right">Delete</button>
+        <button class="cancel-btn" onclick="history.back()">Cancel</button>
+        <button class="save-btn">Save Changes</button>
+    </div>
+</div>
