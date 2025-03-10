@@ -190,7 +190,7 @@ const login = async (req, res) => {
         })
         .then(() => {
             console.log("Redirecting to user profile:", `/users/${userIdString}`);
-            return res.redirect(`/profile/${userIdString}`);
+            return res.redirect(`/users/${userIdString}`);
         })
         .catch((saveErr) => {
             console.error("Session save error:", saveErr);
