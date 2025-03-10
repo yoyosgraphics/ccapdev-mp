@@ -339,7 +339,7 @@ server.get('/edit/review/:id', async function(req, res) {
 });
 
 // Edit comment route - converted to use MongoDB
-server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
+server.get('/view_review/:review_id', async function(req, res) {
     try {
         // Check if user is logged in
         if (!req.session.user) {
