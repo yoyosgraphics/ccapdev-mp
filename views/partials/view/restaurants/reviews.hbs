@@ -29,12 +29,16 @@
                     {{/if}}
                 </div>
                 <div class="buttons-space-2">
-                    <div class="helpful-unhelpful-container button-container-attributes1">
-                        <img src="/common/empty-like.png" alt="Helpful Icon" class="icon-margin-right icon-clickable">
-                        <b>{{likes}}</b>
+                    <div class="like-container button-container-attributes">
+                        <button class="btn toggle-btn" id="like">
+                            <img src="/common/empty-like.png" width="15px" height="15px">
+                            <b>{{likes}}</b>
+                        </button>
                         <div class="divider"></div>
-                        <img src="/common/empty-unlike.png" alt="Unhelpful Icon" class="icon-margin-right icon-clickable">
-                        <b>{{dislikes}}</b>
+                        <button class="btn toggle-btn" id="dislike">
+                            <img src="/common/empty-unlike.png" width="15px" height="15px">
+                            <b>{{dislikes}}</b>
+                        </button>
                     </div>
                     <div class="comments-container button-container-attributes1 button-clickable gray-button-clickable" onclick="window.location.href='/view_review/{{_id}}'">
                         <img src="/common/comment-icon.png" alt="Comment Icon" class="icon-margin-right">

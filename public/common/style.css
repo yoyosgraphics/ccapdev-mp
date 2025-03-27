@@ -658,7 +658,7 @@ input[type="password"] {
     background-color: #133bca;
 }
 
-.icon-clickable:hover, .gray-button-clickable:hover  {
+.gray-button-clickable:hover  {
     background-color: #c2c9ce;
 }
 
@@ -678,17 +678,24 @@ input[type="password"] {
     overflow: hidden;
 }
 
-.image-delete-container .btn {
-    background-color: var(--white1);
-}
-
-
+.image-delete-container .btn,
+.edit-delete-container .btn,
 .edit-archive-container .btn {
     background-color: var(--white1);
 }
 
-.edit-delete-container .btn {
+.like-container .btn {
     background-color: var(--white1);
+    font-weight: normal;
+}
+
+.like-container .btn.on {
+    color: var(--green1);
+    background-color: var(--green2);
+}
+
+.like-container .btn.on img {
+    filter: invert(1) sepia(1) saturate(1000%) hue-rotate(70deg) brightness(0.5);
 }
 
 .icon-clickable {
@@ -857,7 +864,7 @@ input[type="password"] {
     padding-top: 20px;
 }
 
-.helpful-unhelpful-container,
+.like-container,
 .comments-container,
 .edit-delete-container,
 .cancel-container,

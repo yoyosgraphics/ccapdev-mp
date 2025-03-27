@@ -33,6 +33,20 @@ $(document).ready(function () {
         $(this).siblings(".dropdown-content").toggleClass("show");
     });
 
+    $(".toggle-btn").click(function () {
+        let parentContainer = $(this).closest(".like-container");
+    
+        $(this).toggleClass("on"); // toggle on
+    
+        if ($(this).closest("#like").length) {
+            // remove on from dislike
+            parentContainer.find("#dislike").removeClass("on");
+        } else if ($(this).closest("#dislike").length) {
+            // remove on from like
+            parentContainer.find("#like").removeClass("on");
+        }
+    });
+
     $(".dropdown-content p").click(function () {
         let selectedText = $(this).text();
         let selectedValue = $(this).data("value");
