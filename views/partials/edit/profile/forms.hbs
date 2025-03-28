@@ -1,12 +1,20 @@
 <div class="profile-container">
     <div class="profile-pic-container">
-        <div class="profile-img-wrapper">
-        <img src="{{user.picture_address}}" alt="Profile Image" class="profile-img">
-        </div>
-        <div class="image-delete-container button-container-attributes">
-            <button class="btn"><img src="/common/picture-icon.png" width="15px" height="15px"></button>
-            <div class="divider"></div>
-            <button class="btn"><img src="/common/delete-icon.png" width="15px" height="15px"></button>
+        <div class="dropdown">
+            <button class="dropdown-btn" id="image-select">
+                <img src="{{user.picture_address}}" height="150vh" width="150vh" style="border-radius: 10px;">
+            </button>
+            <div class="dropdown-content">
+                <div class="dropdown-option">
+                    <img src="/common/pfp-1.png" height="150vh" width="150vh">
+                </div>
+                <div class="dropdown-option">
+                    <img src="/common/pfp-2.png" height="150vh" width="150vh">
+                </div>
+                <div class="dropdown-option">
+                    <img src="/common/pfp-3.png" height="150vh" width="150vh">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -30,33 +38,4 @@
             </div>
         </form>
     </div>
-</div>
-    {{!-- <!--Profile Details-->
-    <div class="profile-details-container">
-        <div class="profile-form-container">
-            <form action="#" method="POST">
-                <div class="name-group">
-                    <div>
-                        <h2>First Name</h2>
-                        <input type="text" id="first-name" placeholder="First Name" required>
-                    </div>
-                    <div>
-                        <h2>Last Name</h2>
-                        <input type="text" id="last-name" placeholder="Last Name" required>
-                    </div>
-                </div>
-
-                <div class="short-form">
-                    <h2>Username</h2>
-                    <input type="text" id="username" placeholder="Username" required>
-                </div>
-
-                <div class="bio-box">
-                    <h2>Biography</h2>
-                    <textarea id="bio" maxlength="1500" placeholder="Biography"></textarea>
-                </div>
-                
-            </form>
-        </div>
-    </div> --}}
 </div>

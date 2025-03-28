@@ -51,6 +51,20 @@ $(document).ready(function () {
         )
     });
 
+    $(".dropdown-option").click(function () {
+        let selectedImg = $(this).find("img");
+        let imgSrc = selectedImg.attr("src");
+        let imgWidth = selectedImg.width();  // Get width
+        let imgHeight = selectedImg.height(); // Get height
+        let dropdown = $(this).closest(".dropdown");
+
+        // Update button with selected image
+        dropdown.find(".dropdown-btn").html(`<img src="${imgSrc}" width="${imgWidth}" height="${imgHeight}" style="border-radius: 10px;">`);
+
+        // Hide dropdown
+        dropdown.find(".dropdown-content").removeClass("show");
+    });
+
     // Hide dropdown when clicking outside
     $(document).click(function (event) {
         if (!$(event.target).closest(".dropdown").length) {

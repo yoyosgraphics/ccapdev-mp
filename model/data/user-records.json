@@ -7,7 +7,7 @@
   "last_name": "One",
   "username": "user_one",
   "password": "pass1",
-  "picture_address": "/uploads/user-common.png",
+  "picture_address": "/common/pfp-1.png",
   "biography": "I am User One!"
 },
 {
@@ -19,7 +19,7 @@
   "last_name": "Two",
   "username": "user_two",
   "password": "pass2",
-  "picture_address": "/uploads/user-common.png",
+  "picture_address": "/common/pfp-2.png",
   "biography": "I am User Two!"
 },
 {
@@ -31,7 +31,7 @@
   "last_name": "Three",
   "username": "user_three",
   "password": "pass3",
-  "picture_address": "/uploads/user-common.png",
+  "picture_address": "/common/pfp-3.png",
   "biography": "I am User Three!"
 },
 {
@@ -43,7 +43,7 @@
   "last_name": "Four",
   "username": "user_four",
   "password": "pass4",
-  "picture_address": "/uploads/user-common.png",
+  "picture_address": "/common/pfp-1.png",
   "biography": "I am User Four!"
 },
 {
@@ -55,6 +55,6 @@
   "last_name": "Five",
   "username": "user_five",
   "password": "pass5",
-  "picture_address": "/uploads/user-common.png",
+  "picture_address": "/common/pfp-2.png",
   "biography": "I am User Five!"
 }]

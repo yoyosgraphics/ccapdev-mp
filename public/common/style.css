@@ -178,6 +178,11 @@ input[type="password"] {
     border-radius: 100px;
 }
 
+#image-select {
+    border-radius: 15px;
+    padding: 8px;
+}
+
 .archive-btn {
     background-color: var(--grey1);
     font-weight: normal;
@@ -1423,63 +1428,8 @@ input[type="password"] {
 }
 
 /*Upload Profile Pic in Register Page*/
-.upload-pic-container {
-    padding: 30px;
-    width: 500px;
-    text-align: center;
-    margin-left: 50px;
-}
-
-.upload-container {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.upload-label {
-    font-size: 16px;
-    color: var(--grey2);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-family: 'Inter';
-}
-
-.upload-box {
-    width: 150px;
-    height: 150px;
-    border: 2px dashed var(--white1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-}
-
-.upload-box input {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.upload-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-
-.upload-box .plus {
-    font-size: 32px;
-    color: #888;
-}
-
-.max-size {
-    font-size: 14px;
-    color: #777;
-    font-family: 'Inter';
+.select-pic-container {
+    padding-bottom: 20px;
 }
 
 reg-section .bio-box {
@@ -1686,9 +1636,7 @@ reg-section .buttons {
 
 .profile-img-wrapper {
     width: 200px; 
-    height: 200px; 
-    border-radius: 50%;
-    overflow: hidden; 
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2191,6 +2139,10 @@ reg-section .buttons {
     display: inline-block;
 }
 
+.profile-pic-container .dropdown {
+    margin-top: 170px;
+}
+
 .dropdown-content {
     position: absolute;
     top: 100%;
@@ -2232,6 +2184,22 @@ reg-section .buttons {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+}
+
+.dropdown-option {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-option img {
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.dropdown-option:hover img {
+    transform: scale(1.1);
 }
 
 .topNotch {
