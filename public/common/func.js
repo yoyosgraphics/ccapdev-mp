@@ -1,31 +1,17 @@
 $(document).ready(function () {
     $(".rating.unlocked").each(function () {
-        let ratingValue = $(this).data("rating");
+        let ratingValue = $(this).data("rating") || 0;
         $(this).css("--rating", ratingValue);
     });
 
-    $(".rating.unlocked .star").on("click", function () {
+    $(".star").on("click", function () {
         let ratingValue = $(this).data("value");
-        let ratingElement = $(this).closest(".rating.unlocked");
+        let ratingElement = $(this).closest(".rating");
 
         ratingElement.css("--rating", ratingValue);
         ratingElement.attr("data-rating", ratingValue);
 
         console.log("You selected: " + ratingValue + " stars ⭐");
-
-        $.ajax({
-            url: "/submit_rating",
-            type: "POST",
-            data: { rating: ratingValue },
-            success: function (data, status) {
-                if (status === "success") {
-                    console.log("Rating saved successfully!");
-                }
-            },
-            error: function () {
-                console.error("Failed to save rating.");
-            },
-        });
     });
 
     $(".dropdown-btn").click(function (event) {

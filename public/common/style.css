@@ -280,6 +280,7 @@ input[type="password"] {
     width: calc(var(--rating) * 20%);
     overflow: hidden;
     white-space: nowrap;
+    pointer-events: none;
 }
 
 .rating.unlocked {
@@ -294,6 +295,7 @@ input[type="password"] {
     height: 100%;
     top: 0;
     cursor: pointer;
+    z-index: 2;
 }
 
 .rating.unlocked .star:nth-child(1) { left: 0%; }
