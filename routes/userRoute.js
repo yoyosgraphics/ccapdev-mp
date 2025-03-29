@@ -2,19 +2,33 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controller/userController');
 const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Configure as needed
+const path = require('path');
 
-// Configure multer storage
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, 'public/uploads/'); // Make sure this directory exists
-  },
-  filename: function(req, file, cb) {
-    // Create unique filename with original extension
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = file.originalname.split('.').pop();
-    cb(null, uniqueSuffix + '.' + ext);
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//       cb(null, path.join(__dirname, '../uploads'));
+//   },
+//   filename: function(req, file, cb) {
+//       cb(null, 'temp-' + Date.now() + path.extname(file.originalname));
+//   }
+// });
+
+// const upload = multer({ 
+//   storage: storage,
+//   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
+//   fileFilter: (req, file, cb) => {
+//       const allowedFileTypes = /jpeg|jpg|png/;
+//       const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
+//       const mimetype = allowedFileTypes.test(file.mimetype);
+
+//       if (extname && mimetype) {
+//           return cb(null, true);
+//       } else {
+//           cb('Error: Only images are allowed');
+//       }
+//   }
+// });
 
 // Set up file filter to only allow images
 const fileFilter = (req, file, cb) => {
@@ -24,13 +38,6 @@ const fileFilter = (req, file, cb) => {
     cb(new Error('Only image files are allowed!'), false);
   }
 };
-
-// Initialize upload middleware
-const upload = multer({ 
-  storage: storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
-  fileFilter: fileFilter
-});
 
 // Middleware to add login status to all routes
 router.use((req, res, next) => {
@@ -80,9 +87,8 @@ const isOwnProfile = (req, res, next) => {
 
 // Registration routes
 router.get('/register', userController.showRegisterForm);
-router.post('/register-step-one', userController.registerStepOne);
-router.post('/register', upload.single('picture_address'), userController.register);
-
+router.post('/register-first-page', userController.registerOne);
+router.post('/register-last-page', upload.single('picture_address'), userController.register);
 // Login routes
 router.get('/login', userController.showLoginForm);
 router.post('/login', userController.login);
@@ -95,4 +101,4 @@ router.get('/users/:id', userController.getUserById);
 router.get('/users/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
 router.post('/users/:id/edit', isAuthenticated, isOwnProfile, upload.single('picture_address'), userController.updateUser);
 
-module.exports = router;``
+module.exports = router;
