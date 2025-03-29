@@ -31,27 +31,7 @@
 // JavaScript to handle image preview and character count
 document.addEventListener('DOMContentLoaded', function() {
     // Image preview functionality
-    const fileInput = document.getElementById('file-input');
-    const profileImage = document.getElementById('profile-image');
-    const uploadPlaceholder = document.querySelector('.upload-placeholder');
     
-    if (fileInput) {
-        fileInput.addEventListener('change', function() {
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    profileImage.src = e.target.result;
-                    profileImage.style.display = 'block';
-                    if (uploadPlaceholder) {
-                        uploadPlaceholder.style.display = 'none';
-                    }
-                };
-                
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-    }
     
     // Character counter for biography
     const bioTextarea = document.getElementById('bio');
@@ -69,5 +49,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+ const imageSelect = document.getElementById('image-select');
+    const dropdownOptions = document.querySelectorAll('.dropdown-option');
+    
+    if (dropdownOptions.length > 0) {
+        dropdownOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const selectedImg = this.querySelector('img');
+                const buttonImg = imageSelect.querySelector('img');
+                
+                if (selectedImg && buttonImg) {
+                    buttonImg.src = selectedImg.src;
+                    
+                    // Add hidden input to store selected profile image path
+                    let hiddenInput = document.querySelector('input[name="profile_image_path"]');
+                    if (!hiddenInput) {
+                        hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'profile_image_path';
+                        document.getElementById('register-form-step2').appendChild(hiddenInput);
+                    }
+                    hiddenInput.value = selectedImg.src;
+                }
+            });
+        });
+    }
 </script>
 {{> footer}}
