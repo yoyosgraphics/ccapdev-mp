@@ -85,9 +85,9 @@ const registerOne = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const { email_address, first_name, last_name, username, password, confirm_password, biography } = req.body;
+        const { email_address, first_name, last_name, username, password, confirm_password, profile_image_path, biography } = req.body;
         console.log("FULL REGISTRATION REQUEST:", req.body);
-        console.log("Uploaded file:", req.file);
+        console.log("Uploaded file:", profile_image_path);
 
         console.log("1st stop")
         
@@ -101,7 +101,7 @@ const register = async (req, res) => {
             username,
             password,
             confirm_password,
-            req.file,  
+            profile_image_path,  
             biography
             );
             console.log("4th stop")
