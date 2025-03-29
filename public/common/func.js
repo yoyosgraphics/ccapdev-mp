@@ -60,6 +60,10 @@ $(document).ready(function () {
 
         // Update button with selected image
         dropdown.find(".dropdown-btn").html(`<img src="${imgSrc}" width="${imgWidth}" height="${imgHeight}" style="border-radius: 10px;">`);
+        
+        // If the .edit-restaurant div exists, update its background image
+        if ($(".edit-restaurant").length)
+            $(".edit-restaurant").css("background-image", `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.88)), url('${imgSrc}')`);
 
         // Hide dropdown
         dropdown.find(".dropdown-content").removeClass("show");

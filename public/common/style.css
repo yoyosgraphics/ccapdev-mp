@@ -2219,18 +2219,6 @@ reg-section .buttons {
     overflow: hidden;
 }
 
-.floating-buttons {
-    position: absolute;
-    top: 100px;
-    right: 40px;
-    background: var(--white1);
-    padding: 8px 15px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .edit-restaurant .btn {
     background: none;
     border: none;
