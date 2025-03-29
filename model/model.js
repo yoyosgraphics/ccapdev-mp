@@ -461,7 +461,8 @@ const saveUserImage = async (file, _user_id) => {
     if (!file) 
         return null;
 
-    const dir = "/uploads/";
+    // const dir = "/uploads/";
+    const dir = path.join(__dirname, "../uploads");
 
     const fileName = "user-" + _user_id + path.extname(file.originalname);
     const filePath = path.join(dir, fileName);
@@ -476,18 +477,25 @@ const saveUserImage = async (file, _user_id) => {
 const logInUser = async(email_address, password) => {
     try {
         const existingUser = await User.findOne({ email_address });
+        const salt = await bcrypt.genSalt(10);
 
         if (!existingUser) {
             return { message: "User does not exist" };
         }
 
-        const isMatch = password == existingUser.password;
+        const isMatch = await bcrypt.compare(password.trim(), existingUser.password);
+        // console.log("Password match result:", isMatch); //checker
 
         if (!isMatch) {
             return { message: "Incorrect password" };
+        //    return { success: false, message: "Invalid email or password" }; //checker
         }
 
-        return { message: "Login successful", user: existingUser };
+        const userObject= existingUser.toObject(); //removed mongodb stuff
+        userObject._id= userObject._id.toString(); //converts id to string
+        delete userObject.password; // para lng di mapass ung password
+
+        return { message: "Login successful", user: userObject};
 
     } catch (error) {
         return { message: error.message };
