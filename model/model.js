@@ -408,7 +408,7 @@ const updateRestaurantRatingOfID = async (_restaurant_id) => {
 
 // Register User Page Request
 // Verifies the user registration status and creates the user data with the necessary information if successful.
-const createUser = async(email_address, first_name, last_name, username, password, confirm_password, picture_file, biography) => {
+const createUser = async(email_address, first_name, last_name, username, password, confirm_password, profile_image_path, biography) => {
     try {
         if (password !== confirm_password) {
             return { message: "Passwords do not match" };
@@ -424,7 +424,7 @@ const createUser = async(email_address, first_name, last_name, username, passwor
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
+    
         const newUser = new User({
             email_address,
             first_name,
@@ -439,12 +439,22 @@ const createUser = async(email_address, first_name, last_name, username, passwor
 
         const newUserID = newUser._id;
 
-        let _picture_address;
-
-        if (picture_file){
-            _picture_address = await saveUserImage(picture_file, newUserID);
-        } else {
-            _picture_address = "/uploads/user-common.png"
+        let _picture_address; 
+        
+        if (profile_image_path) {
+            // Remove the base URL part
+            if (profile_image_path.includes('localhost:3000')) {
+                _picture_address = profile_image_path.split('localhost:3000')[1];
+            } else if (profile_image_path.startsWith('http')) {
+                try {
+                    const url = new URL(profile_image_path);
+                    _picture_address = url.pathname;
+                } catch (e) {
+                    _picture_address = profile_image_path;
+                }
+            } else {
+                _picture_address = profile_image_path;
+            }
         }
 
         await User.findByIdAndUpdate(newUserID, {picture_address: _picture_address}, {new: true});
