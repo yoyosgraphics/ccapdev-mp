@@ -1,30 +1,78 @@
-<div id="reg-page-2" style="display: none;">
-    <div class="select-pic-container">
-        <div class="dropdown">
-            <button class="dropdown-btn" id="image-select">
-                <img src="/common/pfp-1.png" height="100vh" width="100vh" style="border-radius: 10px;">
-            </button>
-            <div class="dropdown-content" style="min-width: 0px;">
-                <div class="dropdown-option">
-                    <img src="/common/pfp-1.png" height="100vh" width="100vh">
-                </div>
-                <div class="dropdown-option">
-                    <img src="/common/pfp-2.png" height="100vh" width="100vh">
-                </div>
-                <div class="dropdown-option">
-                    <img src="/common/pfp-3.png" height="100vh" width="100vh">
-                </div>
-            </div>
-        </div>
-    </div>
+{{!-- <form action="/users/register-last-page" method="POST" id="register-form-step2" enctype="multipart/form-data">
+                <!-- Hidden fields to carry over from step 1 -->
+                <input type="hidden" name="email_address" value="{{formData.email_address}}">
+                <input type="hidden" name="first_name" value="{{formData.first_name}}">
+                <input type="hidden" name="last_name" value="{{formData.last_name}}">
+                <input type="hidden" name="username" value="{{formData.username}}">
+                <input type="hidden" name="password" value="{{formData.password}}">
+                <input type="hidden" name="confirm_password" value="{{formData.confirm_password}}">
+                
+                <div id="reg-page-2">
+                    <div class="upload-pic-container">
+                        <div class="upload-container">
+                            <label class="upload-box">
+                                <input type="file" id="file-input" name="picture_address" accept="image/*">
+                                <div class="upload-placeholder">+</div>
+                                <img id="profile-image" src="" style="display: none;">
+                            </label>
+                            <div class="upload-label">
+                                <span>Upload Your Profile Picture</span>
+                                <span class="max-size">(Max: 50 MB)</span>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="bio-box">
-        <textarea id="bio" maxlength="1500" placeholder="Biography"></textarea>
-        <span class="char-counter" id="char-counter">0/1500</span>
-    </div>
+                    <div class="bio-box">
+                        <textarea id="bio" name="biography" maxlength="1500" placeholder="Biography">{{formData.biography}}</textarea>
+                        <span class="char-counter" id="char-counter">0/1500</span>
+                    </div>
 
-    <div class="buttons">
-        <button class="prev-btn">Previous</button>
-        <button class="signup-btn" onclick="window.location.href='/'">Sign Up</button>
-    </div>
-</div>
+                    <div class="buttons">
+                        <button type="button" class="prev-btn" onclick="window.location.href='/register'">Previous</button>
+                        <button type="submit" class="signup-btn">Sign Up</button>
+                    </div>
+                </div>
+</form> --}}
+
+
+<form action="/users/register-last-page" method="POST" id="register-form-step2" enctype="multipart/form-data">
+                <!-- Hidden fields to carry over from step 1 -->
+                <input type="hidden" name="email_address" value="{{formData.email_address}}">
+                <input type="hidden" name="first_name" value="{{formData.first_name}}">
+                <input type="hidden" name="last_name" value="{{formData.last_name}}">
+                <input type="hidden" name="username" value="{{formData.username}}">
+                <input type="hidden" name="password" value="{{formData.password}}">
+                <input type="hidden" name="confirm_password" value="{{formData.confirm_password}}">
+                
+                <div id="reg-page-2">
+                    <div class="upload-pic-container">
+                        <div class="select-pic-container">
+                            <div class="dropdown">
+                                <button class="dropdown-btn" id="image-select">
+                                    <img src="/common/pfp-1.png" height="100vh" width="100vh" style="border-radius: 10px;">
+                                </button>
+                                    <div class="dropdown-content" style="min-width: 0px;">
+                                        <div class="dropdown-option">
+                                            <img src="/common/pfp-1.png" height="100vh" width="100vh">
+                                        </div>
+                                        <div class="dropdown-option">
+                                            <img src="/common/pfp-2.png" height="100vh" width="100vh">
+                                        </div>
+                                        <div class="dropdown-option">
+                                            <img src="/common/pfp-3.png" height="100vh" width="100vh">
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bio-box">
+                        <textarea id="bio" name="biography" maxlength="1500" placeholder="Biography">{{formData.biography}}</textarea>
+                        <span class="char-counter" id="char-counter">0/1500</span>
+                    </div>
+
+                    <div class="buttons">
+                        <button type="button" class="prev-btn" onclick="window.location.href='/register'">Previous</button>
+                        <button type="submit" class="signup-btn">Sign Up</button>
+                    </div>
+                </div>
+</form>
