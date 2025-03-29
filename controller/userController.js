@@ -1,43 +1,51 @@
-const { 
-    createUser, 
-    logInUser, 
-    getUserID, 
-    updateUserID,
-    checkUserProfileOwner 
-} = require("../model/model");
+const db = require("../model/model");
 console.log("User Controller");
-// ========== REGISTRATION ==========
 
-// Show registration form
+// ========== REGISTRATION ==========
 const showRegisterForm = (req, res) => {
-    // For the initial form display
+    console.log("showRegisterForm Check!"); //checker
+    // const alerts = [];
+    // if (req.query.alert && req.query.message) {
+    //     alerts.push({ type: req.query.alert, message: req.query.message });
+    // }
+
     res.render('register', {
+        layout: 'index',
+        title: 'TopNotch - SignUp Page',
         formData: {},
         showPage: true,
         showPageTwo: false,
         logged_in: false,
         show_auth: false,
-        alerts: []
-    });
+       });
 };
 
-const registerStepOne = async (req, res) => {
+const registerOne = async (req, res) => {
+    console.log("FULL REGISTRATION REQUEST:", req.body);
     try {
-        const { email_address, first_name, last_name, username, password, confirm_password } = req.body;
-        
-        // Check if any required fields are missing
+    const { 
+        email_address,
+        first_name,
+        last_name,
+        username,
+        password,
+        confirm_password,
+    } = req.body;   
+
+        console.log("validate 1st page")
         if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
-            return res.render('register', { 
-                formData: req.body,
-                showPage: true,
-                showPageTwo: false,
-                logged_in: false,
-                show_auth: false,
-                alerts: [{ type: 'error', message: 'All fields are required' }]
-            });
-        }
-        
-        // Optional: Basic validation
+            console.log("1st page error")
+                return res.render('register', { 
+                    formData: req.body,
+                    showPage: true,
+                    showPageTwo: false,
+                    logged_in: false,
+                    show_auth: false,
+                    alerts: [{ type: 'error', message: 'All fields are required' }]
+                });
+            } 
+             
+        console.log("validate password and confirm password")
         if (password !== confirm_password) {
             return res.render('register', { 
                 formData: req.body,
@@ -48,19 +56,23 @@ const registerStepOne = async (req, res) => {
                 alerts: [{ type: 'error', message: 'Passwords do not match' }]
             });
         }
-        
-        // If validation passes, show step two with the form data
-        res.render('register', { 
-            formData: req.body,
-            showPage: false,
-            showPageTwo: true,
-            logged_in: false,
-            show_auth: false,
-            alerts: []
-        });
+            //if validations r successful go to page two
+            res.render('register', { 
+                formData: req.body,
+                showPage: false,
+                showPageTwo: true,
+                logged_in: false,
+                show_auth: false,
+                alerts: []
+            });
+            
     } catch (error) {
-        console.error("Registration step one error:", error);
-        res.render('register', { 
+        console.error('REGISTRATION PROCESS ERROR:', error);
+        
+        // Handle different types of errors
+        return res.render('register', {
+            layout: 'index',
+            title: 'TopNotch - SignUp Page',
             formData: req.body,
             showPage: true,
             showPageTwo: false,
@@ -71,51 +83,41 @@ const registerStepOne = async (req, res) => {
     }
 };
 
-// Final Registration Handler - Your existing function with minor improvements
 const register = async (req, res) => {
     try {
         const { email_address, first_name, last_name, username, password, confirm_password, biography } = req.body;
-        console.log("Request body:", req.body);
+        console.log("FULL REGISTRATION REQUEST:", req.body);
         console.log("Uploaded file:", req.file);
+
+        console.log("1st stop")
         
-        // Check if any required fields are missing
-        if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
-            return res.render('register', { 
-                formData: req.body,
-                showPage: false,
-                showPageTwo: true,
-                logged_in: false,
-                show_auth: false,
-                alerts: [{ type: 'error', message: 'Missing required information' }]
-            });
-        }
-        
-        // Pass the file object directly, not the path
-        const result = await createUser(
-            email_address, 
-            first_name, 
-            last_name, 
-            username, 
-            password, 
-            confirm_password, 
-            req.file, // Pass the file object, not a path
+            console.log("2nd stop")
+            //const newUser = 
+            console.log("3rd stop")
+            await db.createUser(
+            email_address,
+            first_name,
+            last_name,
+            username,
+            password,
+            confirm_password,
+            req.file,  
             biography
-        );
-        
-        if (result.success) {
-            res.redirect('/login?alert=success&message=' + encodeURIComponent('Registration successful! Please log in.'));
-        } else {
-            res.render('register', { 
-                formData: req.body,
-                showPage: false,
-                showPageTwo: true,
-                logged_in: false,
-                show_auth: false,
-                alerts: [{ type: 'error', message: result.message }]
-            });
-        }
+            );
+            console.log("4th stop")
+        // console.log("My User Creation newUser:", newUser);
+        // console.log("newUser:", newUser);
+        console.log("6th stop")
+
+        res.redirect('/users/login?alert=success&message=' + encodeURIComponent('Registration successful! Please log in.'));
+        console.log("User Successfully Created. Please login.")
+
+        console.log("7th stop")
     } catch (error) {
-        console.error("Registration error:", error);
+        console.log("5th stop")
+        console.error('REGISTRATION PROCESS ERROR:', error);
+        
+        // Handle different types of errors
         res.render('register', { 
             formData: req.body,
             showPage: false,
@@ -128,7 +130,6 @@ const register = async (req, res) => {
 };
 
 // ========== LOGIN ==========
-
 // Show login form
 const showLoginForm = (req, res) => {
     const alerts = [];
@@ -137,7 +138,9 @@ const showLoginForm = (req, res) => {
     }
     
     res.render('login', { 
-        email: '',
+        layout: 'index',
+        title: 'TopNotch - Login Page',
+        formData:{},
         alerts: alerts,
         logged_in: false,
         show_auth: false,
@@ -147,39 +150,41 @@ const showLoginForm = (req, res) => {
 
 // Process login
 const login = async (req, res) => {
-    const { email_address, password } = req.body;
-    
     try {
-        console.log("Login attempt with:", email_address);
-        const result = await logInUser(email_address, password);
-        console.log("Login result:", result);
-        
-        // Properly handle user ID - ensure it's a string
-        const userId = result.user._id || result.user.id;
-        const userIdString = userId ? userId.toString() : null;
-        
-        console.log("User ID for session:", userIdString);
-        
-        // Create user session object
+    const { email_address, password, remember } = req.body;
+    
+        const existingUser = await db.logInUser(email_address, password);
+        console.log("existingUser in controller!: ", existingUser.user);
+       
+        // user session object
         const userForSession = {
-            _id: userIdString,
-            username: result.user.username || '',
-            email_address: result.user.email_address || '',
-            first_name: result.user.first_name || '',
-            last_name: result.user.last_name || '',
-            picture_address: result.user.picture_address || '',
-            biography: result.user.biography || ''
+            _id: existingUser.user._id,
+            username: existingUser.user.username || '',
+            email_address: existingUser.user.email_address || '',
+            first_name: existingUser.user.first_name || '',
+            last_name: existingUser.user.last_name || '',
+            picture_address: existingUser.user.picture_address || '',
+            biography: existingUser.user.biography || ''
         };
         
         // Assign to session
         req.session.user = userForSession;
         
         // Check if user is the profile owner before setting isProfileOwner
-        req.session.isProfileOwner = await checkUserProfileOwner(userIdString, userIdString);
+        req.session.isProfileOwner = await db.checkUserProfileOwner(existingUser.user._id, existingUser.user._id);
         
         console.log("User set in session:", req.session.user);
         console.log("Is profile owner:", req.session.isProfileOwner);
-        
+        //remember me checkbox
+        if(remember){
+            const fourteenDays = 14 * 24 * 60 * 60 * 1000;
+            req.session.cookie.maxAge = fourteenDays;
+        } else {
+            req.session.cookie.maxAge = undefined; //deletes session when browser is closed
+            res.clearCookie('connect.sid');
+            if (req.session.cookie.maxAge)
+                delete req.session.cookie.maxAge; //pag nageexist somewhere ddelete nya
+        }
         // Handle session save with proper error handling
         return new Promise((resolve, reject) => {
             req.session.save((err) => {
@@ -193,8 +198,8 @@ const login = async (req, res) => {
             });
         })
         .then(() => {
-            console.log("Redirecting to user profile:", `/users/${userIdString}`);
-            return res.redirect(`/users/${userIdString}`);
+           console.log("Redirecting to user profile:", `/users/${existingUser.user._id}`);
+           return res.redirect(`/users/${existingUser.user._id}`);
         })
         .catch((saveErr) => {
             console.error("Session save error:", saveErr);
@@ -210,7 +215,7 @@ const login = async (req, res) => {
     } catch (error) {
         console.error("Login error:", error);
         return res.render('login', { 
-            email: email_address,
+            formData: req.body,
             alerts: [{ type: 'error', message: 'An error occurred during login' }],
             isLoggedIn: false,
             logged_in: false,
@@ -227,6 +232,7 @@ const logout = (req, res) => {
             console.error('Error destroying session:', err);
             return res.redirect('/?alert=error&message=' + encodeURIComponent('Error during logout'));
         }
+        res.clearCookie('connect.sid');
         // Redirect to home page with query parameters to indicate logged out state
         res.redirect('/?logged_in=false&show_auth=true');
     });
@@ -239,7 +245,7 @@ const logout = (req, res) => {
 const getUserById = async (req, res) => {
     try {
         console.log("Fetching user with ID:", req.params.id);
-        const user = await getUserID(req.params.id);
+        const user = await db.getUserID(req.params.id);
         
         if (!user || !Array.isArray(user) || user.length === 0) {
             console.log("User not found:", req.params.id);
@@ -293,7 +299,7 @@ const getUserById = async (req, res) => {
 // Show edit profile form
 const showEditForm = async (req, res) => {
     try {
-        const user = await getUserID(req.params.id);
+        const user = await db.getUserID(req.params.id);
         
         if (!user || !Array.isArray(user) || user.length === 0) {
             return res.status(404).render('404', { 
@@ -354,7 +360,7 @@ const updateUser = async (req, res) => {
         
         // Validate required fields
         if (!first_name || !last_name || !username) {
-            const user = await getUserID(req.params.id);
+            const user = await db.getUserID(req.params.id);
             return res.render('edit_profile', {
                 user: user[0] || { _id: req.params.id, ...req.body },
                 logged_in: !!req.session.user,
@@ -363,7 +369,7 @@ const updateUser = async (req, res) => {
             });
         }
         
-        const updatedUser = await updateUserID(req.params.id, first_name, last_name, username, biography, picture_address);
+        const updatedUser = await db.updateUserID(req.params.id, first_name, last_name, username, biography, picture_address);
         
         if (!updatedUser) {
             return res.status(404).render('404', { 
@@ -403,7 +409,7 @@ const updateUser = async (req, res) => {
 
 module.exports = {
     showRegisterForm,
-    registerStepOne,
+    registerOne,
     register,
     showLoginForm,
     login,
