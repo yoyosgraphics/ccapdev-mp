@@ -1,5 +1,6 @@
 //AS OF MARCH 9 10:11 PM
 const express = require('express');
+const MongoStore = require('connect-mongo');
 const server = express();
 
 // Body parser middleware
@@ -33,15 +34,24 @@ mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
 
 // Session setup for user authentication
 const session = require('express-session');
+server.use(cookieParser());
+
 server.use(session({
     secret: 'topnotch-restaurant-secret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, // This is important - it prevents storing empty sessions
     cookie: { 
-        path: '/',
+        // path: '/',
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-    }
+        secure: process.env.NODE_ENV === 'production'
+    },
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/restaurant-review-db',
+        collectionName: 'sessions', 
+        autoRemove: 'native', 
+        ttl: 14 * 24 * 60 * 60 * 1000, // 14 days
+        touchAfter: 3600 //updates session once per hour
+    })
 }));
 
 // Make user data available to all templates
