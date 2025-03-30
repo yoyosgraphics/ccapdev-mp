@@ -34,6 +34,7 @@ mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
 
 // Session setup for user authentication
 const session = require('express-session');
+let cookieParser = require('cookie-parser');
 server.use(cookieParser());
 
 server.use(session({
