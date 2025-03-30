@@ -24,7 +24,7 @@ Before you begin, ensure you have the following installed:
 2. Install dependencies
 
    ```
-   npm install express express-handlebars mongoose bcrypt express-session fs path connect-mongo
+   npm install express express-handlebars mongoose bcrypt express-session fs path connect-mongo cookie-parser
    ```
 ### Database Set-Up
 
