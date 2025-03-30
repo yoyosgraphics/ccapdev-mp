@@ -1,20 +1,21 @@
 <div class="horizontalAlignment" style="gap: 1vh; margin: 55px;">
 
-    <button class="clear-btn" id="clear-btn">Clear Filters</button>
+    {{!-- Used clear-btn css for now --}}
+    <button class="clear-btn" id="set-btn" style="background-color: var(--blue1);">Set Filters</button> 
 
     <div class="dropdown" id="filterFood-btn">
         <div class="horizontalAlignment">
             <button class="dropdown-btn">
-                Type of Food
+                Food Type
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p>Any</p>
-                <p>American Food</p>
-                <p>Italian Food</p>
-                <p>Japanese Food</p>
-                <p>Mexican Food</p>
-                <p>Chinese Food</p>
+                <p>Food Type: Any</p>
+                <p>Food Type: American Food</p>
+                <p>Food Type: Italian Food</p>
+                <p>Food Type: Japanese Food</p>
+                <p>Food Type: Mexican Food</p>
+                <p>Food Type: Chinese Food</p>
             </div>
         </div>
     </div>
@@ -26,11 +27,11 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p>5</p>
-                <p>4</p>
-                <p>3</p>
-                <p>2</p>
-                <p>1</p>
+                <p>Average Rating: 5.0</p>
+                <p>Average Rating: 4.0</p>
+                <p>Average Rating: 3.0</p>
+                <p>Average Rating: 2.0</p>
+                <p>Average Rating: 1.0</p>
             </div>
         </div>
     </div>
@@ -42,13 +43,15 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p>0 - 200</p>
-                <p>200 - 400</p>
-                <p>400 - 600</p>
-                <p>600 - 800</p>
-                <p>800 +</p>
+                <p>Price: 0 - 200.00</p>
+                <p>Price: 200.00 - 400.00</p>
+                <p>Price: 400.00 - 600.00</p>
+                <p>Price: 600.00 - 800.00</p>
+                <p>Price: 800.00 +</p>
             </div>
         </div>
     </div>
+
+    <button class="clear-btn" id="clear-btn" onclick="location.reload()">Clear Filters</button>
 
 </div>
