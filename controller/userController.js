@@ -166,7 +166,7 @@ const login = async (req, res) => {
             picture_address: existingUser.user.picture_address || '',
             biography: existingUser.user.biography || ''
         };
-        
+
         // Assign to session
         req.session.user = userForSession;
         
@@ -175,16 +175,19 @@ const login = async (req, res) => {
         
         console.log("User set in session:", req.session.user);
         console.log("Is profile owner:", req.session.isProfileOwner);
+
         //remember me checkbox
-        if(remember){
+        if (remember) {
             const fourteenDays = 14 * 24 * 60 * 60 * 1000;
             req.session.cookie.maxAge = fourteenDays;
         } else {
-            req.session.cookie.maxAge = undefined; //deletes session when browser is closed
-            res.clearCookie('connect.sid');
-            if (req.session.cookie.maxAge)
-                delete req.session.cookie.maxAge; //pag nageexist somewhere ddelete nya
+            //session expires after one hour
+            const oneHour = 60 * 60 * 1000;
+            req.session.cookie.maxAge = oneHour;
+            //document will expire from mongodb
+            req.session._expires = new Date(Date.now() + oneHour);
         }
+        
         // Handle session save with proper error handling
         return new Promise((resolve, reject) => {
             req.session.save((err) => {
@@ -226,7 +229,6 @@ const login = async (req, res) => {
 };
 // Logout user
 const logout = (req, res) => {
-    console.log('trying to logout!!!!');
     req.session.destroy((err) => {
         if (err) {
             console.error('Error destroying session:', err);
