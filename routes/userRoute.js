@@ -85,6 +85,14 @@ const isOwnProfile = (req, res, next) => {
   }
 };
 
+const ensureLoggedIn = (req, res, next) => {
+  if (req.session.user) {
+    return next();
+  }
+
+  return res.redirect('/');
+};
+
 // Registration routes
 router.get('/register', userController.showRegisterForm);
 router.post('/register-first-page', userController.registerOne);
@@ -95,7 +103,7 @@ router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 
 // User profile routes
-router.get('/users/:id', userController.getUserById);
+router.get('/users/:id', ensureLoggedIn, userController.getUserById);
 
 // Protected profile routes (require authentication AND ownership)
 router.get('/users/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
