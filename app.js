@@ -28,9 +28,9 @@ server.use(express.static('public'));
 
 // Database connection (MongoDB)
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+// mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
+//     .then(() => console.log('Connected to MongoDB'))
+//     .catch(err => console.error('MongoDB connection error:', err));
 
 // Session setup for user authentication
 const session = require('express-session');
