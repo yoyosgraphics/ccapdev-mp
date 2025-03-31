@@ -1,6 +1,6 @@
 <div class="review-container">
     <div class="reviewer-container">
-        <img src="/common/user-icon.png" alt="User Icon">
+        <img src="{{review.user_id.picture_address}}" alt="User Icon">
         <div class="reviewer-info">
             <!-- Use review.user_id for user data -->
             <div class="reviewer-name text-clickable" onclick="window.location.href='/users/{{review.user_id._id}}'">
