@@ -251,7 +251,7 @@ const getReviewOfID = async (id) => {
                                     throw new Error("Review not found");
                                 }
                             
-                                review[0].num_comments = await Comment.countDocuments({review_id: review._id});
+                                review[0].num_comments = await Comment.countDocuments({review_id: review[0]._id});
                             
                                 if (review[0].picture_addresses.length == 0) {
                                     review[0].has_images = false;
@@ -276,7 +276,7 @@ const addComment = async (_user_id, _review_id, _content) => {
 
 // Gets the list of comments under the concerned review based on the given review id.
 const getReviewCommentsOfID = async (id) => {
-    let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1})
+    let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1, review_id: 1})
                         .populate("user_id", "first_name last_name")
                         .lean();
 

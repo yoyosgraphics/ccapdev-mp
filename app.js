@@ -285,10 +285,14 @@ server.get('/view_review/:id/', async function(req, res) {
         
         // Fetch comments for the review
         const comments = await db.getReviewCommentsOfID(req.params.id);
-        
-        //console.log('Review:', review[0]);
-        console.log('Comments:', comments);
 
+        comments.forEach(async comment => {
+            if (await db.checkUserCommentOwner(req.session.user._id, comment._id)) {
+                comment.author = true;
+            } else {
+                comment.author = false;
+            }
+        });
 
         res.render('view_review', {
             layout: 'index',
@@ -380,13 +384,18 @@ server.get('/edit/review/:id', async function(req, res) {
 
 // Edit comment route - converted to use MongoDB
 server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
-    try {
-        // Check if user is logged in
-        if (!req.session.user) {
-            return res.redirect('/login');
-        }
-        
+    try {        
         const review = await db.getReviewOfID(req.params.id);
+        const comments = await db.getReviewCommentsOfID(req.params.id);
+
+        comments.forEach(async comment => {
+            if (await db.checkUserCommentOwner(req.session.user._id, comment._id)) {
+                comment.author = true;
+            } else {
+                comment.author = false;
+            }
+        });
+
         const comment = await db.getCommentOfID(req.params.comment_id);
         
         if (!review || !comment) {
@@ -396,24 +405,13 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
                 alerts: [{ type: 'error', message: 'Review or comment not found' }]
             });
         }
-        
-        // // Check if user is the author of the comment
-        // if (comment.user_id.toString() !== req.session.user._id.toString()) {
-        //     return res.status(403).render('error', {
-        //         layout: 'index',
-        //         title: 'Unauthorized',
-        //         error: 'You are not authorized to edit this comment',
-        //         alerts: [{ type: 'error', message: 'Unauthorized access' }]
-        //     });
-        // }
 
-        console.log("1: ", review[0]);
-        
         res.render('edit_comment', {
             layout: 'index',
             title: review.title,
             selected: review[0],
-            selectedComment: comment
+            selectedComment: comment,
+            comments: comments
         });
     } catch (err) {
         console.error('Error fetching comment:', err);
