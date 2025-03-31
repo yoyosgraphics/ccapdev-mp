@@ -176,6 +176,13 @@ server.get('/search', async function(req, res) {
     }
 });
 
+server.post('/ajax_response', async function(req, resp){
+        let option = req.body.option;
+        let searchQuery = req.body.searchQuery;
+        let restaurants = await db.getRestaurantWithFilters(searchQuery, option, undefined, undefined, undefined);
+        resp.json(restaurants);
+})
+
 // Edit restaurant route - fix to use the array return
 server.get('/edit/restaurant/:id', async function(req, res) {
     try {

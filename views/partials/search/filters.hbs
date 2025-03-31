@@ -1,7 +1,6 @@
 <div class="horizontalAlignment" style="gap: 1vh; margin: 55px;">
 
-    {{!-- Used clear-btn css for now --}}
-    <button class="clear-btn" id="set-btn" style="background-color: var(--blue1);">Set Filters</button> 
+    <button class="clear-btn" id="clear-btn">Clear Filters</button>
 
     <div class="dropdown" id="filterFood-btn">
         <div class="horizontalAlignment">
@@ -11,11 +10,11 @@
             </button>
             <div class="dropdown-content">
                 <p>Food Type: Any</p>
-                <p>Food Type: American Food</p>
-                <p>Food Type: Italian Food</p>
-                <p>Food Type: Japanese Food</p>
-                <p>Food Type: Mexican Food</p>
-                <p>Food Type: Chinese Food</p>
+                <p data-value="American">Food Type: American Food</p>
+                <p data-value="Italian">Food Type: Italian Food</p>
+                <p data-value="Japanese">Food Type: Japanese Food</p>
+                <p data-value="Mexican">Food Type: Mexican Food</p>
+                <p data-value="Chinese">Food Type: Chinese Food</p>
             </div>
         </div>
     </div>
@@ -27,11 +26,11 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p>Average Rating: 5.0</p>
-                <p>Average Rating: 4.0</p>
-                <p>Average Rating: 3.0</p>
-                <p>Average Rating: 2.0</p>
-                <p>Average Rating: 1.0</p>
+                <p data-value="5.0">Average Rating: 5.0</p>
+                <p data-value="4.0">Average Rating: 4.0</p>
+                <p data-value="3.0">Average Rating: 3.0</p>
+                <p data-value="2.0">Average Rating: 2.0</p>
+                <p data-value="1.0">Average Rating: 1.0</p>
             </div>
         </div>
     </div>
@@ -43,15 +42,13 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p>Price: 0 - 200.00</p>
-                <p>Price: 200.00 - 400.00</p>
-                <p>Price: 400.00 - 600.00</p>
-                <p>Price: 600.00 - 800.00</p>
-                <p>Price: 800.00 +</p>
+                <p data-value="0.00" data-value="200.00">0.00 - 200.00</p>
+                <p data-value="200.00" data-value="400.00">200.00 - 400.00</p>
+                <p data-value="400.00" data-value="600.00">400.00 - 600.00</p>
+                <p data-value="600.00" data-value="800.00">600.00 - 800.00</p>
+                <p data-value="800.00">800.00 +</p>
             </div>
         </div>
     </div>
-
-    <button class="clear-btn" id="clear-btn" onclick="location.reload()">Clear Filters</button>
 
 </div>

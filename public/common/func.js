@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     $(".dropdown-content p").click(function () {
         let selectedText = $(this).text();
-        let selectedValue = $(this).data("value");
+        let selectedValue = $(this).data("value") || undefined;
         let arrowGraphic = '\n<img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">'
 
         // Hide dropdown
@@ -43,10 +43,38 @@ $(document).ready(function () {
         dropdown.find(".dropdown-btn").html(selectedText+arrowGraphic);
         dropdown.find(".dropdown-content").removeClass("show"); 
 
-        $.post('ajax_response', { option: selectedValue },
+        let searchQuery = $(".headerViewRestaurants").data("search-query") || undefined;
+
+        $.post('ajax_response', { option: selectedValue, searchQuery: searchQuery },
             function(data, status){
-                if(status == 'success')
-                    console.log("Option selected:", response);
+                if(status == 'success') {
+                    let stackHtml = "";
+
+                    data.forEach(restaurant => {
+                        stackHtml += `
+                            <div class="food-card-vertical">
+                                <div class="horizontalAlignment">
+                                    <div class="food-card" onclick="window.location.href='/view/restaurant/${restaurant._id}'">
+                                        <img src="${restaurant.picture_address}" class="food-card">
+                                    </div>
+                                    <div class="food-details" id="card-stack">
+                                        <div class="horizontalAlignment">
+                                            <h2>${restaurant.name}</h2>
+                                            <p class="rating" style="--rating: ${restaurant.rating};"></p>
+                                        </div>
+                                        <p>Type: ${restaurant.type}</p>
+                                        <p>Address: ${restaurant.address}</p>
+                                        <p>Phone Number: ${restaurant.phone_number}</p>
+                                        <p>Pricing: PHP ${restaurant.pricing_from}-${restaurant.pricing_to} per person</p>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        `;
+                    });
+
+                    $(".restaurantCategory").html(stackHtml);
+                }
             }
         )
     });
