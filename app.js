@@ -2,7 +2,7 @@
 const express = require('express');
 const MongoStore = require('connect-mongo');
 const server = express();
-
+const connectDB = require('./db');
 // Body parser middleware
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
