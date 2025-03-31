@@ -287,8 +287,10 @@ server.get('/view_review/:id/', async function(req, res) {
         const comments = await db.getReviewCommentsOfID(req.params.id);
 
         comments.forEach(async comment => {
-            if (await db.checkUserCommentOwner(req.session.user._id, comment._id)) {
-                comment.author = true;
+            if (res.locals.logged_in) {
+                if (await db.checkUserCommentOwner(res.locals.user._id, comment._id)) {
+                    comment.author = true;
+                }
             } else {
                 comment.author = false;
             }
@@ -389,8 +391,10 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
         const comments = await db.getReviewCommentsOfID(req.params.id);
 
         comments.forEach(async comment => {
-            if (await db.checkUserCommentOwner(req.session.user._id, comment._id)) {
-                comment.author = true;
+            if (res.locals.logged_in) {
+                if (await db.checkUserCommentOwner(res.locals.user._id, comment._id)) {
+                    comment.author = true;
+                }
             } else {
                 comment.author = false;
             }
