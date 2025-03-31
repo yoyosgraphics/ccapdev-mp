@@ -85,6 +85,54 @@ $(document).ready(function () {
         )
     });
 
+    $("#clear-btn").click(function () {
+        $("#filterFood-btn .dropdown-btn").html('Food Type <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">');
+        $("#filterRating-btn .dropdown-btn").html('Average Rating <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">');
+        $("#filterPriceMin-btn .dropdown-btn").html('Minimum Pricing <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">');
+        $("#filterPriceMax-btn .dropdown-btn").html('Maximum Pricing <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">');
+
+        $(".dropdown-content p").removeClass("selected");
+
+        let selectedType = undefined;
+        let selectedRating = undefined;
+        let selectedPricingFrom = undefined;
+        let selectedPricingTo = undefined;
+        let searchQuery = $(".headerViewRestaurants").data("search-query") || undefined;
+
+        $.post('ajax_response', { type: selectedType, rating: selectedRating, pricing_from: selectedPricingFrom, pricing_to: selectedPricingTo, searchQuery: searchQuery },
+            function(data, status){
+                if(status == 'success') {
+                    let stackHtml = "";
+
+                    data.forEach(restaurant => {
+                        stackHtml += `
+                            <div class="food-card-vertical">
+                                <div class="horizontalAlignment">
+                                    <div class="food-card" onclick="window.location.href='/view/restaurant/${restaurant._id}'">
+                                        <img src="${restaurant.picture_address}" class="food-card">
+                                    </div>
+                                    <div class="food-details" id="card-stack">
+                                        <div class="horizontalAlignment">
+                                            <h2>${restaurant.name}</h2>
+                                            <p class="rating" style="--rating: ${restaurant.rating};"></p>
+                                        </div>
+                                        <p>Type: ${restaurant.type}</p>
+                                        <p>Address: ${restaurant.address}</p>
+                                        <p>Phone Number: ${restaurant.phone_number}</p>
+                                        <p>Pricing: PHP ${restaurant.pricing_from}-${restaurant.pricing_to} per person</p>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        `;
+                    });
+
+                    $(".restaurantCategory").html(stackHtml);
+                }
+            }
+        )
+    })
+
     $(".dropdown-option").click(function () {
         let selectedImg = $(this).find("img");
         let imgSrc = selectedImg.attr("src");
