@@ -9,12 +9,12 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p>Food Type: Any</p>
-                <p data-value="American">Food Type: American Food</p>
-                <p data-value="Italian">Food Type: Italian Food</p>
-                <p data-value="Japanese">Food Type: Japanese Food</p>
-                <p data-value="Mexican">Food Type: Mexican Food</p>
-                <p data-value="Chinese">Food Type: Chinese Food</p>
+                <p class="type-filter">Food Type: Any</p>
+                <p class="type-filter" data-type="American">Food Type: American Food</p>
+                <p class="type-filter" data-type="Italian">Food Type: Italian Food</p>
+                <p class="type-filter" data-type="Japanese">Food Type: Japanese Food</p>
+                <p class="type-filter" data-type="Mexican">Food Type: Mexican Food</p>
+                <p class="type-filter" data-type="Chinese">Food Type: Chinese Food</p>
             </div>
         </div>
     </div>
@@ -22,15 +22,16 @@
     <div class="dropdown" id="filterRating-btn">
         <div class="horizontalAlignment">
             <button class="dropdown-btn">
-                Average Rating
+                Minimum Rating
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p data-value="5.0">Average Rating: 5.0</p>
-                <p data-value="4.0">Average Rating: 4.0</p>
-                <p data-value="3.0">Average Rating: 3.0</p>
-                <p data-value="2.0">Average Rating: 2.0</p>
-                <p data-value="1.0">Average Rating: 1.0</p>
+                <p class="rating-filter">Minimum Rating: Any</p>
+                <p class="rating-filter" data-rating=5.0>Minimum Rating: 5.0</p>
+                <p class="rating-filter" data-rating=4.0>Minimum Rating: 4.0</p>
+                <p class="rating-filter" data-rating=3.0>Minimum Rating: 3.0</p>
+                <p class="rating-filter" data-rating=2.0>Minimum Rating: 2.0</p>
+                <p class="rating-filter" data-rating=1.0>Minimum Rating: 1.0</p>
             </div>
         </div>
     </div>
@@ -42,11 +43,12 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p data-value="0.00" data-value="200.00">0.00 - 200.00</p>
-                <p data-value="200.00" data-value="400.00">200.00 - 400.00</p>
-                <p data-value="400.00" data-value="600.00">400.00 - 600.00</p>
-                <p data-value="600.00" data-value="800.00">600.00 - 800.00</p>
-                <p data-value="800.00">800.00 +</p>
+                <p class="pricing-filter">Pricing: Any</p>
+                <p class="pricing-filter" data-pricing_from=0.00 data-pricing_to=200.00>Pricing: 0.00 - 200.00</p>
+                <p class="pricing-filter" data-pricing_from=200.00 data-pricing_to=400.00>Pricing: 200.00 - 400.00</p>
+                <p class="pricing-filter" data-pricing_from=400.00 data-pricing_to=600.00>Pricing: 400.00 - 600.00</p>
+                <p class="pricing-filter" data-pricing_from=600.00 data-pricing_to=800.00>Pricing: 600.00 - 800.00</p>
+                <p class="pricing-filter" data-pricing_from=800.00>Pricing: 800.00 +</p>
             </div>
         </div>
     </div>

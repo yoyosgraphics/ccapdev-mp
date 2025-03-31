@@ -177,9 +177,13 @@ server.get('/search', async function(req, res) {
 });
 
 server.post('/ajax_response', async function(req, resp){
-        let option = req.body.option;
+        let type = req.body.type;
+        let rating = req.body.rating;
+        let pricing_from = req.body.pricing_from;
+        let pricing_to = req.body.pricing_to;
         let searchQuery = req.body.searchQuery;
-        let restaurants = await db.getRestaurantWithFilters(searchQuery, option, undefined, undefined, undefined);
+        let restaurants = await db.getRestaurantWithFilters(searchQuery, type, rating, pricing_from, pricing_to);
+        console.log(type, rating, pricing_from, pricing_to, searchQuery, restaurants);
         resp.json(restaurants);
 })
 
