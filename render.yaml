@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: your-app-name
+    env: node
+    buildCommand: npm install express express-handlebars mongoose bcrypt express-session fs path mongo-conenct
+    startCommand: node app.js
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://mrtnandya:QelTswFYEYyKPEVo@topnotch.tqmsmks.mongodb.net/
+      - key: PORT
+        value: 3000
