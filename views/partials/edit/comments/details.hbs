@@ -1,9 +1,9 @@
 <div class="review-container">
     <div class="reviewer-container">
-        <img src="/common/user-icon.png" alt="User Icon">
+        <img src="{{selected.user_id.picture_address}}" alt="User Icon">
         <div class="reviewer-info">
-            <div class="reviewer-name text-clickable" onclick="window.location.href='/view/user/{{selected._id}}'">
-                <b><span>{{selected.first_name}} {{selected.last_name}}</span></b>
+            <div class="reviewer-name text-clickable" onclick="window.location.href='/users/{{selected.user_id._id}}'">
+                <b><span>{{selected.user_id.first_name}} {{selected.user_id.last_name}}</span></b>
             </div>
             <div class="reviewer-date">
                 <span>{{selected.date}}</span>
@@ -41,17 +41,19 @@
                 <img src="/common/comment-icon.png" alt="Comment Icon" class="icon-margin-right">
                 <b>{{selected.num_comments}} comments</b>
             </div>
+            {{#if user}}
             <div class="edit-delete-container button-container-attributes">
                 <button class="btn"><img src="/common/edit-icon.png" width="15px" height="15px" onclick="window.location.href='/edit/review/{{selected.id}}'"></button>
                 <div class="divider"></div>
                 <button class="btn"><img src="/common/delete-icon.png" width="15px" height="15px"></button>
             </div>
+            {{/if}}
         </div>
     </div>
 </div>
 <div class="comment-feature-container">
     <div class="comment-input-container">
-        <textarea name="comment" placeholder="Write your comment...">{{comment.comment}}</textarea>
+        <textarea name="comment" placeholder="Write your comment...">{{comment.content}}</textarea>
     </div>
     <div class="button-container1 buttons-space-2 buttons-space-4">
         <button class="delete-btn"><img src="/common/delete-icon-2.png" alt="Delete Icon" class="icon-margin-right">Delete</button>

@@ -46,7 +46,7 @@ const addCommentToReview = async (req, res) => {
         await model.addComment(user_id, review_id, content);
         
         // Set success alert and redirect back to the review page
-        return res.redirect(`/views/view_review/${review_id}?alert=Comment added successfully&type=success`);
+        return res.redirect(`/view_review/${review_id}?alert=Comment added successfully&type=success`);
     } catch (error) {
         console.error("Error adding comment:", error);
         res.status(500).json({
