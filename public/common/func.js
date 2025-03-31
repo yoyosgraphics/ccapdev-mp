@@ -51,7 +51,7 @@ $(document).ready(function () {
         let selectedPricingTo = $(".pricing-filter-max.selected").data("pricing_to") || undefined;
         let searchQuery = $(".headerViewRestaurants").data("search-query") || undefined;
 
-        $.post('ajax_response', { type: selectedType, rating: selectedRating, pricing_from: selectedPricingFrom, pricing_to: selectedPricingTo, searchQuery: searchQuery },
+        $.post('ajax_response_restaurants', { type: selectedType, rating: selectedRating, pricing_from: selectedPricingFrom, pricing_to: selectedPricingTo, searchQuery: searchQuery },
             function(data, status){
                 if(status == 'success') {
                     let stackHtml = "";
@@ -99,7 +99,7 @@ $(document).ready(function () {
         let selectedPricingTo = undefined;
         let searchQuery = $(".headerViewRestaurants").data("search-query") || undefined;
 
-        $.post('ajax_response', { type: selectedType, rating: selectedRating, pricing_from: selectedPricingFrom, pricing_to: selectedPricingTo, searchQuery: searchQuery },
+        $.post('ajax_response_restaurants', { type: selectedType, rating: selectedRating, pricing_from: selectedPricingFrom, pricing_to: selectedPricingTo, searchQuery: searchQuery },
             function(data, status){
                 if(status == 'success') {
                     let stackHtml = "";
@@ -128,6 +128,79 @@ $(document).ready(function () {
                     });
 
                     $(".restaurantCategory").html(stackHtml);
+                }
+            }
+        )
+    })
+
+    $("#search-reviews-form").submit(function (event) {
+        event.preventDefault();
+
+        let restaurantId = $("#search-reviews").data("restaurant-id");
+        let searchContent = $(this).find("input[name='q']").val().trim();
+
+        $.post("/ajax_response_reviews", { id: restaurantId, content: searchContent },
+            function(data, status) {
+                if (status == 'success') {
+                    let reviewHtml = "";
+
+                        data.forEach(review => {
+                            reviewHtml += `
+                                <div><hr></div>
+                                <div class="review-container">
+                                    <div class="reviewer-container">
+                                        <img src="${review.user_id.picture_address}" alt="User Icon">
+                                        <div class="reviewer-info">
+                                            <div class="reviewer-name text-clickable" onclick="window.location.href='/users/${review.user_id._id}'">
+                                                <b><span>${review.user_id.first_name} ${review.user_id.last_name}</span></b>
+                                            </div>
+                                            <div class="reviewer-date">
+                                                <span>${review.date}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="review-content-container">
+                                        <div class="review-content">
+                                            <h1 class="text-clickable" onclick="window.location.href='/view_review/${review._id}'">${review.title}</h1>
+                                            <div class="rating-container">
+                                                <p class="rating rating-3" style="--rating:${review.rating};"></p>
+                                            </div>
+                                            <p class="review-content">${review.content}</p>
+                                            ${review.has_images ? `
+                                                <div class="review-image-container">
+                                                    ${review.picture_addresses.map(img => `<img src="${img}" alt="Review Image">`).join("")}
+                                                </div>` : ""}
+                                        </div>
+                                        <div class="buttons-space-2">
+                                            <div class="like-container button-container-attributes">
+                                                <button class="btn toggle-btn" id="like">
+                                                    <img src="/common/empty-like.png" width="15px" height="15px">
+                                                    <b>${review.likes}</b>
+                                                </button>
+                                                <div class="divider"></div>
+                                                <button class="btn toggle-btn" id="dislike">
+                                                    <img src="/common/empty-unlike.png" width="15px" height="15px">
+                                                    <b>${review.dislikes}</b>
+                                                </button>
+                                            </div>
+                                            <div class="comments-container button-container-attributes1 button-clickable gray-button-clickable" onclick="window.location.href='/view_review/${review._id}'">
+                                                <img src="/common/comment-icon.png" alt="Comment Icon" class="icon-margin-right">
+                                                <b>${review.num_comments} comments</b>
+                                            </div>
+                                        </div>
+                                        ${review.has_owner_reply ? `
+                                        <div class="reply-background">
+                                            <div class="reply-container">
+                                                <b><p>Reply from <span class="text-clickable" onclick="window.location.href='/${review.owner_username}'">${review.owner_name} (Owner)</span></p></b>
+                                                <p>${review.owner_reply}</p>
+                                            </div>
+                                        </div>` : ""}
+                                    </div>
+                                </div>
+                            `;
+                        });
+    
+                    $(".review-thread-container").html(reviewHtml);
                 }
             }
         )

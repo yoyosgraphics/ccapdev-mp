@@ -176,15 +176,21 @@ server.get('/search', async function(req, res) {
     }
 });
 
-server.post('/ajax_response', async function(req, resp){
+server.post('/ajax_response_restaurants', async function(req, resp){
         let type = req.body.type;
         let rating = req.body.rating;
         let pricing_from = req.body.pricing_from;
         let pricing_to = req.body.pricing_to;
         let searchQuery = req.body.searchQuery;
         let restaurants = await db.getRestaurantWithFilters(searchQuery, type, rating, pricing_from, pricing_to);
-        console.log(type, rating, pricing_from, pricing_to, searchQuery, restaurants);
         resp.json(restaurants);
+})
+
+server.post('/ajax_response_reviews', async function(req, resp){
+    let content = req.body.content || undefined;
+    let restaurant_id = req.body.id;
+    let reviews = await db.searchReviews(restaurant_id, content);
+    resp.json(reviews);
 })
 
 // Edit restaurant route - fix to use the array return
