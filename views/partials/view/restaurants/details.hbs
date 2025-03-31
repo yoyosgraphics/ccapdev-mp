@@ -19,8 +19,39 @@
         <div class="edit-archive-container button-container-attributes">
             <button class="btn" onclick="window.location.href='/edit/restaurant/{{selected._id}}'"><img src="/common/edit-icon.png" width="15px" height="15px"> </button>
             <div class="divider"></div>
-            <button class="btn"><img src="/common/archive-icon.png" width="15px" height="15px"> </button>
+            <button class="btn" onclick="archiveRestaurant('{{selected._id}}')">
+    <img src="/common/archive-icon.png" width="15px" height="15px">
+</button>
         </div>
         {{/if}}
     </div>
+    
+<script>
+    // Function is defined here and should be accessible
+    function archiveRestaurant(restaurantId) {
+        console.log("Button clicked! Restaurant ID:", restaurantId); // Debugging
+
+   fetch(`/archive/${restaurantId}`, { method: 'POST' })
+    .then(response => {
+        console.log("response: ", response);
+        if (!response.ok) {
+            throw new Error(`Failed to archive restaurant, status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Server response:", data);
+        if (data.success) {
+            alert("Restaurant archived successfully!");
+            window.location.href = '/restaurants';
+        } else {
+            alert("Failed to archive restaurant");
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert(error.message);
+    });
+    }
+    </script>
 </section>

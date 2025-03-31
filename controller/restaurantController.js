@@ -199,10 +199,32 @@ const getRestaurantById = async (req, res) => {
     }
 };
 
+// restaurantController.js
+const archiveRestaurant = async (req, res, restaurantId) => {
+    try {
+        // Assuming you're calling a database method to mark the restaurant as archived
+        const result = await db.archiveRestaurantById(restaurantId);
+
+        if (result) {
+            return res.json({ success: true }); // Return success in the response
+        } else {
+            return res.status(400).json({ success: false, message: 'Failed to archive restaurant' });
+        }
+    } catch (error) {
+        console.error('Error archiving restaurant:', error);
+        return res.status(500).json({ success: false, message: 'Error archiving restaurant' });
+    }
+};
+
+
+
+
+
 module.exports = {
     displayHome,
     getAllRestaurants,
     getUserRestaurants,
     getRestaurantsData,
-    getRestaurantById
+    getRestaurantById,
+    archiveRestaurant,
 };

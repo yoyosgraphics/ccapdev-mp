@@ -535,6 +535,27 @@ server.post('/restaurants/:id/reviews/create', (req, res) => {
     server._router.handle(req, res);
 });
 
+server.post('/archive/:restaurantId', async (req, res) => {
+    console.log("Archive route hit! Restaurant ID:", req.params.restaurantId);
+
+    try {
+        const result = await db.archiveRestaurantById(req.params.restaurantId);
+        console.log(result);
+
+        if (result) {
+            console.log("Archiving successful!");  // Debugging
+            return res.json({ success: true });
+        } else {
+            console.log("Archiving failed!");  // Debugging
+            return res.json({ success: false, message: "Could not archive restaurant." });
+        }
+    } catch (error) {
+        console.error("Error in archive route:", error);
+        return res.status(500).json({ success: false, message: "Server error." });
+    }
+});
+
+
 server.get('/restaurants/:id/my-review', (req, res) => {
     res.redirect(`/reviews/restaurant/${req.params.id}/my-review`);
 });
@@ -558,6 +579,7 @@ server.use((err, req, res, next) => {
         alerts: [{ type: 'error', message: 'Something went wrong' }]
     });
 });
+
 
 // Graceful shutdown handlers
 function finalClose() {

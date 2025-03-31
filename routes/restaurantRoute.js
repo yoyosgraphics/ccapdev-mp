@@ -142,47 +142,18 @@ router.post('/edit/:id', async (req, res) => {
 });
 
 // Route to delete an restaurant
-router.post('/delete/:id', async (req, res) => {
+router.post('/archive/:id', async (req, res) => {
     try {
-        if (!req.session.user) {
-            return res.redirect('/login');
-        }
-        
         const restaurantId = req.params.id;
-        // Get the restaurant first to check authorization
-        const restaurants = await db.getRestaurantOfID(restaurantId);
-        
-        if (!restaurants || restaurants.length === 0) {
-            return res.status(404).render('404', {
-                layout: 'index',
-                title: 'Restaurant Not Found',
-                alerts: [{ type: 'error', message: 'Restaurant not found' }]
-            });
-        }
-        
-        const restaurant = restaurants[0];
-        
-        // Check if user is the owner of the restaurant
-        if (restaurant.user_id && restaurant.user_id.toString() !== req.session.user._id.toString()) {
-            return res.status(403).render('error', {
-                layout: 'index',
-                title: 'Unauthorized',
-                error: 'You are not authorized to delete this restaurant',
-                alerts: [{ type: 'error', message: 'Unauthorized access' }]
-            });
-        }
-        
-        await db.deleteRestaurant(restaurantId);
-        res.redirect('/restaurants');
+        console.log('Archiving restaurant with ID:', restaurantId);
+
+        // Call the function to archive the restaurant in your controller
+        await restaurantController.archiveRestaurant(req, res, restaurantId);
     } catch (error) {
-        console.error('Error deleting restaurant:', error);
-        res.status(500).render('error', {
-            layout: 'index',
-            title: 'Error',
-            error: error.message,
-            alerts: [{ type: 'error', message: 'Failed to delete restaurant' }]
-        });
+        console.error('Error archiving restaurant:', error);
+        return res.status(500).json({ success: false, message: 'Server error occurred' });
     }
 });
+
 
 module.exports = router;

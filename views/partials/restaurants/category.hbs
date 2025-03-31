@@ -1,17 +1,19 @@
 <!-- category.hbs -->
 {{#each restaurants}}
-    <div class = "restaurantCategory"> 
+    <div class="restaurantCategory"> 
         <h2>{{@key}}</h2>
         <div class="food-scroll-container">
             {{#each this}}
-                <div class="food-card" onclick="window.location.href='/view/restaurant/{{id}}'">
-                    <img src={{picture_address}}>
-                    <div class="food-info">
-                        <h3>{{name}}</h3>
-                        <p>{{type}}</p>
-                        <p class="rating" style="--rating: {{rating}};"></p>
+                {{#unless delete_status}}
+                    <div class="food-card" onclick="window.location.href='/view/restaurant/{{id}}'">
+                        <img src={{picture_address}}>
+                        <div class="food-info">
+                            <h3>{{name}}</h3>
+                            <p>{{type}}</p>
+                            <p class="rating" style="--rating: {{rating}};"></p>
+                        </div>
                     </div>
-                </div>
+                {{/unless}}
             {{/each}}
         </div>
     </div>

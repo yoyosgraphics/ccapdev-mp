@@ -13,7 +13,7 @@ const Comment = require("./Comment");
 // Home Page Request
 // Gets the top N restaurants based on ratings with the necessary data to be displayed in the home page.
 const getTopNumRestaurants = async (num) => {
-    return await Restaurant.find({}, {_id: 1, name: 1, type: 1, rating: 1, picture_address: 1})
+    return await Restaurant.find({ delete_status: false }, {_id: 1, name: 1, type: 1, rating: 1, picture_address: 1})
                             .sort({rating: -1})
                             .limit(num)
                             .lean();
@@ -23,7 +23,7 @@ const getTopNumRestaurants = async (num) => {
 // Gets a list of restaurants based on the given type with the necessary data to be displayed in each corresponding type in the restaurants page.
 // Example types: "American", "Italian"
 const getRestaurantOfType = async (_type) => {
-    return await Restaurant.find({type: _type}, {_id: 1, name: 1, rating: 1, picture_address: 1})
+    return await Restaurant.find({ type: _type, delete_status: false }, {_id: 1, name: 1, rating: 1, picture_address: 1})
                             .sort({rating: -1})
                             .lean();
 }
@@ -32,7 +32,7 @@ const getRestaurantOfType = async (_type) => {
 // Searches and filters out restaurants based on the given filter data.
 // When filter category is not selected, it should be undefined.
 const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _pricing_to) => {
-    let filters = {};
+    let filters = { delete_status: false }; // Only non-deleted restaurants
 
     if (_name) {
         filters.$or = [
@@ -64,7 +64,7 @@ const getRestaurantWithFilters = async (_name, _type, _rating, _pricing_from, _p
 // Edit Restaurant Page Request
 // Gets restaurant data based on the given restaurant name.
 const getRestaurantOfName = async (_name) => {
-    return await Restaurant.find({name: _name})
+    return await Restaurant.find({ name: _name, delete_status: false })
                             .lean();
 }
 
@@ -144,14 +144,15 @@ const saveRestaurantImage = async (file, _restaurant_id) => {
 // Restaurant Reviews Page
 // Gets the restaurant data based on the given restaurant id to be displayed by concerned pages, such as restaurant reviews page.
 const getRestaurantOfID = async (id) => {
-    return await Restaurant.find({_id: id}, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1, user_id: 1})
+    return await Restaurant.find({ _id: id, delete_status: false }, {_id: 1, name: 1, type: 1, address: 1, phone_number: 1, pricing_from: 1, pricing_to: 1, picture_address: 1, rating: 1, user_id: 1})
                             .lean();
 }
+
 
 // Gets the reviews of the concerned restaurant based on the given restaurant id with the necessary data to be displayed in the restaurant reviews page.
 // Comments themselves under the reviews are not displayed when not under individual review page.
 const getRestaurantReviewsOfID = async (id) => {
-    let reviews = await Review.find({restaurant_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find({ restaurant_id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
                         .populate("user_id", "_id first_name last_name picture_address")
                         .sort({likes: -1})
                         .lean();
@@ -243,21 +244,21 @@ const searchReviews = async (id, _content) => {
 // Individual Review Page Request
 // Gets review data based on the given review id with the necessary data to be displayed in the individual review page.
 const getReviewOfID = async (id) => {
-    let review = await Review.find({_id: id}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1})
+    let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .lean();
                                 
-                                if (!review) {
-                                    throw new Error("Review not found");
-                                }
-                            
-                                review[0].num_comments = await Comment.countDocuments({review_id: review._id});
-                            
-                                if (review[0].picture_addresses.length == 0) {
-                                    review[0].has_images = false;
-                                } else {
-                                    review[0].has_images = true;
-                                }
+    if (!review) {
+        throw new Error("Review not found");
+    }
+
+    review[0].num_comments = await Comment.countDocuments({review_id: review._id});
+
+    if (review[0].picture_addresses.length == 0) {
+        review[0].has_images = false;
+    } else {
+        review[0].has_images = true;
+    }
     return review;
 }
 
@@ -526,6 +527,33 @@ const logInUser = async (email_address, password) => {
     }
 };
 
+const archiveRestaurant = async (restaurantId) => {
+    console.log("Database archive function called for:", restaurantId);
+    
+    const result = await db.collection('restaurants').updateOne(
+        { _id: new ObjectId(restaurantId) }, // Ensure you import ObjectId from 'mongodb'
+        { $set: { delete_status: true } } // Example: marking it as archived
+    );
+
+    console.log("Update result:", result);
+};
+
+const archiveRestaurantById = async (restaurantId) => {
+    try {
+        // Assuming you're using MongoDB or another database to update the restaurant
+        const result = await Restaurant.updateOne(
+            { _id: restaurantId }, 
+            { $set: { delete_status: true } } // Marking the restaurant as archived
+        );
+
+        console.log(result);
+        
+        return result.modifiedCount > 0; // Return true if the restaurant was updated
+    } catch (error) {
+        console.error('Error updating restaurant:', error);
+        return false; // Return false if there was an error
+    }
+};
 
 // View Profile Page Request
 
@@ -559,7 +587,7 @@ const toObjectId = (id) => {
 // Gets all restaurants of user based on the given user id with the necessary data to be displayed in the profile restaurants page.
 const getAllRestaurantsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
-    return await Restaurant.find({user_id: objectId})
+    return await Restaurant.find({ user_id: objectId, delete_status: false })
                             .lean();
 }
 
@@ -582,7 +610,7 @@ const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
 const getAllReviewsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
-    let reviews = await Review.find({user_id: objectId}, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find({ user_id: objectId, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .populate("restaurant_id", "_id name")
                                 .lean();
@@ -596,7 +624,7 @@ const getAllReviewsOfUser = async (userID) => {
             review.has_images = true;
         }
     }
-    
+
     return reviews;
 }
 
@@ -618,7 +646,7 @@ const checkUserReviewOwner = async (_user_id, _review_id) => {
 const getAllCommentsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
-    let comments = await Comment.find({user_id: objectId}, {_id: 1, content: 1})
+    let comments = await Comment.find({ user_id: objectId, delete_status: false }, {_id: 1, content: 1})
                                 .populate("review_id", "_id title")
                                 .lean();
 
@@ -675,20 +703,19 @@ const getAllUsers = async () => {
 
 // Returns all restaurants in database.
 const getAllRestaurants = async () => {
-    return await Restaurant.find({})
+    return await Restaurant.find({ delete_status: false })
                             .lean();
 }
 
 // Returns all reviews in database.
 const getAllReviews = async () => {
-    return await Review.find({})
+    return await Review.find({ delete_status: false })
                         .lean();
-
 }
 
 // Returns all comments in database.
 const getAllComments = async () => {
-    return await Comment.find({})
+    return await Comment.find({ delete_status: false })
                         .lean();
 }
 
@@ -728,4 +755,6 @@ module.exports = {
     checkUserProfileOwner,
     verifyUsername,
     verifyRestaurantName,
+    archiveRestaurant,
+    archiveRestaurantById,
 };
