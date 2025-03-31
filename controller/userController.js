@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const db = require("../model/model");
 console.log("User Controller");
 
@@ -151,14 +153,26 @@ const showLoginForm = (req, res) => {
 // Process login
 const login = async (req, res) => {
     try {
-    const { email_address, password, remember } = req.body;
-    
+        const { email_address, password, remember } = req.body;
+
+        // Fetch user from DB
         const existingUser = await db.logInUser(email_address, password);
-        console.log("existingUser in controller!: ", existingUser.user);
+        console.log("user: ", existingUser);
+
+    if (!existingUser) {
+    console.log("Invalid email or missing password in database");
+    return res.render('login', { 
+        alerts: [{ type: 'error', message: 'Invalid email or password' }],
+        isLoggedIn: false,
+        logged_in: false,
+        show_auth: true,
+        user: null
+        }); 
+    }
        
-        // user session object
+        // User session object
         const userForSession = {
-            _id: existingUser.user._id,
+            _id: existingUser.user._id.toString(), // Convert _id to a string
             username: existingUser.user.username || '',
             email_address: existingUser.user.email_address || '',
             first_name: existingUser.user.first_name || '',
@@ -169,26 +183,20 @@ const login = async (req, res) => {
 
         // Assign to session
         req.session.user = userForSession;
-        
-        // Check if user is the profile owner before setting isProfileOwner
         req.session.isProfileOwner = await db.checkUserProfileOwner(existingUser.user._id, existingUser.user._id);
-        
+
         console.log("User set in session:", req.session.user);
         console.log("Is profile owner:", req.session.isProfileOwner);
 
-        //remember me checkbox
+        // Remember me checkbox
         if (remember) {
-            const fourteenDays = 14 * 24 * 60 * 60 * 1000;
-            req.session.cookie.maxAge = fourteenDays;
+            req.session.cookie.maxAge = 14 * 24 * 60 * 60 * 1000; // 14 days
         } else {
-            //session expires after one hour
-            const oneHour = 60 * 60 * 1000;
-            req.session.cookie.maxAge = oneHour;
-            //document will expire from mongodb
-            req.session._expires = new Date(Date.now() + oneHour);
+            req.session.cookie.maxAge = 60 * 60 * 1000; // 1 hour
+            req.session._expires = new Date(Date.now() + 60 * 60 * 1000);
         }
-        
-        // Handle session save with proper error handling
+
+        // Save session
         return new Promise((resolve, reject) => {
             req.session.save((err) => {
                 if (err) {
@@ -201,8 +209,8 @@ const login = async (req, res) => {
             });
         })
         .then(() => {
-           console.log("Redirecting to user profile:", `/users/${existingUser.user._id}`);
-           return res.redirect(`/users/${existingUser.user._id}`);
+            console.log("Redirecting to user profile:", `/users/${existingUser.user._id}`);
+            return res.redirect(`/users/${existingUser.user._id}`);
         })
         .catch((saveErr) => {
             console.error("Session save error:", saveErr);
@@ -215,6 +223,7 @@ const login = async (req, res) => {
                 user: null
             });
         });
+
     } catch (error) {
         console.error("Login error:", error);
         return res.render('login', { 

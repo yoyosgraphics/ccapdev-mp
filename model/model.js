@@ -484,33 +484,48 @@ const saveUserImage = async (file, _user_id) => {
 
 // Login User Page Request
 // Verifies the user login status and returns the entire user data if successful.
-const logInUser = async(email_address, password) => {
+
+const logInUser = async (email_address, password) => {
     try {
         const existingUser = await User.findOne({ email_address });
-        const salt = await bcrypt.genSalt(10);
 
         if (!existingUser) {
+            console.log("User not found for email:", email_address);
             return { message: "User does not exist" };
         }
 
+        console.log("Stored hashed password in DB:", existingUser.password);
+        console.log("User input password before trimming:", password);
+        console.log("User input password after trimming:", password.trim());
+
+        // 🚨 Check if password or hash is missing
+        if (!password || !existingUser.password) {
+            console.error("Error: Missing password or hash for bcrypt.compare()");
+            return { message: "Internal server error" }; // Avoid exposing details
+        }
+
+        // Compare passwords
         const isMatch = await bcrypt.compare(password.trim(), existingUser.password);
-        // console.log("Password match result:", isMatch); //checker
+        console.log("Password match result:", isMatch);
 
         if (!isMatch) {
             return { message: "Incorrect password" };
-        //    return { success: false, message: "Invalid email or password" }; //checker
         }
 
-        const userObject= existingUser.toObject(); //removed mongodb stuff
-        userObject._id= userObject._id.toString(); //converts id to string
-        delete userObject.password; // para lng di mapass ung password
+        // Convert Mongoose document to object and remove password
+        const userObject = existingUser.toObject();
+        userObject._id = userObject._id.toString();
+        delete userObject.password; 
 
-        return { message: "Login successful", user: userObject};
+        console.log("Login successful for:", email_address);
+        return { message: "Login successful", user: userObject };
 
     } catch (error) {
-        return { message: error.message };
+        console.error("Login error:", error);
+        return { message: "Internal server error" };
     }
-}
+};
+
 
 // View Profile Page Request
 
