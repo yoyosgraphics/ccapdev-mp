@@ -26,29 +26,44 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p class="rating-filter">Minimum Rating: Any</p>
                 <p class="rating-filter" data-rating=5.0>Minimum Rating: 5.0</p>
                 <p class="rating-filter" data-rating=4.0>Minimum Rating: 4.0</p>
                 <p class="rating-filter" data-rating=3.0>Minimum Rating: 3.0</p>
                 <p class="rating-filter" data-rating=2.0>Minimum Rating: 2.0</p>
                 <p class="rating-filter" data-rating=1.0>Minimum Rating: 1.0</p>
+                <p class="rating-filter" data-rating=0.0>Minimum Rating: 0.0</p>
             </div>
         </div>
     </div>
 
-    <div class="dropdown" id="filterPrice-btn">
+    <div class="dropdown" id="filterPriceMin-btn">
         <div class="horizontalAlignment">
             <button class="dropdown-btn">
-                Pricing
+                Minimum Pricing
                 <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
             </button>
             <div class="dropdown-content">
-                <p class="pricing-filter">Pricing: Any</p>
-                <p class="pricing-filter" data-pricing_from=0.00 data-pricing_to=200.00>Pricing: 0.00 - 200.00</p>
-                <p class="pricing-filter" data-pricing_from=200.00 data-pricing_to=400.00>Pricing: 200.00 - 400.00</p>
-                <p class="pricing-filter" data-pricing_from=400.00 data-pricing_to=600.00>Pricing: 400.00 - 600.00</p>
-                <p class="pricing-filter" data-pricing_from=600.00 data-pricing_to=800.00>Pricing: 600.00 - 800.00</p>
-                <p class="pricing-filter" data-pricing_from=800.00>Pricing: 800.00 +</p>
+                <p class="pricing-filter-min" data-pricing_from=0.00>Minimum Pricing: 0.00</p>
+                <p class="pricing-filter-min" data-pricing_from=200.00>Minimum Pricing: 200.00</p>
+                <p class="pricing-filter-min" data-pricing_from=400.00>Minimum Pricing: 400.00</p>
+                <p class="pricing-filter-min" data-pricing_from=600.00>Minimum Pricing: 600.00</p>
+                <p class="pricing-filter-min" data-pricing_from=800.00>Minimum Pricing: 800.00</p>
+            </div>
+        </div>
+    </div>
+
+        <div class="dropdown" id="filterPriceMax-btn">
+        <div class="horizontalAlignment">
+            <button class="dropdown-btn">
+                Maximum Pricing
+                <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
+            </button>
+            <div class="dropdown-content">
+                <p class="pricing-filter-max" data-pricing_to=200.00>Maximum Pricing: 200.00</p>
+                <p class="pricing-filter-max" data-pricing_to=400.00>Maximum Pricing: 400.00</p>
+                <p class="pricing-filter-max" data-pricing_to=600.00>Maximum Pricing: 600.00</p>
+                <p class="pricing-filter-max" data-pricing_to=800.00>Maximum Pricing: 800.00</p>
+                <p class="pricing-filter-max">Maximum Pricing: Any</p>
             </div>
         </div>
     </div>

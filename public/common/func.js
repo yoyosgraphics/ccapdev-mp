@@ -35,7 +35,6 @@ $(document).ready(function () {
 
     $(".dropdown-content p").click(function () {
         let selectedText = $(this).text();
-        let selectedValue = $(this).data("value") || undefined;
         let arrowGraphic = '\n<img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">'
 
         // Hide dropdown
@@ -43,9 +42,16 @@ $(document).ready(function () {
         dropdown.find(".dropdown-btn").html(selectedText+arrowGraphic);
         dropdown.find(".dropdown-content").removeClass("show"); 
 
+        $(this).siblings().removeClass("selected");
+        $(this).addClass("selected");
+
+        let selectedType = $(".type-filter.selected").data("type") || undefined;
+        let selectedRating = $(".rating-filter.selected").data("rating") || undefined;
+        let selectedPricingFrom = $(".pricing-filter-min.selected").data("pricing_from") || undefined;
+        let selectedPricingTo = $(".pricing-filter-max.selected").data("pricing_to") || undefined;
         let searchQuery = $(".headerViewRestaurants").data("search-query") || undefined;
 
-        $.post('ajax_response', { option: selectedValue, searchQuery: searchQuery },
+        $.post('ajax_response', { type: selectedType, rating: selectedRating, pricing_from: selectedPricingFrom, pricing_to: selectedPricingTo, searchQuery: searchQuery },
             function(data, status){
                 if(status == 'success') {
                     let stackHtml = "";
