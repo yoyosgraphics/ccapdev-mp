@@ -158,7 +158,7 @@ const getRestaurantReviewsOfID = async (id) => {
                         .lean();
 
     for (let review of reviews) {
-        review.num_comments = await Comment.countDocuments({review_id: review._id});
+        review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
 
         if (review.picture_addresses.length == 0) {
             review.has_images = false;
@@ -229,7 +229,7 @@ const searchReviews = async (id, _content) => {
                                 .lean();
 
     for (let review of reviews) {
-        review.num_comments = await Comment.countDocuments({review_id: review._id});
+        review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
 
         if (review.picture_addresses.length == 0) {
             review.has_images = false;
@@ -252,7 +252,7 @@ const getReviewOfID = async (id) => {
                                     throw new Error("Review not found");
                                 }
                             
-                                review[0].num_comments = await Comment.countDocuments({review_id: review[0]._id});
+                                review[0].num_comments = await Comment.countDocuments({review_id: review[0]._id, delete_status: false});
                             
                                 if (review[0].picture_addresses.length == 0) {
                                     review[0].has_images = false;
@@ -277,7 +277,7 @@ const addComment = async (_user_id, _review_id, _content) => {
 
 // Gets the list of comments under the concerned review based on the given review id.
 const getReviewCommentsOfID = async (id) => {
-    let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1, review_id: 1, edit_status: 1})
+    let comments = await Comment.find({review_id: id, delete_status: false}, {_id: 1, user_id: 1, content: 1, review_id: 1, edit_status: 1})
                         .populate("user_id", "first_name last_name")
                         .lean();
 
@@ -311,6 +311,18 @@ const editCommentOfID = async (id, _content) => {
         {
            content: _content, 
            edit_status: true,
+        },
+        {new: true}
+    );
+
+    return comment;
+}
+
+const deleteCommentOfID = async (id) => {
+    let comment = await Comment.findByIdAndUpdate(
+        id,
+        { 
+           delete_status: true,
         },
         {new: true}
     );
@@ -617,7 +629,7 @@ const getAllReviewsOfUser = async (userID) => {
                                 .lean();
     
     for (let review of reviews) {
-        review.num_comments = await Comment.countDocuments({review_id: review._id});
+        review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
 
         if (review.picture_addresses.length == 0) {
             review.has_images = false;
@@ -758,4 +770,5 @@ module.exports = {
     verifyRestaurantName,
     archiveRestaurant,
     archiveRestaurantById,
+    deleteCommentOfID,
 };

@@ -17,9 +17,13 @@
                 </p></b>
 
                 {{#if author}}
-                <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{_id}}'">
+                <form action="/view/reviews/{{review_id}}/edit/{{_id}}" method="get" style="display: inline;">
+                    <input type="image" src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable">
+                </form>
                 <div class="divider"></div>
-                <img src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable">
+                <form action="/comments/delete/{{_id}}" method="post" style="display: inline;">
+                    <input type="image" src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable" onclick="return confirm('Are you sure you want to delete this comment?');">
+                </form>                
                 {{/if}}
             </div>
             <p>{{content}}</p>

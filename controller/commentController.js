@@ -46,7 +46,7 @@ const addCommentToReview = async (req, res) => {
         await model.addComment(user_id, review_id, content);
         
         // Set success alert and redirect back to the review page
-        return res.redirect(`/view_review/${review_id}?alert=Comment added successfully&type=success`);
+        return res.redirect(`/view_review/${review_id}`);
     } catch (error) {
         console.error("Error adding comment:", error);
         res.status(500).json({
@@ -126,21 +126,42 @@ const processEditComment = async (req, res) => {
         // Get comment details
         const selectedComment = await model.getCommentOfID(comment_id);
         if (!selectedComment) {
-            return res.redirect(`/home?alert=Comment not found&type=danger`);
+            return res.redirect(`/`);
         }
 
         // Update comment
         await model.editCommentOfID(comment_id, content);
 
-        return res.redirect(`/view_review/${selectedComment.review_id}?alert=Comment successfully edited&type=success`);
+        return res.redirect(`/view_review/${selectedComment.review_id}`);
     } catch (error) {
         console.error("Error processing comment edit:", error);
-        return res.redirect('/home?alert=Server error while editing comment&type=danger');
+        return res.redirect('/');
+    }
+};
+
+const processDeleteComment = async (req, res) => {
+    try {
+        const { comment_id } = req.params;
+
+        // Get comment details
+        const selectedComment = await model.getCommentOfID(comment_id);
+        if (!selectedComment) {
+            return res.redirect(`/`);
+        }
+
+        // Update comment
+        await model.deleteCommentOfID(comment_id);
+
+        return res.redirect(`/view_review/${selectedComment.review_id}`);
+    } catch (error) {
+        console.error("Error processing comment delete:", error);
+        return res.redirect('/');
     }
 };
 
 module.exports = {
     addCommentToReview,
     viewReviewWithComments,
-    processEditComment  
+    processEditComment,
+    processDeleteComment 
 };

@@ -6,6 +6,6 @@ const commentController = require('../controller/commentController');
 router.get('/view_review/:review_id/:comment_id', commentController.viewReviewWithComments);
 router.post('/add', commentController.addCommentToReview);
 router.post('/edit/:comment_id', commentController.processEditComment);
-
+router.post('/delete/:comment_id', commentController.processDeleteComment);
 
 module.exports = router;
