@@ -43,6 +43,7 @@ const session = require('express-session');
 let cookieParser = require('cookie-parser');
 server.use(cookieParser());
 
+const MongoDBStore = require('connect-mongodb-session')(session);
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI, 
   collection: 'sessions',
