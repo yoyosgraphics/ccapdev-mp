@@ -544,8 +544,8 @@ const archiveRestaurant = async (restaurantId) => {
     console.log("Database archive function called for:", restaurantId);
     
     const result = await db.collection('restaurants').updateOne(
-        { _id: new ObjectId(restaurantId) }, // Ensure you import ObjectId from 'mongodb'
-        { $set: { delete_status: true } } // Example: marking it as archived
+        { _id: new ObjectId(restaurantId) }, 
+        { $set: { delete_status: true } } 
     );
 
     console.log("Update result:", result);
@@ -553,18 +553,42 @@ const archiveRestaurant = async (restaurantId) => {
 
 const archiveRestaurantById = async (restaurantId) => {
     try {
-        // Assuming you're using MongoDB or another database to update the restaurant
-        const result = await Restaurant.updateOne(
+        console.log("Archiving restaurant and its related reviews/comments:", restaurantId);
+
+        const restaurantResult = await Restaurant.updateOne(
             { _id: restaurantId }, 
-            { $set: { delete_status: true } } // Marking the restaurant as archived
+            { $set: { delete_status: true } }
         );
 
-        console.log(result);
-        
-        return result.modifiedCount > 0; // Return true if the restaurant was updated
+        console.log("Restaurant update result:", restaurantResult);
+
+        if (restaurantResult.modifiedCount === 0) {
+            console.log("No restaurant found to update.");
+            return false;
+        }
+        const reviews = await Review.find({ restaurant_id: restaurantId }).lean();
+        const reviewIds = reviews.map(review => review._id);
+
+        if (reviewIds.length > 0) {
+            const reviewResult = await Review.updateMany(
+                { restaurant_id: restaurantId }, 
+                { $set: { delete_status: true } }
+            );
+            console.log("Review update result:", reviewResult);
+
+            const commentResult = await Comment.updateMany(
+                { review_id: { $in: reviewIds } }, 
+                { $set: { delete_status: true } }
+            );
+            console.log("Comment update result:", commentResult);
+        } else {
+            console.log("No reviews found for this restaurant.");
+        }
+
+        return true;
     } catch (error) {
-        console.error('Error updating restaurant:', error);
-        return false; // Return false if there was an error
+        console.error("Error archiving restaurant, reviews, and comments:", error);
+        return false;
     }
 };
 

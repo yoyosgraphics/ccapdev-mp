@@ -4,16 +4,14 @@
         <h2>{{@key}}</h2>
         <div class="food-scroll-container">
             {{#each this}}
-                {{#unless delete_status}}
                     <div class="food-card" onclick="window.location.href='/view/restaurant/{{id}}'">
-                        <img src={{picture_address}}>
+                        <img src="{{picture_address}}" alt="{{name}}">
                         <div class="food-info">
                             <h3>{{name}}</h3>
                             <p>{{type}}</p>
                             <p class="rating" style="--rating: {{rating}};"></p>
                         </div>
                     </div>
-                {{/unless}}
             {{/each}}
         </div>
     </div>
