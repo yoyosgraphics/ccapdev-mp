@@ -11,7 +11,11 @@
                         {{user_id.first_name}} {{user_id.last_name}}
                         {{#if owner}}(Owner){{/if}}
                     </span>
+                    {{#if edit_status}}
+                    <span> * </span>
+                    {{/if}}
                 </p></b>
+
                 {{#if author}}
                 <img src="/common/edit-icon.png" alt="Edit Icon" class="icon-margin-left-right icon-clickable" onclick="window.location.href='/view/reviews/{{review_id}}/edit/{{_id}}'">
                 <div class="divider"></div>

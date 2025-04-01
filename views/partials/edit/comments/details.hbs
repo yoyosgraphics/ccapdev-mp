@@ -51,13 +51,19 @@
         </div>
     </div>
 </div>
-<div class="comment-feature-container">
-    <div class="comment-input-container">
-        <textarea name="comment" placeholder="Write your comment...">{{comment.content}}</textarea>
+
+<form action="/comments/edit/{{comment._id}}" method="post">    
+    <div class="comment-feature-container">
+        <div class="comment-input-container">
+            <textarea name="content" placeholder="Write your comment..." required>{{comment.content}}</textarea>
+        </div>
+        <div class="button-container1 buttons-space-2 buttons-space-4">
+            <button type="submit" class="delete-btn">
+                <img src="/common/delete-icon-2.png" alt="Delete Icon" class="icon-margin-right">Delete
+            </button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='/view_review/{{comment.review_id}}'">Cancel</button>
+            <button type="submit" class="save-btn">Save Changes</button>
+        </div>
     </div>
-    <div class="button-container1 buttons-space-2 buttons-space-4">
-        <button class="delete-btn"><img src="/common/delete-icon-2.png" alt="Delete Icon" class="icon-margin-right">Delete</button>
-        <button class="cancel-btn" onclick="history.back()">Cancel</button>
-        <button class="save-btn">Save Changes</button>
-    </div>
-</div>
+</form>
+

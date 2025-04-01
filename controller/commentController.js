@@ -117,63 +117,11 @@ const viewReviewWithComments = async (req, res) => {
         });
     }
 };
-const editComment = async (req, res) => {
-    try {
-        const { comment_id } = req.params;
-        const user_id = req.session?.user_id; 
 
-        // Validate the comment_id is provided
-        if (!comment_id) {
-            return res.redirect('/home?alert=Comment ID is required&type=danger');
-        }
-
-        // Get the comment to edit
-        const selectedComment = await model.getCommentOfID(comment_id);
-        
-        if (!selectedComment) {
-            return res.redirect('/home?alert=Comment not found&type=danger');
-        }
-
-        // Verify the user is the comment owner
-        if (!await model.compareID(user_id, selectedComment.user_id._id)) {
-            return res.redirect(`/views/view_review/${selectedComment.review_id}?alert=You can only edit your own comments&type=danger`);
-        }
-
-        // Get the review details
-        const review_id = selectedComment.review_id;
-        const review = await model.getReviewById(review_id);
-        
-        // Get all comments for this review
-        const comments = await model.getCommentsByReviewId(review_id);
-
-        // Render the edit comment view
-        return res.render('edit_comment', {
-            selected: review,  
-            selectedComment: selectedComment,  
-            comment: {  
-                comment: selectedComment.content
-            },
-            comments: comments,
-            alert: req.query.alert ? {
-                message: req.query.alert,
-                type: req.query.type || 'info'
-            } : null
-        });
-    } catch (error) {
-        console.error("Error rendering edit comment view:", error);
-        return res.redirect('/home?alert=Server error while loading comment edit page&type=danger');
-    }
-};
 const processEditComment = async (req, res) => {
     try {
         const { comment_id } = req.params;
         const { content } = req.body;
-        const user_id = req.session?.user_id;
-
-        // Validate content
-        if (!content || content.trim() === '') {
-            return res.redirect(`/comment/edit/${comment_id}?alert=Comment content cannot be empty&type=danger`);
-        }
 
         // Get comment details
         const selectedComment = await model.getCommentOfID(comment_id);
@@ -181,15 +129,10 @@ const processEditComment = async (req, res) => {
             return res.redirect(`/home?alert=Comment not found&type=danger`);
         }
 
-        // Check if user is the owner of the comment
-        if (!await model.compareID(user_id, selectedComment.user_id._id)) {
-            return res.redirect(`/views/view_review/${selectedComment.review_id}?alert=You can only edit your own comments&type=danger`);
-        }
-
         // Update comment
-        await model.updateComment(comment_id, content);
+        await model.editCommentOfID(comment_id, content);
 
-        return res.redirect(`/views/view_review/${selectedComment.review_id}?alert=Comment successfully edited&type=success`);
+        return res.redirect(`/view_review/${selectedComment.review_id}?alert=Comment successfully edited&type=success`);
     } catch (error) {
         console.error("Error processing comment edit:", error);
         return res.redirect('/home?alert=Server error while editing comment&type=danger');
@@ -199,6 +142,5 @@ const processEditComment = async (req, res) => {
 module.exports = {
     addCommentToReview,
     viewReviewWithComments,
-    editComment,
     processEditComment  
 };

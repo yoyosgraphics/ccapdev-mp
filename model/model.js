@@ -244,7 +244,7 @@ const searchReviews = async (id, _content) => {
 // Individual Review Page Request
 // Gets review data based on the given review id with the necessary data to be displayed in the individual review page.
 const getReviewOfID = async (id) => {
-    let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1})
+    let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1, restaurant_id: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .lean();
                                 
@@ -277,7 +277,7 @@ const addComment = async (_user_id, _review_id, _content) => {
 
 // Gets the list of comments under the concerned review based on the given review id.
 const getReviewCommentsOfID = async (id) => {
-    let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1, review_id: 1})
+    let comments = await Comment.find({review_id: id}, {_id: 1, user_id: 1, content: 1, review_id: 1, edit_status: 1})
                         .populate("user_id", "first_name last_name")
                         .lean();
 
@@ -309,7 +309,8 @@ const editCommentOfID = async (id, _content) => {
     let comment = await Comment.findByIdAndUpdate(
         id,
         {
-           content: _content 
+           content: _content, 
+           edit_status: true,
         },
         {new: true}
     );
@@ -646,7 +647,7 @@ const checkUserReviewOwner = async (_user_id, _review_id) => {
 const getAllCommentsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
-    let comments = await Comment.find({ user_id: objectId, delete_status: false }, {_id: 1, content: 1})
+    let comments = await Comment.find({ user_id: objectId, delete_status: false }, {_id: 1, content: 1, edit_status: 1})
                                 .populate("review_id", "_id title")
                                 .lean();
 
@@ -669,7 +670,7 @@ const checkUserCommentOwner = async (_user_id, _comment_id) => {
 
 // Gets comment content based on the given comment id.
 const getCommentOfID = async (id) => {
-    return await Comment.findOne({_id: id}, {_id: 1, content: 1})
+    return await Comment.findOne({_id: id}, {_id: 1, content: 1, review_id: 1})
                         .lean()
 }
 
