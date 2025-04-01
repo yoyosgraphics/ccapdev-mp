@@ -43,22 +43,20 @@ const session = require('express-session');
 let cookieParser = require('cookie-parser');
 server.use(cookieParser());
 
+const store = new MongoDBStore({
+  uri: process.env.MONGODB_URI, 
+  collection: 'sessions',
+  expires: 14 * 24 * 60 * 60 * 1000, // 14 days in milliseconds
+});
+
 server.use(session({
-    secret: 'topnotch-restaurant-secret',
-    resave: false,
-    saveUninitialized: false, // This is important - it prevents storing empty sessions
-    cookie: { 
-        // path: '/',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production'
-    },
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/restaurant-review-db',
-        collectionName: 'sessions', 
-        autoRemove: 'native', 
-        ttl: 14 * 24 * 60 * 60 * 1000, // 14 days
-        touchAfter: 3600 //updates session once per hour
-    })
+  secret: process.env.SESSION_SECRET || 'your_secret_key', // Use environment variable
+  cookie: {
+    maxAge: 14 * 24 * 60 * 60 * 1000 // 14 days in milliseconds
+  },
+  store: store,
+  resave: false,
+  saveUninitialized: false
 }));
 
 // Make user data available to all templates
