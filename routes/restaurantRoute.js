@@ -97,39 +97,30 @@ router.get('/edit/:id', async (req, res) => {
 
 // Route to handle the update of an existing restaurant
 router.post('/edit/:id', async (req, res) => {
-    try {
-        if (!req.session.user) {
-            return res.redirect('/login');
-        }
-        
+    try {        
         const restaurantId = req.params.id;
-        // Get the restaurant first to check authorization
-        const restaurants = await db.getRestaurantOfID(restaurantId);
-        
-        if (!restaurants || restaurants.length === 0) {
-            return res.status(404).render('404', {
-                layout: 'index',
-                title: 'Restaurant Not Found',
-                alerts: [{ type: 'error', message: 'Restaurant not found' }]
+        const { name, type, address, phone_number, pricing_from, pricing_to, picture_address } = req.body;
+
+        if (isNaN(pricing_from) || isNaN(pricing_to)) {
+            return res.status(400).render('edit_restaurant', {
+                selected: { ...req.body, _id: restaurantId },
+                alerts: [{ type: 'error', message: 'Invalid price range. Please enter valid numbers.' }]
             });
         }
-        
-        const restaurant = restaurants[0];
-        
-        // Check if user is the owner of the restaurant
-        if (restaurant.user_id && restaurant.user_id.toString() !== req.session.user._id.toString()) {
-            return res.status(403).render('error', {
-                layout: 'index',
-                title: 'Unauthorized',
-                error: 'You are not authorized to edit this restaurant',
-                alerts: [{ type: 'error', message: 'Unauthorized access' }]
+
+        const minPrice = parseFloat(pricing_from);
+        const maxPrice = parseFloat(pricing_to);
+
+        if (minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {
+            return res.status(400).render('edit_restaurant', {
+                selected: { ...req.body, _id: restaurantId },
+                alerts: [{ type: 'error', message: 'Invalid price range. Please enter valid numbers.' }]
             });
         }
-        
-        const updatedData = req.body;
-        await db.updateRestaurant(restaurantId, updatedData);
-        // Fix the redirect URL to use the proper route
-        res.redirect(`/restaurants/${restaurantId}`);
+
+        await db.updateRestaurantOfID(restaurantId, name, type, address, phone_number, pricing_from, pricing_to, picture_address);
+
+        res.redirect(`/view/restaurant/${restaurantId}`);
     } catch (error) {
         console.error('Error updating restaurant:', error);
         res.status(500).render('error', {

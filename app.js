@@ -200,12 +200,7 @@ server.post('/ajax_response_reviews', async function(req, resp){
 
 // Edit restaurant route - fix to use the array return
 server.get('/edit/restaurant/:id', async function(req, res) {
-    try {
-        // Check if user is logged in and authorized
-        if (!req.session.user) {
-            return res.redirect('/login');
-        }
-        
+    try {        
         const restaurants = await db.getRestaurantOfID(req.params.id);
         
         if (!restaurants || restaurants.length === 0) {
@@ -247,6 +242,17 @@ server.get('/view/restaurant/:id/', async function(req, res) {
         }
         
         const restaurant = restaurants[0]; // The function returns an array, so get the first item
+
+        if (res.locals.logged_in) {
+            if (await db.checkUserRestaurantOwner(res.locals.user._id, restaurant._id)) {
+                restaurant.owner = true;
+            } else {
+                restaurant.owner = false;
+            }
+        } else {
+            restaurant.owner = false;
+        }
+
         const reviews = await db.getRestaurantReviewsOfID(req.params.id);
         
         res.render('view_restaurant', {

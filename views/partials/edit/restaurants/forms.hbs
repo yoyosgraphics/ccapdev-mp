@@ -3,64 +3,68 @@
     background-size: cover;
     background-position: center;">
 
-    <div class="horizontalAlignment" style="align-items: flex-start;">
-        <div class="dropdown">
-            <h2>Banner</h2>
-            <button class="dropdown-btn" id="image-select">
-                <img src="{{selected.picture_address}}" height="100vh" width="100vh" style="border-radius: 10px;">
-            </button>
-            <div class="dropdown-content" style="min-width: 0px;">
-                <div class="dropdown-option">
-                    <img src="/common/banner-1.png" height="100vh" width="100vh">
+    <form action="/restaurants/edit/{{selected._id}}" method="post">
+        <div class="horizontalAlignment" style="align-items: flex-start;">
+            <div class="dropdown">
+                <h2>Banner</h2>
+                <button type="button" class="dropdown-btn" id="image-select">
+                    <img src="{{selected.picture_address}}" height="100vh" width="100vh" style="border-radius: 10px;">
+                </button>
+                <div class="dropdown-content" style="min-width: 0px;">
+                    <div class="dropdown-option">
+                        <img src="/common/banner-1.png" height="100vh" width="100vh">
+                    </div>
+                    <div class="dropdown-option">
+                        <img src="/common/banner-2.png" height="100vh" width="100vh">
+                    </div>
+                    <div class="dropdown-option">
+                        <img src="/common/banner-3.png" height="100vh" width="100vh">
+                    </div>
                 </div>
-                <div class="dropdown-option">
-                    <img src="/common/banner-2.png" height="100vh" width="100vh">
-                </div>
-                <div class="dropdown-option">
-                    <img src="/common/banner-3.png" height="100vh" width="100vh">
+                <input type="hidden" name="picture_address" id="picture_address" value="{{selected.picture_address}}">
+            </div>
+            <div>
+                <h2>Restaurant Name</h2>
+                <input type="text" name="name" id="input-name" value="{{selected.name}}" placeholder="Name*" required>
+            </div>
+        </div>
+        
+        <h2>Type of Food</h2>
+        <div class="dropdown" id="filterFood-btn">
+            <div class="horizontalAlignment">
+                <button type="button" class="dropdown-btn" id="selected-type">
+                    {{selected.type}}
+                    <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
+                </button>
+                <div class="dropdown-content" id="selected-type">
+                    <p class="type-option">American</p>
+                    <p class="type-option">Italian</p>
+                    <p class="type-option">Japanese</p>
+                    <p class="type-option">Mexican</p>
+                    <p class="type-option">Chinese</p>
                 </div>
             </div>
         </div>
+        <input type="hidden" name="type" id="food-type" value="{{selected.type}}">
 
-        <div>
-            <h2>Restaurant Name</h2>
-            <input type="text" id="input-name" value="{{selected.name}}" placeholder="Name">
-        </div>
-    </div>
-    
-    <h2>Type of Food</h2>
-    <div class="dropdown" id="filterFood-btn">
+        <h2>Address</h2>
+        <input type="text" name="address" id="input-address" value="{{selected.address}}" placeholder="Address*" required>
+
+        <h2>Phone Number</h2>
+        <input type="text" name="phone_number" id="input-phone_number" value="{{selected.phone_number}}" placeholder="Phone Number*" required>
+
+        <h2>Pricing Per Person</h2>
         <div class="horizontalAlignment">
-            <button class="dropdown-btn">
-                {{selected.type}}
-                <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">
-            </button>
-            <div class="dropdown-content">
-                <p>American</p>
-                <p>Italian</p>
-                <p>Japanese</p>
-                <p>Mexican</p>
-                <p>Chinese</p>
-            </div>
+            <input type="text" name="pricing_from" id="input-min_price" value="{{selected.pricing_from}}" placeholder="Min Price*" required>
+            <p id="to">to</p>
+            <input type="text" name="pricing_to" id="input-max_price" value="{{selected.pricing_to}}" placeholder="Max Price*" required>
         </div>
-    </div>
 
-    <h2>Address</h2>
-    <input type="text" id="input-address" value="{{selected.address}}" placeholder="Address">
+        <div class="button-container">
+            <button type="button" class="archive-btn">Archive</button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='/view/restaurant/{{selected._id}}'">Cancel</button>
+            <button type="submit" class="save-btn">Save Changes</button>
+        </div>
+    </form>
 
-    <h2>Phone Number</h2>
-    <input type="text" id="input-phone_number" value="{{selected.phone_number}}" placeholder="Phone Number">
-
-    <h2>Pricing Per Person</h2>
-    <div class="horizontalAlignment">
-        <input type="text" id="input-min_price" value="{{selected.pricing_from}}" placeholder="Min Price">
-        <p id="to">to</p>
-        <input type="text" id="input-max_price" value="{{selected.pricing_to}}" placeholder="Max Price">
-    </div>
-
-    <div class="button-container">
-        <button class="archive-btn">Archive</button>
-        <button class="cancel-btn" onclick="history.back()">Cancel</button>
-        <button class="save-btn">Save Changes</button>
-    </div>
 </div>
