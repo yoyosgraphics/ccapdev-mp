@@ -1,4 +1,4 @@
-// npm i mongoose bcrypt
+    // npm i mongoose bcrypt
 
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
@@ -445,7 +445,7 @@ const createUser = async(email_address, first_name, last_name, username, passwor
             last_name,
             username,
             password: hashedPassword,
-            picture_address: "/uploads/user-common.png",
+            picture_address: "/common/pfp-1.png",
             biography
         });
 
@@ -731,6 +731,12 @@ const verifyUsername = async (_username) => {
     return !exists;
 };
 
+const verifyEmail = async (_email) => {
+    const exists = await User.exists({email_address: _email});
+    return !exists;
+};
+
+
 // Getters
 // Returns all users in database.
 const getAllUsers = async () => {
@@ -791,6 +797,7 @@ module.exports = {
     checkUserCommentOwner,
     checkUserProfileOwner,
     verifyUsername,
+    verifyEmail,
     verifyRestaurantName,
     archiveRestaurant,
     archiveRestaurantById,
