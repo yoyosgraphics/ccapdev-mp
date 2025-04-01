@@ -354,42 +354,22 @@ const showEditForm = async (req, res) => {
 // Update user profile
 const updateUser = async (req, res) => {
     try {
-        // Check if the logged-in user is the owner of this profile
-        const loggedInUserId = req.session.user ? (req.session.user._id || '').toString() : '';
-        const profileUserId = (req.params.id || '').toString();
-        
-        if (loggedInUserId !== profileUserId) {
-            return res.status(403).render('error', {
-                error: 'You do not have permission to update this profile',
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                alerts: [{ type: 'error', message: 'You do not have permission to update this profile' }]
-            });
-        }
-        
         const { first_name, last_name, username, biography, picture_address } = req.body;
-        
-        // Validate required fields
-        if (!first_name || !last_name || !username) {
-            const user = await db.getUserID(req.params.id);
-            return res.render('edit_profile', {
-                user: user[0] || { _id: req.params.id, ...req.body },
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                alerts: [{ type: 'error', message: 'First name, last name, and username are required' }]
-            });
+        const user_id = req.params.id;
+
+        if (username !== req.session.user.username) {
+            const isUnique = await db.verifyUsername(username);
+            if (!isUnique) {
+                return res.render('edit_profile', { 
+                    user: { _id: user_id, ...req.body },
+                    logged_in: !!req.session.user,
+                    show_auth: !req.session.user,
+                    alerts: [{ type: 'error', message: 'Username already taken. Please choose another one.' }]
+                });
+            }
         }
-        
-        const updatedUser = await db.updateUserID(req.params.id, first_name, last_name, username, biography, picture_address);
-        
-        if (!updatedUser) {
-            return res.status(404).render('404', { 
-                message: 'User not found',
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                alerts: [{ type: 'error', message: 'User not found' }]
-            });
-        }
+
+        const updatedUser = await db.updateUserID(user_id, first_name, last_name, username, biography, picture_address);
         
         // Update the session with the new user data
         if (req.session.user && req.session.user._id === req.params.id) {
@@ -403,7 +383,7 @@ const updateUser = async (req, res) => {
             };
         }
         
-        res.redirect(`/users/${req.params.id}?alert=success&message=` + encodeURIComponent('Profile updated successfully'));
+        res.redirect(`/users/${req.params.id}`);
     } catch (error) {
         console.error("Error updating user:", error);
         res.status(500).render('edit_profile', { 

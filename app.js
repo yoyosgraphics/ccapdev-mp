@@ -27,7 +27,7 @@ server.engine('hbs', hbs.engine);
 server.use(express.static('public'));
 
 // Database connection (MongoDB)
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
 //     .then(() => console.log('Connected to MongoDB'))
 //     .catch(err => console.error('MongoDB connection error:', err));
@@ -502,10 +502,6 @@ server.get('/users/:id', async function (req, res) {
 
 // Edit profile route
 server.get('/edit/profile', function(req, res) {
-    // Check if user is logged in
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
     
     res.render('edit_profile', {
         layout: 'index',

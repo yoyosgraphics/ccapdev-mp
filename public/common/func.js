@@ -220,6 +220,10 @@ $(document).ready(function () {
         if ($(".edit-restaurant").length)
             $(".edit-restaurant").css("background-image", `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.88)), url('${imgSrc}')`);
 
+        if ($("#picture_address").length) {
+            $("#picture_address").val(imgSrc);
+        }
+
         // Hide dropdown
         dropdown.find(".dropdown-content").removeClass("show");
     });
