@@ -585,9 +585,9 @@ server.use((err, req, res, next) => {
 //   process.exit();
 //}
 
-process.on('SIGTERM', finalClose);
-process.on('SIGINT', finalClose);
-process.on('SIGQUIT', finalClose);
+// process.on('SIGTERM', finalClose);
+// process.on('SIGINT', finalClose);
+// process.on('SIGQUIT', finalClose);
 
 // Start server
 const port = process.env.PORT || 3000;
