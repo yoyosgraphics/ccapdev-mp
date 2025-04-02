@@ -23,18 +23,17 @@
                 </div>
         </div>
     </div>
+    {{#if selected.has_images}}
+    <div class="review-image-container" style="padding-top: 20px;">
+        {{#each selected.picture_address}}
+            <div class="review-image-container image-container-2">
+                <img src="{{this}}" alt="Review Image">
+            </div>
+        {{/each}}
+    </div>
+    {{/if}}
+    <br>
     <div class="review-body-container">
-        <div class="review-features-container">
-            <img src="/common/bold-icon.png" alt="Bold Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <img src="/common/italic-icon.png" alt="Italic Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <img src="/common/underline-icon.png" alt="Underline Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <div class="divider"></div>
-            <img src="/common/link-icon.png" alt="Link Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
-            <img src="/common/bullet-icon.png" alt="Bullet Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <div class="divider"></div>
-            <img src="/common/picture-icon.png" alt="Picture Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
-            <img src="/common/video-icon.png" alt="Video Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-        </div>
         <div class="review-body-input-container">
             <div class="review-body">
                 <textarea name="content" placeholder="Body">{{selected.content}}</textarea>
@@ -49,7 +48,6 @@
             {{#each selected.picture_addresses}}
                 <div class="review-image-container image-container-2">
                     <img src="{{this}}" alt="Review Image">
-                    <button class="x-button gray-button-clickable">X</button>
                 </div>
             {{/each}}
         </div>
