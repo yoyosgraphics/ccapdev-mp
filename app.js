@@ -276,11 +276,16 @@ server.get('/view_review/:id/', async function(req, res) {
         });
         console.log("Comments", comments);
 
-        review.owner = false;
-
-        if (res.locals.logged_in)
-            if (await db.checkUserReviewOwner(res.locals.user.id, review.id))
+        if (res.locals.logged_in) {
+            if (await db.checkUserReviewOwner(res.locals.user.id, review.id)) {
                 review.owner = true;
+            } else {
+                review.owner = false;
+            }
+        } else {
+            review.owner = false;
+        }
+            
 
         console.log('Review:', review);
         res.render('view_review', {
