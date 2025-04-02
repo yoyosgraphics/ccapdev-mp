@@ -419,7 +419,7 @@ const updateRestaurantRatingOfID = async (_restaurant_id) => {
         await Restaurant.findByIdAndUpdate(_restaurant_id, {rating: 0}, {new: true});
     } else {
         const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-        const averageRating = parseFloat((totalRating / reviews.length).toFixed(2));
+        const averageRating = parseFloat((totalRating / reviews.length).toFixed(0));
 
         await Restaurant.findByIdAndUpdate(_restaurant_id, {rating: averageRating}, {new: true});
     }
