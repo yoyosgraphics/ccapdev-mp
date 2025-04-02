@@ -303,7 +303,7 @@ server.get('/view_review/:id/', async function(req, res) {
 
         res.render('view_review', {
             layout: 'index',
-            title: review.title,
+            title: review[0].title,
             review: review[0],
             comments: comments,
         });
@@ -417,7 +417,7 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
 
         res.render('edit_comment', {
             layout: 'index',
-            title: review.title,
+            title: review[0].title,
             selected: review[0],
             selectedComment: comment,
             comments: comments

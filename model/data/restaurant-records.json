@@ -27,7 +27,7 @@
   "pricing_to": 400,
   "delete_status": false,
   "picture_address": "/common/banner-2.png",
-  "rating": 3,
+  "rating": 5,
   "user_id": {
     "$oid": "67ea9eda65e084f1e2a29454"
   }
@@ -44,7 +44,7 @@
   "pricing_to": 400,
   "delete_status": false,
   "picture_address": "/common/banner-3.png",
-  "rating": 2,
+  "rating": 0,
   "user_id": {
     "$oid": "67ea9f0f65e084f1e2a29458"
   }
@@ -78,7 +78,7 @@
   "pricing_to": 600,
   "delete_status": false,
   "picture_address": "/common/banner-2.png",
-  "rating": 5,
+  "rating": 0,
   "user_id": {
     "$oid": "67ea9f6d65e084f1e2a29460"
   }

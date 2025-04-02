@@ -279,6 +279,7 @@ const addComment = async (_user_id, _review_id, _content) => {
 const getReviewCommentsOfID = async (id) => {
     let comments = await Comment.find({review_id: id, delete_status: false}, {_id: 1, user_id: 1, content: 1, review_id: 1, edit_status: 1})
                         .populate("user_id", "first_name last_name")
+                        .sort({ _id: -1 })
                         .lean();
 
     let owner_restaurant = await Review.findOne({_id: id}, {restaurant_id: 1})
@@ -650,6 +651,7 @@ const getAllReviewsOfUser = async (userID) => {
     let reviews = await Review.find({ user_id: objectId, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .populate("restaurant_id", "_id name")
+                                .sort({ _id: -1 })
                                 .lean();
     
     for (let review of reviews) {
@@ -685,6 +687,7 @@ const getAllCommentsOfUser = async (userID) => {
 
     let comments = await Comment.find({ user_id: objectId, delete_status: false }, {_id: 1, content: 1, edit_status: 1})
                                 .populate("review_id", "_id title")
+                                .sort({ _id: -1 })
                                 .lean();
 
     return comments;
