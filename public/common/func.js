@@ -259,4 +259,78 @@ $(document).ready(function () {
         $(".prof-section").hide();
         $("#" + sectionToShow).show();
     });
+
+    // Form Validation
+    function validatePriceInput(input1, input2) {
+        let value1 = input1.val().trim();
+        let value2 = input2.val().trim();
+        let regex = /^\d+(\.\d{1,2})?$/;
+    
+        let num1 = parseFloat(value1);
+        let num2 = parseFloat(value2);
+    
+        let isValid1 = regex.test(value1);
+        let isValid2 = regex.test(value2);
+    
+        // Validate individual inputs
+        if (!isValid1) {
+            input1.css("border", "2px solid red");
+            input1[0].setCustomValidity("Please enter a valid number (integer or up to 2 decimal places).");
+        } else {
+            input1.css("border", "");
+            input1[0].setCustomValidity("");
+        }
+        
+        if (!isValid2) {
+            input2.css("border", "2px solid red");
+            input2[0].setCustomValidity("Please enter a valid number (integer or up to 2 decimal places).");
+        } else {
+            input2.css("border", "");
+            input2[0].setCustomValidity("");
+        }
+    
+        // Validate price range
+        if (isValid1 && isValid2 && num1 > num2) {
+            input1.css("border", "2px solid red");
+            input2.css("border", "2px solid red");
+            input1[0].setCustomValidity("Please enter a valid price range.");
+            input2[0].setCustomValidity("Please enter a valid price range.");
+        } else if (isValid1 && isValid2) {
+            input1.css("border", "");
+            input2.css("border", "");
+            input1[0].setCustomValidity("");
+            input2[0].setCustomValidity("");
+        }
+    }
+    
+    // Validate on blur
+    $("#input-min_price, #input-max_price").on("input blur", function () {
+        let minPrice = $("#input-min_price");
+        let maxPrice = $("#input-max_price");
+    
+        validatePriceInput(minPrice, maxPrice);
+    });
+    
+    // Prevent form submission if validation fails
+    $("#edit-restaurant-form").submit(function (event) {
+        let minPrice = $("#input-min_price");
+        let maxPrice = $("#input-max_price");
+    
+        validatePriceInput(minPrice, maxPrice);
+    
+        if (!minPrice[0].checkValidity() || !maxPrice[0].checkValidity()) {
+            event.preventDefault(); 
+        }
+    });
+
+    $("#input-name, #input-address, #input-phone_number").on("input blur", function () {
+        let value = $(this).val().trim();
+    
+        if (value === "") {
+            $(this).css("border", "2px solid red");
+        } else {
+            $(this).css("border", "");
+        }
+    });
+    
 });
