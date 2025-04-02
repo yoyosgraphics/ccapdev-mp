@@ -3,32 +3,6 @@ const router = express.Router();
 const userController = require('../controller/userController');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Configure as needed
-const path = require('path');
-
-// const storage = multer.diskStorage({
-//   destination: function(req, file, cb) {
-//       cb(null, path.join(__dirname, '../uploads'));
-//   },
-//   filename: function(req, file, cb) {
-//       cb(null, 'temp-' + Date.now() + path.extname(file.originalname));
-//   }
-// });
-
-// const upload = multer({ 
-//   storage: storage,
-//   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
-//   fileFilter: (req, file, cb) => {
-//       const allowedFileTypes = /jpeg|jpg|png/;
-//       const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
-//       const mimetype = allowedFileTypes.test(file.mimetype);
-
-//       if (extname && mimetype) {
-//           return cb(null, true);
-//       } else {
-//           cb('Error: Only images are allowed');
-//       }
-//   }
-// });
 
 // Set up file filter to only allow images
 const fileFilter = (req, file, cb) => {
