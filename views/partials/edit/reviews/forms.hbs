@@ -38,20 +38,8 @@
             <div class="review-body">
                 <textarea name="content" placeholder="Body">{{selected.content}}</textarea>
             </div>
-            {{!-- <div class="review-body-counter">
-                <span>0/1500</span>
-            </div> --}}
         </div>
     </div>
-    {{#if selected.has_images}}
-        <div class="review-image-container" style="padding-top: 20px;">
-            {{#each selected.picture_addresses}}
-                <div class="review-image-container image-container-2">
-                    <img src="{{this}}" alt="Review Image">
-                </div>
-            {{/each}}
-        </div>
-    {{/if}}
 
     <input type="hidden" name="rating" id="rating-input" value="{{selected.rating}}">
     <div class="button-container1 buttons-space-2">
