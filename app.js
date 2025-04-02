@@ -83,33 +83,6 @@ const restaurantRoute = require('./routes/restaurantRoute');
 // Import database model
 const db = require('./model/model');
 
-// Define the dataModule for legacy JSON file support
-const fs = require('fs');
-const path = require('path');
-
-const dataModule = {
-    getData: function(filePath) {
-        try {
-            const absolutePath = path.resolve(filePath);
-            const data = fs.readFileSync(absolutePath, 'utf8');
-            return JSON.parse(data);
-        } catch (error) {
-            console.error(`Error reading file ${filePath}:`, error);
-            return [];
-        }
-    },
-    saveData: function(filePath, data) {
-        try {
-            const absolutePath = path.resolve(filePath);
-            fs.writeFileSync(absolutePath, JSON.stringify(data, null, 2), 'utf8');
-            return true;
-        } catch (error) {
-            console.error(`Error writing to file ${filePath}:`, error);
-            return false;
-        }
-    }
-};
-
 // Use route modules
 server.use('/users', userRoutes);
 server.use('/comments', commentRoute);

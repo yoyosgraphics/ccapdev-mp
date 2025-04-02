@@ -7,7 +7,7 @@
         <div class="rating-container">
             <p class="rating rating-3" style="--rating:{{selected.rating}};"></p>
         </div>
-        <p>Type: {{selected.type}} {{user}}</p>
+        <p>Type: {{selected.type}}</p>
         <p>Address: {{selected.address}}</p>
         <p>Phone Number: {{selected.phone_number}}</p>
         <p>Pricing: PHP {{selected.pricing_from}}-{{selected.pricing_to}} per person</p>
@@ -30,29 +30,31 @@
     
 <script>
     function archiveRestaurant(restaurantId) {
-        console.log("Button clicked! Restaurant ID:", restaurantId); 
-
-   fetch(`/archive/${restaurantId}`, { method: 'POST' })
-    .then(response => {
-        console.log("response: ", response);
-        if (!response.ok) {
-            throw new Error(`Failed to archive restaurant, status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Server response:", data);
-        if (data.success) {
-            alert("Restaurant archived successfully!");
-            window.location.href = '/restaurants';
-        } else {
-            alert("Failed to archive restaurant");
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert(error.message);
-    });
+    console.log("Button clicked! Restaurant ID:", restaurantId);
+    
+    if (confirm("Are you sure you want to archive this restaurant?")) {
+        fetch(`/archive/${restaurantId}`, { method: 'POST' })
+            .then(response => {
+                console.log("response: ", response);
+                if (!response.ok) {
+                    throw new Error(`Failed to archive restaurant, status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Server response:", data);
+                if (data.success) {
+                    alert("Restaurant archived successfully!");
+                    window.location.href = '/restaurants';
+                } else {
+                    alert("Failed to archive restaurant");
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert(error.message);
+            });
     }
+}
     </script>
 </section>
