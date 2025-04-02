@@ -1,41 +1,43 @@
-<div class="profile-container">
-    <div class="profile-pic-container">
-        <div class="dropdown">
-            <button class="dropdown-btn" id="image-select">
-                <img src="{{user.picture_address}}" height="150vh" width="150vh" style="border-radius: 10px;">
-            </button>
-            <div class="dropdown-content">
-                <div class="dropdown-option">
-                    <img src="/common/pfp-1.png" height="150vh" width="150vh">
-                </div>
-                <div class="dropdown-option">
-                    <img src="/common/pfp-2.png" height="150vh" width="150vh">
-                </div>
-                <div class="dropdown-option">
-                    <img src="/common/pfp-3.png" height="150vh" width="150vh">
+<form action="/users/edit/{{user._id}}" method="post">
+
+    <div class="profile-container">
+        <div class="profile-pic-container">
+            <div class="dropdown">
+                <button type="button" class="dropdown-btn" id="image-select">
+                    <img src="{{user.picture_address}}" height="150vh" width="150vh" style="border-radius: 10px;">
+                </button>
+                <div class="dropdown-content">
+                    <div class="dropdown-option">
+                        <img src="/common/pfp-1.png" height="150vh" width="150vh">
+                    </div>
+                    <div class="dropdown-option">
+                        <img src="/common/pfp-2.png" height="150vh" width="150vh">
+                    </div>
+                    <div class="dropdown-option">
+                        <img src="/common/pfp-3.png" height="150vh" width="150vh">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="editprofile-section">
-        <form id="editProfileForm" method="POST" action="/users/{{user._id}}">
+        <input type="hidden" name="picture_address" id="picture_address" value="{{user.picture_address}}">
+
+        <div class="editprofile-section">
             <div class="name-group">
-                <input type="text" name="firstName" value="{{user.first_name}}" placeholder="First Name*" required>
-                <input type="text" name="lastName" value="{{user.last_name}}" placeholder="Last Name*" required>
+                <input type="text" name="first_name" value="{{user.first_name}}" placeholder="First Name*" required>
+                <input type="text" name="last_name" value="{{user.last_name}}" placeholder="Last Name*" required>
             </div>
             <input type="text" name="username" value="{{user.username}}" placeholder="Username*" required>
 
             <div class="bio-box">
-                <textarea id="bio" name="bio" maxlength="1500" placeholder="Biography">{{user.biography}}</textarea>
-                {{!-- <span class="char-counter" id="char-counter">0/1500</span> --}}
+                <textarea id="bio" name="biography" maxlength="1500" placeholder="Biography">{{user.biography}}</textarea>
             </div>
 
             <div class="buttons">
-                <button type="button" class="cancel-btn" onclick="history.back()">Cancel</button>
-                {{!-- Changed to button first --}}
-                <button type="button" class="save-btn" onclick="history.back()">Save Changes</button>
+                <button type="button" class="cancel-btn" onclick="window.location.href='/users/{{user._id}}'">Cancel</button>
+                <button type="submit" class="save-btn">Save Changes</button>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+
+</form>

@@ -16,13 +16,15 @@
         {{> search_bar_reviews}}
         {{#if user}}
         <button class="write-btn" onclick="window.location.href='/{{selected._id}}/create_review'"><img src="/common/write-icon.png" class="icon-margin-right">Write a Review</button>
+        {{#if selected.owner}}
         <div class="edit-archive-container button-container-attributes">
             <button class="btn" onclick="window.location.href='/edit/restaurant/{{selected._id}}'"><img src="/common/edit-icon.png" width="15px" height="15px"> </button>
             <div class="divider"></div>
             <button class="btn" onclick="archiveRestaurant('{{selected._id}}')">
-    <img src="/common/archive-icon.png" width="15px" height="15px">
-</button>
+            <img src="/common/archive-icon.png" width="15px" height="15px">
+            </button>
         </div>
+        {{/if}}
         {{/if}}
     </div>
     

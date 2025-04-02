@@ -220,8 +220,18 @@ $(document).ready(function () {
         if ($(".edit-restaurant").length)
             $(".edit-restaurant").css("background-image", `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.88)), url('${imgSrc}')`);
 
+        if ($("#picture_address").length) {
+            $("#picture_address").val(imgSrc);
+        }
+
         // Hide dropdown
         dropdown.find(".dropdown-content").removeClass("show");
+    });
+
+    $(".type-option").click(function () {
+        let selectedType = $(this).text();
+        $("#selected-type").html(`${selectedType} <img src="https://static.vecteezy.com/system/resources/previews/014/455/895/non_2x/down-arrow-icon-on-transparent-background-free-png.png" height="10vh" width="10vh">`);
+        $("#food-type").val(selectedType);
     });
 
     // Hide dropdown when clicking outside

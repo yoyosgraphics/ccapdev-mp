@@ -2,7 +2,7 @@ services:
   - type: web
     name: your-app-name
     env: node
-    buildCommand: npm install express express-handlebars mongoose bcrypt express-session fs path mongo-connect connect-mongodb-session cookie-parser
+    buildCommand: npm install express express-handlebars mongoose bcrypt express-session fs path connect-mongodb-session cookie-parser
     startCommand: node app.js
     envVars:
       - key: MONGODB_URI

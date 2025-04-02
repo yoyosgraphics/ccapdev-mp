@@ -1,15 +1,12 @@
-const bcrypt = require("bcrypt");
-
 const db = require("../model/model");
 console.log("User Controller");
 
 // ========== REGISTRATION ==========
 const showRegisterForm = (req, res) => {
-    console.log("showRegisterForm Check!"); //checker
-    // const alerts = [];
-    // if (req.query.alert && req.query.message) {
-    //     alerts.push({ type: req.query.alert, message: req.query.message });
-    // }
+    const alerts = [];
+    if (req.query.alert && req.query.message) {
+        alerts.push({ type: req.query.alert, message: req.query.message });
+    }
 
     res.render('register', {
         layout: 'index',
@@ -34,9 +31,8 @@ const registerOne = async (req, res) => {
         confirm_password,
     } = req.body;   
 
-        console.log("validate 1st page")
+        // Validate if first page is not empty
         if (!email_address || !first_name || !last_name || !username || !password || !confirm_password) {
-            console.log("1st page error")
                 return res.render('register', { 
                     formData: req.body,
                     showPage: true,
@@ -46,8 +42,32 @@ const registerOne = async (req, res) => {
                     alerts: [{ type: 'error', message: 'All fields are required' }]
                 });
             } 
-             
-        console.log("validate password and confirm password")
+        // Validate unique username
+        const isUsernameAvailable = await verifyUsername(username);
+        if (!isUsernameAvailable) {
+            return res.render('register', { 
+                formData: req.body,
+                showPage: true,
+                showPageTwo: false,
+                logged_in: false,
+                show_auth: false,
+                alerts: [{ type: 'error', message: 'Username is already taken' }]
+            });
+        }
+
+        // Validate unique email
+        const isEmailAvailable = await verifyEmail(email_address);
+        if (!isEmailAvailable) {
+            return res.render('register', { 
+                formData: req.body,
+                showPage: true,
+                showPageTwo: false,
+                logged_in: false,
+                show_auth: false,
+                alerts: [{ type: 'error', message: 'Email is already registered' }]
+            });
+        }    
+        // Validate if password and confirm password matches
         if (password !== confirm_password) {
             return res.render('register', { 
                 formData: req.body,
@@ -88,14 +108,7 @@ const registerOne = async (req, res) => {
 const register = async (req, res) => {
     try {
         const { email_address, first_name, last_name, username, password, confirm_password, profile_image_path, biography } = req.body;
-        console.log("FULL REGISTRATION REQUEST:", req.body);
-        console.log("Uploaded file:", profile_image_path);
 
-        console.log("1st stop")
-        
-            console.log("2nd stop")
-            //const newUser = 
-            console.log("3rd stop")
             await db.createUser(
             email_address,
             first_name,
@@ -106,20 +119,10 @@ const register = async (req, res) => {
             profile_image_path,  
             biography
             );
-            console.log("4th stop")
-        // console.log("My User Creation newUser:", newUser);
-        // console.log("newUser:", newUser);
-        console.log("6th stop")
-
-        res.redirect('/users/login?alert=success&message=' + encodeURIComponent('Registration successful! Please log in.'));
-        console.log("User Successfully Created. Please login.")
-
-        console.log("7th stop")
-    } catch (error) {
-        console.log("5th stop")
-        console.error('REGISTRATION PROCESS ERROR:', error);
         
-        // Handle different types of errors
+        res.redirect('/users/login?alert=success&message=' + encodeURIComponent('Registration successful! Please log in.'));
+
+    } catch (error) {
         res.render('register', { 
             formData: req.body,
             showPage: false,
@@ -132,7 +135,6 @@ const register = async (req, res) => {
 };
 
 // ========== LOGIN ==========
-// Show login form
 const showLoginForm = (req, res) => {
     const alerts = [];
     if (req.query.alert && req.query.message) {
@@ -154,10 +156,7 @@ const showLoginForm = (req, res) => {
 const login = async (req, res) => {
     try {
         const { email_address, password, remember } = req.body;
-
-        // Fetch user from DB
         const existingUser = await db.logInUser(email_address, password);
-        console.log("user: ", existingUser);
 
     if (!existingUser) {
     console.log("Invalid email or missing password in database");
@@ -169,7 +168,6 @@ const login = async (req, res) => {
         user: null
         }); 
     }
-       
         // User session object
         const userForSession = {
             _id: existingUser.user._id.toString(), // Convert _id to a string
@@ -244,11 +242,9 @@ const logout = (req, res) => {
             return res.redirect('/?alert=error&message=' + encodeURIComponent('Error during logout'));
         }
         res.clearCookie('connect.sid');
-        // Redirect to home page with query parameters to indicate logged out state
         res.redirect('/?logged_in=false&show_auth=true');
     });
 };
-
 
 // ========== VIEW PROFILE ==========
 
@@ -354,42 +350,22 @@ const showEditForm = async (req, res) => {
 // Update user profile
 const updateUser = async (req, res) => {
     try {
-        // Check if the logged-in user is the owner of this profile
-        const loggedInUserId = req.session.user ? (req.session.user._id || '').toString() : '';
-        const profileUserId = (req.params.id || '').toString();
-        
-        if (loggedInUserId !== profileUserId) {
-            return res.status(403).render('error', {
-                error: 'You do not have permission to update this profile',
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                alerts: [{ type: 'error', message: 'You do not have permission to update this profile' }]
-            });
-        }
-        
         const { first_name, last_name, username, biography, picture_address } = req.body;
-        
-        // Validate required fields
-        if (!first_name || !last_name || !username) {
-            const user = await db.getUserID(req.params.id);
-            return res.render('edit_profile', {
-                user: user[0] || { _id: req.params.id, ...req.body },
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                alerts: [{ type: 'error', message: 'First name, last name, and username are required' }]
-            });
+        const user_id = req.params.id;
+
+        if (username !== req.session.user.username) {
+            const isUnique = await db.verifyUsername(username);
+            if (!isUnique) {
+                return res.render('edit_profile', { 
+                    user: { _id: user_id, ...req.body },
+                    logged_in: !!req.session.user,
+                    show_auth: !req.session.user,
+                    alerts: [{ type: 'error', message: 'Username already taken. Please choose another one.' }]
+                });
+            }
         }
-        
-        const updatedUser = await db.updateUserID(req.params.id, first_name, last_name, username, biography, picture_address);
-        
-        if (!updatedUser) {
-            return res.status(404).render('404', { 
-                message: 'User not found',
-                logged_in: !!req.session.user,
-                show_auth: !req.session.user,
-                alerts: [{ type: 'error', message: 'User not found' }]
-            });
-        }
+
+        const updatedUser = await db.updateUserID(user_id, first_name, last_name, username, biography, picture_address);
         
         // Update the session with the new user data
         if (req.session.user && req.session.user._id === req.params.id) {
@@ -403,7 +379,7 @@ const updateUser = async (req, res) => {
             };
         }
         
-        res.redirect(`/users/${req.params.id}?alert=success&message=` + encodeURIComponent('Profile updated successfully'));
+        res.redirect(`/users/${req.params.id}`);
     } catch (error) {
         console.error("Error updating user:", error);
         res.status(500).render('edit_profile', { 

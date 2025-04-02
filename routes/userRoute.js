@@ -106,7 +106,8 @@ router.get('/logout', userController.logout);
 router.get('/users/:id', ensureLoggedIn, userController.getUserById);
 
 // Protected profile routes (require authentication AND ownership)
-router.get('/users/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
-router.post('/users/:id/edit', isAuthenticated, isOwnProfile, upload.single('picture_address'), userController.updateUser);
+// router.get('/users/:id/edit', isAuthenticated, isOwnProfile, userController.showEditForm);
+// router.post('/users/:id/edit', isAuthenticated, isOwnProfile, upload.single('picture_address'), userController.updateUser);
+router.post('/edit/:id', userController.updateUser)
 
 module.exports = router;
