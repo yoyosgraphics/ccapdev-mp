@@ -269,7 +269,7 @@ const getReviewOfID = async (id) => {
     let singleReview = review[0];
     singleReview.num_comments = await Comment.countDocuments({ review_id: singleReview._id, delete_status: false });
 
-    // Ensure picture_address is defined as an array
+
     if (!Array.isArray(singleReview.picture_address)) {
         singleReview.picture_address = [];  // Default to an empty array if undefined
     }
@@ -277,9 +277,8 @@ const getReviewOfID = async (id) => {
     // If no pictures, set the default predefined picture
     if (singleReview.picture_address.length === 0) {
         singleReview.picture_address = ['/common/noPicture.png'];  // Set a predefined picture if empty
+        singleReview.has_images = false;
     }
-
-    singleReview.has_images = singleReview.picture_address.length > 0;
 
     console.log('Review ID:', singleReview._id, 'Picture Addresses:', singleReview.picture_address);
 
@@ -719,20 +718,21 @@ const checkUserRestaurantOwner = async (_user_id, _restaurant_id) => {
 const getAllReviewsOfUser = async (userID) => {
     const objectId = toObjectId(userID);
 
-    let reviews = await Review.find({ user_id: objectId, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find({ user_id: objectId, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .populate("restaurant_id", "_id name")
                                 .sort({ _id: -1 })
                                 .lean();
-    
+
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
 
-        if (!Array.isArray(review.picture_addresses)) {
-            review.picture_addresses = []; 
+        if (!Array.isArray(review.picture_address)) {
+            review.picture_address = []; 
         }
 
-        if (review.picture_addresses.length === 0) {
+        if (review.picture_address.length === 0) {
+            review.picture_address = ['/common/noPicture.png']; 
             review.has_images = false;
         } else {
             review.has_images = true;

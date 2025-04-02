@@ -5,6 +5,7 @@ const connectDB = require('./db');
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
+
 // Set up handlebars as view engine
 const handlebars = require('express-handlebars');
 const hbs = handlebars.create({
@@ -16,6 +17,7 @@ const hbs = handlebars.create({
         }
     }
 });
+
 
 // Configure view engine
 server.set('view engine', 'hbs');
@@ -276,12 +278,12 @@ server.get('/view_review/:id/', async function(req, res) {
         });
         console.log("Comments", comments);
 
-        review.owner = false;
+        /*review.owner = false;
 
         if (res.locals.logged_in)
             if (await db.checkUserReviewOwner(res.locals.user.id, review.id))
                 review.owner = true;
-
+*/
         console.log('Review:', review);
         res.render('view_review', {
             layout: 'index',
@@ -553,6 +555,7 @@ server.get('/users/:id', async function (req, res) {
         if (req.query.alert && req.query.message) {
             alerts.push({ type: req.query.alert, message: req.query.message });
         }
+        console.log(reviews);
 
         res.render('user_profile', {
             layout: 'index',

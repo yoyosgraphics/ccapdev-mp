@@ -25,11 +25,14 @@
             <p class="review-content">{{review.content}}</p>
             {{#if review.has_images}}
                 <div class="review-image-container">
-                    {{#each review.picture_address}}
-                    <img src="{{this}}" alt="Review Image"> 
-                    {{/each}}
+                {{#each review.picture_address}}
+                    <img src="{{this}}" alt="Review Image">
+                {{/each}}
                 </div>
             {{/if}}
+
+
+
         </div>
         <div class="buttons-space-2">
             <div class="like-container button-container-attributes">
