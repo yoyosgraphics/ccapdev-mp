@@ -17,11 +17,14 @@
     "/uploads/review-1-67c9a917d220f3bd703c75a6.png"
   ],
   "likes": [
-    "67e7deb262458b8bf13765eb"
+    {
+      "$oid": "67e7deb262458b8bf13765eb"
+    }
   ],
   "dislikes": [],
   "edit_status": false,
-  "delete_status": false
+  "delete_status": false,
+  "picture_address": []
 },
 {
   "_id": {
@@ -39,11 +42,10 @@
   "content": "Some McDonald's branches are fantastic—clean, quick service, and fresh food. Others, not so much. I've had experiences where fries were cold or burgers were slapped together carelessly. It really depends on where you go.",
   "picture_addresses": [],
   "likes": [],
-  "dislikes": [
-    "67e7deb262458b8bf13765eb"
-  ],
+  "dislikes": [],
   "edit_status": false,
-  "delete_status": false
+  "delete_status": false,
+  "picture_address": []
 },
 {
   "_id": {
@@ -61,9 +63,14 @@
   "content": "McDonald's is great when you're on a budget. The value meals give you a lot for your money, and their app deals make it even better. It's not the healthiest option, but it's perfect for a fast, cheap meal.",
   "picture_addresses": [],
   "likes": [],
-  "dislikes": [],
+  "dislikes": [
+    {
+      "$oid": "67e7deb262458b8bf13765eb"
+    }
+  ],
   "edit_status": false,
-  "delete_status": false
+  "delete_status": false,
+  "picture_address": []
 },
 {
   "_id": {
@@ -81,9 +88,14 @@
   "content": "McDonald's breakfast is underrated! The Egg McMuffin, hash browns, and coffee are always a win. The downside? The breakfast menu ends too early—wish they served it all day!",
   "picture_addresses": [],
   "likes": [],
-  "dislikes": [],
+  "dislikes": [
+    {
+      "$oid": "67e7deb262458b8bf13765eb"
+    }
+  ],
   "edit_status": false,
-  "delete_status": false
+  "delete_status": false,
+  "picture_address": []
 },
 {
   "_id": {
@@ -101,9 +113,14 @@
   "content": "McDonald's is perfect for families with kids—the Happy Meals, playgrounds, and simple menu make it an easy choice. But sometimes, the food quality isn't the best. Freshness depends on the time of day you go.",
   "picture_addresses": [],
   "likes": [],
-  "dislikes": [],
+  "dislikes": [
+    {
+      "$oid": "67e7deb262458b8bf13765eb"
+    }
+  ],
   "edit_status": false,
-  "delete_status": false
+  "delete_status": false,
+  "picture_address": []
 },
 {
   "_id": {
@@ -120,10 +137,15 @@
   "rating": 5,
   "content": "Panda Express is a go-to spot for quick and flavorful Chinese comfort food. The Orange Chicken remains a fan favorite, perfectly balancing sweetness and crunch. Portion sizes are reasonable, and service is efficient. However, the food can be a bit oily, and options for healthier choices are limited. Great for a satisfying meal on the go.",
   "picture_addresses": [],
-  "likes": [],
+  "likes": [
+    {
+      "$oid": "67e7deb262458b8bf13765eb"
+    }
+  ],
   "dislikes": [],
   "edit_status": false,
-  "delete_status": false
+  "delete_status": false,
+  "picture_address": []
 },
 {
   "_id": {
