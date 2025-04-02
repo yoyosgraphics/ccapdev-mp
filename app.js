@@ -295,10 +295,12 @@ server.get('/view_review/:id/', async function(req, res) {
             }
         });
 
+
+        console.log('Review:', review);
         res.render('view_review', {
             layout: 'index',
             title: review.title,
-            review: review[0],
+            review: review,
             comments: comments,
         });
     } catch (err) {
@@ -312,16 +314,82 @@ server.get('/view_review/:id/', async function(req, res) {
     }
 });
 
+server.get('/edit/review/:id', async function(req, res) {
+    try {
+        const reviewId = req.params.id;
+        console.log('Review ID:', reviewId);  // Log the review ID received in the URL
+
+        // Fetch the review by ID
+        const review = await db.getReviewOfID(reviewId);
+
+        // Log the review data to check if it's correct
+        console.log('Fetched Review:', review);
+
+        // Check if the review exists
+        if (!review) {
+            return res.status(404).render('error', {
+                layout: 'index',
+                title: 'Review Not Found',
+                error: 'Review not found or deleted'
+            });
+        }
+
+        // Check if the logged-in user is the owner of the review
+        console.log("review: ", review);
+        console.log("Logged-in user:",  review.user_id._id.toString());
+        console.log("User Owner: ", res.locals.user._id.toString());
+        if (review.user_id._id.toString() !== res.locals.user._id.toString()) {
+            return res.status(403).render('error', {
+                layout: 'index',
+                title: 'Forbidden',
+                error: 'You do not have permission to edit this review.'
+            });
+        }
+
+        // Pass the review data to the template
+        res.render('edit_review', {
+            layout: 'index',
+            selected: review,  // Pass the review as 'selected'
+        });
+
+    } catch (err) {
+        console.error('Error fetching review for editing:', err);
+        res.status(500).render('error', {
+            layout: 'index',
+            title: 'Error',
+            error: 'Failed to fetch review for editing',
+            alerts: [{ type: 'error', message: 'An error occurred while fetching the review data.' }]
+        });
+    }
+});
+
+
+// Delete review route
+server.delete('/delete/review/:id', async (req, res) => {
+    const reviewId = req.params.id;
+    
+    const result = await db.deleteReviewById(reviewId);
+    
+    if (result.success) {
+        res.json(result);
+    } else {
+        res.status(400).json(result);
+    }
+});
+
+
 
 // Create review route - converted to use MongoDB
 server.get('/:id/create_review', async function(req, res) {
     try {
-        // Check if user is logged in
         if (!req.session.user) {
             return res.redirect('/login');
         }
+
+        const restaurantArray = await db.getRestaurantOfID(req.params.id);
         
-        const restaurant = await db.getRestaurantOfID(req.params.id);
+        
+        const restaurant = restaurantArray[0];
 
         if (!restaurant) {
             return res.status(404).render('404', {
@@ -330,7 +398,7 @@ server.get('/:id/create_review', async function(req, res) {
                 alerts: [{ type: 'error', message: 'Restaurant not found' }]
             });
         }
-        
+
         res.render('create_review', {
             layout: 'index',
             title: "Write a Review",
@@ -412,7 +480,7 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
         res.render('edit_comment', {
             layout: 'index',
             title: review.title,
-            selected: review[0],
+            selected: review,
             selectedComment: comment,
             comments: comments
         });
@@ -424,6 +492,35 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
             error: err.message,
             alerts: [{ type: 'error', message: 'Failed to load comment' }]
         });
+    }
+});
+
+server.post('/edit/review/:id', async (req, res) => {
+    const { title, content, rating, picture_addresses } = req.body;
+    const reviewId = req.params.id;
+
+    console.log('Request Data:', req.body);  // Check the data here
+
+    // Ensure the individual fields are correctly handled
+    const updatedReviewData = {
+        title: String(title),  // Ensure title is a string
+        content: String(content),  // Ensure content is a string
+        rating: Number(rating),  // Ensure rating is a number
+        picture_addresses: picture_addresses || [""],  // Default to empty string if no pictures
+    };
+
+    try {
+        const updatedReview = await db.editReviewOfID(
+            reviewId,
+            title,
+            rating,
+            content,
+            picture_addresses || [''] // Ensure it's always an array
+        );
+        res.redirect(`/view_review/${reviewId}`);  // Redirect to the updated review page
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error updating review.");
     }
 });
 
@@ -561,15 +658,25 @@ server.get('/restaurants/:id/my-review', (req, res) => {
     res.redirect(`/reviews/restaurant/${req.params.id}/my-review`);
 });
 
-// Catch-all for 404 errors
-server.use((req, res) => {
-    res.status(404).render('404', { 
-        layout: 'index',
-        title: 'Page Not Found',
-        alerts: [{ type: 'error', message: 'Page not found' }]
-    });
-});
+server.post("/restaurants/:id/submit-review", (req, res) => {
+    const { rating, title, content } = req.body;
+    const user_id = req.session.user._id; // Assuming the user object is stored with _id in the session
+    console.log("user: ", user_id); // Debugging
 
+    // Debugging the received form data
+    console.log("Form Data Received:", req.body); 
+
+    // Call the addReview function, passing the user_id
+    db.addReview(user_id, req.params.id, title, rating, content)
+        .then(() => {
+            console.log("Review submitted successfully.");
+            res.redirect(`/restaurants/${req.params.id}`);
+        })
+        .catch(err => {
+            console.error("Error submitting review:", err);
+            res.status(400).send("Error submitting review.");
+        });
+});
 // Error handler
 server.use((err, req, res, next) => {
     console.error(err.stack);

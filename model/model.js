@@ -160,11 +160,12 @@ const getRestaurantReviewsOfID = async (id) => {
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
 
-        if (review.picture_addresses.length == 0) {
-            review.has_images = false;
-        } else {
-            review.has_images = true;
+        if (!Array.isArray(review.picture_addresses)) {
+            review.picture_addresses = [];  // Default to an empty array if undefined
         }
+
+        review.has_images = review.picture_addresses.length > 0;  // Check if the array has any items
+
     }
 
     return reviews;
@@ -213,29 +214,27 @@ const updateReviewDislikesOfID = async (id, status) => {
 // Search Review Request
 // Searches and filters out reviews based on the given filter data.
 const searchReviews = async (id, _content) => {
-    let search = {restaurant_id: id};
+    let search = { restaurant_id: id };
 
     if (_content) {
         search.$or = [
-            {title: {$regex: _content, $options: "i"}},
-            {content: {$regex: _content, $options: "i"}},
-
-        ]
+            { title: { $regex: _content, $options: "i" } },
+            { content: { $regex: _content, $options: "i" } }
+        ];
     }
 
-    let reviews = await Review.find(search, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
-                                .populate("user_id", "first_name last_name picture_address")
-                                .sort({likes: -1})
-                                .lean();
+    let reviews = await Review.find(search, { _id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1 })
+                               .populate("user_id", "first_name last_name picture_address")
+                               .sort({ likes: -1 })
+                               .lean();
 
     for (let review of reviews) {
-        review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
+        review.num_comments = await Comment.countDocuments({ review_id: review._id, delete_status: false });
 
-        if (review.picture_addresses.length == 0) {
-            review.has_images = false;
-        } else {
-            review.has_images = true;
+        if (!Array.isArray(review.picture_addresses)) {
+            review.picture_addresses = [];  
         }
+        review.has_images = review.picture_addresses.length > 0;
     }
 
     return reviews;
@@ -247,19 +246,21 @@ const getReviewOfID = async (id) => {
     let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1, restaurant_id: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .lean();
-                                
-                                if (!review) {
-                                    throw new Error("Review not found");
-                                }
-                            
-                                review[0].num_comments = await Comment.countDocuments({review_id: review[0]._id, delete_status: false});
-                            
-                                if (review[0].picture_addresses.length == 0) {
-                                    review[0].has_images = false;
-                                } else {
-                                    review[0].has_images = true;
-                                }
-    return review;
+
+    if (!review || review.length === 0) {
+        throw new Error("Review not found");
+    }
+
+    let singleReview = review[0];
+    singleReview.num_comments = await Comment.countDocuments({review_id: singleReview._id, delete_status: false});
+
+    if (!Array.isArray(singleReview.picture_addresses)) {
+        singleReview.picture_addresses = [];  
+    }
+
+    singleReview.has_images = singleReview.picture_addresses.length > 0;
+
+    return singleReview;
 }
 
 // Creates new comment record based on the given data.
@@ -290,7 +291,7 @@ const getReviewCommentsOfID = async (id) => {
 
         if (user_restaurant) {
             if (compareID(user_restaurant._id, owner_restaurant.restaurant_id)) {
-                comment.owner = true; // Owner indication
+                comment.owner = true; 
             }
             else {
                 comment.owner = false;
@@ -655,7 +656,11 @@ const getAllReviewsOfUser = async (userID) => {
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
 
-        if (review.picture_addresses.length == 0) {
+        if (!Array.isArray(review.picture_addresses)) {
+            review.picture_addresses = []; 
+        }
+
+        if (review.picture_addresses.length === 0) {
             review.has_images = false;
         } else {
             review.has_images = true;
@@ -664,6 +669,33 @@ const getAllReviewsOfUser = async (userID) => {
 
     return reviews;
 }
+
+const deleteReviewById = async (reviewId) => {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(reviewId)) {
+            return { success: false, message: "Invalid review ID" };
+        }
+
+        const objectId = new mongoose.Types.ObjectId(reviewId);
+
+        const review = await Review.findById(objectId);
+        if (!review) {
+            return { success: false, message: "Review not found" };
+        }
+
+        const deletedComments = await Comment.deleteMany({ review_id: objectId });
+
+        const deletedReview = await Review.findByIdAndDelete(objectId);
+        if (!deletedReview) {
+            return { success: false, message: "Failed to delete review" };
+        }
+
+        return { success: true, message: "Review and its comments deleted successfully" };
+
+    } catch (error) {
+        return { success: false, message: "Error deleting review and comments" };
+    }
+};
 
 // Checks whether the user is the owner of the review.
 // Determines whether the edit and delete feature should be accessible.
@@ -795,4 +827,5 @@ module.exports = {
     archiveRestaurant,
     archiveRestaurantById,
     deleteCommentOfID,
+    deleteReviewById,
 };

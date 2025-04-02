@@ -1,10 +1,11 @@
+<form id="reviewForm" action="/restaurants/{{selected._id}}/submit-review" method="POST">
 <div class="write-review-heading">
     <h1>Write a Review</h1>
 </div>
 <div class="review-input-container">
     <div class="review-title-container">
         <div class="review-title-input">
-            <input type="text" id="title-input" placeholder="Title" required>
+            <input type="text" id="title-input" name="title" placeholder="Title" required>
         </div>
         {{!-- <div class="review-title-counter">
             <span>0/300</span>
@@ -37,15 +38,42 @@
         </div>
         <div class="review-body-input-container">
             <div class="review-body">
-                <textarea name="review-body" placeholder="Body"></textarea>
+                <textarea name="content" placeholder="Body" required></textarea>
             </div>
             {{!-- <div class="review-body-counter">
                 <span>0/1500</span>
             </div> --}}
         </div>
     </div>
+
+    <input type="hidden" name="rating" id="rating-input" value="0">
+
     <div class="button-container1 buttons-space-2">
         <button class="cancel-btn" onclick="history.back()">Cancel</button>
         <button class="post-btn"><img src="/common/write-icon.png" alt="Write Icon" class="icon-margin-right">Post</button>
     </div>
 </div>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll(".star");
+    const ratingInput = document.getElementById("rating-input");
+
+    stars.forEach(star => {
+        star.addEventListener("click", function () {
+            const ratingValue = Number(this.getAttribute("data-value")); // Convert to number
+            ratingInput.value = ratingValue; // Update hidden input
+            
+            // Highlight selected stars
+            stars.forEach(s => s.classList.remove("selected"));
+            for (let i = 0; i < ratingValue; i++) {
+                stars[i].classList.add("selected");
+            }
+
+            console.log("Selected rating:", ratingValue); // Debugging
+        });
+    });
+});
+
+</script>

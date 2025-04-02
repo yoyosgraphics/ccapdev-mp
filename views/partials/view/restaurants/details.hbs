@@ -27,9 +27,8 @@
     </div>
     
 <script>
-    // Function is defined here and should be accessible
     function archiveRestaurant(restaurantId) {
-        console.log("Button clicked! Restaurant ID:", restaurantId); // Debugging
+        console.log("Button clicked! Restaurant ID:", restaurantId); 
 
    fetch(`/archive/${restaurantId}`, { method: 'POST' })
     .then(response => {
