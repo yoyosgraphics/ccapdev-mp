@@ -51,7 +51,7 @@
         <input type="text" name="address" id="input-address" value="{{selected.address}}" placeholder="Address*" required>
 
         <h2>Phone Number</h2>
-        <input type="text" name="phone_number" id="input-phone_number" value="{{selected.phone_number}}" placeholder="Phone Number*" required>
+        <input type="tel" name="phone_number" id="input-phone_number" value="{{selected.phone_number}}" placeholder="Phone Number*" pattern="0[0-9]{9,10}" required>
 
         <h2>Pricing Per Person</h2>
         <div class="horizontalAlignment">
