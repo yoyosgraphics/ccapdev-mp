@@ -49,11 +49,13 @@
             </div>
 
             {{#if user}} <!-- Assuming user is logged in or exists -->
+            {{#if review.owner}}
             <div class="edit-delete-container button-container-attributes">
                 <button class="btn"><img src="/common/edit-icon.png" width="15px" height="15px" onclick="window.location.href='/edit/review/{{review._id}}'"></button>
                 <div class="divider"></div>
                 <button class="btn" onclick="deleteReview('{{review._id}}')"><img src="/common/delete-icon.png" width="15px" height="15px"></button>
             </div>
+            {{/if}}
             {{/if}}
         </div>
     </div>
