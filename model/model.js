@@ -880,14 +880,28 @@ const removeLikeDislikeReview = async (_review_id, _user_id) => {
     await review.save();
 }
 
-const getUserReactionReview = async (_review_id, _user_id) => {
+const getUserLikeReview = async (_review_id, _user_id) => {
+    const review = await Review.findById(_review_id);
+    let reaction;
+
+    if (review.likes.some(id => id.equals(_user_id))) {
+        reaction = true;
+    } else {
+        reaction = false;
+    }
+
+    return reaction;
+}
+
+const getUserDislikeReview = async (_review_id, _user_id) => {
     const review = await Review.findById(_review_id);
 
-    let reaction = undefined;
-    if (review.likes.some(id => id.equals(_user_id))) {
-      reaction = true;
-    } else if (review.dislikes.some(id => id.equals(_user_id))) {
-      reaction = false;
+    let reaction;
+    
+    if (review.dislikes.some(id => id.equals(_user_id))) {
+        reaction = true;
+    } else {
+        reaction = false;
     }
 
     return reaction;
@@ -962,5 +976,6 @@ module.exports = {
     likeReview,
     dislikeReview,
     removeLikeDislikeReview,
-    getUserReactionReview,
+    getUserLikeReview,
+    getUserDislikeReview,
 };

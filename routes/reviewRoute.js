@@ -22,6 +22,5 @@ router.get('/view_review/:id/', reviewController.viewReview);
 router.post('/:review_id/like', reviewController.likeReview);
 router.post('/:review_id/dislike', reviewController.dislikeReview);
 router.post('/:review_id/remove-reaction', reviewController.removeReaction);
-router.get('/:review_id/user-reaction', reviewController.getUserReactionReview);
 
 module.exports = router;
