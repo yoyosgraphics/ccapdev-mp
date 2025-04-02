@@ -1,13 +1,13 @@
  <form action="/users/register-first-page" method="POST" id="register-form-step1">
                 <div id="reg-page-1">
-                    <input type="email" name="email_address" placeholder="Email Address*" value="{{formData.email_address}}" required>
+                    <input type="email" id="reg-email" name="email_address" placeholder="Email Address*" value="{{formData.email_address}}" required>
                     <div class="name-group">
-                        <input type="text" name="first_name" placeholder="First Name*" value="{{formData.first_name}}" required>
-                        <input type="text" name="last_name" placeholder="Last Name*" value="{{formData.last_name}}" required>
+                        <input type="text" id="reg-firstN" name="first_name" placeholder="First Name*" value="{{formData.first_name}}" required>
+                        <input type="text" id="reg-lastN" name="last_name" placeholder="Last Name*" value="{{formData.last_name}}" required>
                     </div>
-                    <input type="text" name="username" placeholder="Username*" value="{{formData.username}}" required>
-                    <input type="password" name="password" placeholder="Password*" required>
-                    <input type="password" name="confirm_password" placeholder="Confirm Password*" required>
+                    <input type="text" id="reg-user" name="username" placeholder="Username*" value="{{formData.username}}" required>
+                    <input type="password" id="reg-pass" name="password" placeholder="Password*"  value="{{formData.password}}" required>
+                    <input type="password" id="reg-confpass" name="confirm_password" placeholder="Confirm Password*" value="{{formData.confirm_password}}" required>
                     
                     <div class="reg-container">
                         <button type="submit" class="next-btn">Next</button>

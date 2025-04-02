@@ -2,9 +2,9 @@
     <div class="left-section">
         <div class="login-container">
             <h2>Log In</h2>
-            <form action="/users/login" method="POST">
-                <input type="email" id="email" name="email_address" placeholder="Email Address *" value="{{formData.email_address}}" required>
-                <input type="password" id="password" name="password" placeholder="Password *" value="{{formData.password}}"required>
+            <form action="/users/login" method="POST" id="login-form">
+                <input type="email" id="log-email" name="email_address" placeholder="Email Address *" value="{{formData.email_address}}" required>
+                <input type="password" id="log-password" name="password" placeholder="Password *" value="{{formData.password}}" required>
     
             <div class="checkbox">
                 <input type="checkbox" id="remember" name="remember">
