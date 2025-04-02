@@ -8,7 +8,7 @@
             <div class="reply-heading-container">
                 <b><p>Reply from  
                     <span class="text-clickable" onclick="window.location.href='/users/{{user_id._id}}'">
-                        {{user_id.first_name}} {{user_id.last_name}}
+                        {{user_id.first_name}} {{user_id.last_name}} {{author}}
                         {{#if owner}}(Owner){{/if}}
                     </span>
                     {{#if edit_status}}
