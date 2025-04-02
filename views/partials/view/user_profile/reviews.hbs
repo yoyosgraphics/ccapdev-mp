@@ -26,12 +26,12 @@
                 </div>
                 <div class="buttons-space-2">
                     <div class="like-container button-container-attributes">
-                        <button class="btn toggle-btn" id="like">
+                        <button class="btn {{#if ../user}}toggle-btn{{/if}}" id="like">
                             <img src="/common/empty-like.png" width="15px" height="15px">
                             <b>{{likes.length}}</b>
                         </button>
                         <div class="divider"></div>
-                        <button class="btn toggle-btn" id="dislike">
+                        <button class="btn {{#if ../user}}toggle-btn{{/if}}" id="dislike">
                             <img src="/common/empty-unlike.png" width="15px" height="15px">
                             <b>{{dislikes.length}}</b>
                         </button>
