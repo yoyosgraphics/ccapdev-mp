@@ -136,6 +136,7 @@ $(document).ready(function () {
     $("#search-reviews-form").submit(function (event) {
         event.preventDefault();
 
+        let isLoggedIn = $("#search-reviews").data("user") === "logged-in";
         let restaurantId = $("#search-reviews").data("restaurant-id");
         let searchContent = $(this).find("input[name='q']").val().trim();
 
@@ -173,14 +174,14 @@ $(document).ready(function () {
                                         </div>
                                         <div class="buttons-space-2">
                                             <div class="like-container button-container-attributes">
-                                                <button class="btn toggle-btn" id="like">
+                                                <button class="btn ${isLoggedIn ? 'toggle-btn' : ''}" id="like">
                                                     <img src="/common/empty-like.png" width="15px" height="15px">
-                                                    <b>${review.likes}</b>
+                                                    <b>${review.likes.length}</b>
                                                 </button>
                                                 <div class="divider"></div>
-                                                <button class="btn toggle-btn" id="dislike">
+                                                <button class="btn ${isLoggedIn ? 'toggle-btn' : ''}" id="dislike">
                                                     <img src="/common/empty-unlike.png" width="15px" height="15px">
-                                                    <b>${review.dislikes}</b>
+                                                    <b>${review.dislikes.length}</b>
                                                 </button>
                                             </div>
                                             <div class="comments-container button-container-attributes1 button-clickable gray-button-clickable" onclick="window.location.href='/view_review/${review._id}'">
@@ -201,6 +202,20 @@ $(document).ready(function () {
                         });
     
                     $(".review-thread-container").html(reviewHtml);
+
+                    $(".toggle-btn").click(function () {
+                        let parentContainer = $(this).closest(".like-container");
+    
+                        $(this).toggleClass("on"); // toggle on
+    
+                        if ($(this).closest("#like").length) {
+                            // remove on from dislike
+                            parentContainer.find("#dislike").removeClass("on");
+                        } else if ($(this).closest("#dislike").length) {
+                            // remove on from like
+                            parentContainer.find("#like").removeClass("on");
+                        }
+                    });    
                 }
             }
         )

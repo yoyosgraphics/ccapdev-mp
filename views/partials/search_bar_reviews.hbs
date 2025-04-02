@@ -1,5 +1,5 @@
 <form id="search-reviews-form">
-    <div class="search-bar" id="search-reviews" data-restaurant-id="{{selected._id}}">
+    <div class="search-bar" id="search-reviews" data-restaurant-id="{{selected._id}}" data-user="{{#if user}}logged-in{{else}}guest{{/if}}">
         <img src="/common/search-icon.png" class="search-icon">
         <input type="search" name="q" placeholder="Discover what's worth the hype...">
          <button type="submit" style="display: none;"></button>
