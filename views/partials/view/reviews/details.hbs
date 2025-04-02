@@ -48,8 +48,6 @@
                 <b>{{comments.length}} comments</b> 
             </div>
 
-            <p> User: {{user}} </p>
-
             {{#if user}} <!-- Assuming user is logged in or exists -->
             <div class="edit-delete-container button-container-attributes">
                 <button class="btn"><img src="/common/edit-icon.png" width="15px" height="15px" onclick="window.location.href='/edit/review/{{review._id}}'"></button>
