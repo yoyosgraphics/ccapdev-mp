@@ -166,4 +166,43 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Handle star rating selection
+  const stars = document.querySelectorAll(".star");
+  const ratingInput = document.getElementById("rating-input");
+
+  stars.forEach(star => {
+    star.addEventListener("click", function () {
+      const ratingValue = this.getAttribute("data-value");
+
+      // Update hidden input field
+      ratingInput.value = ratingValue;
+
+      // Update UI - Highlight stars up to the selected one
+      stars.forEach(s => {
+        s.classList.remove("selected");
+        if (s.getAttribute("data-value") <= ratingValue) {
+          s.classList.add("selected");
+        }
+      });
+
+      console.log("Rating selected:", ratingValue); // Debugging
+    });
+  });
+
+  // Apply styles for selected stars
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .star {
+      font-size: 24px;
+      cursor: pointer;
+      color: gray;
+    }
+    .star.selected {
+      color: gold;
+    }
+  `;
+  document.head.appendChild(style);
+});
 </script>

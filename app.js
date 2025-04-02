@@ -739,7 +739,7 @@ server.post("/restaurants/:id/submit-review", (req, res) => {
     db.addReview(user_id, req.params.id, title, rating, content, selectedImages)
         .then(() => {
             console.log("Review submitted successfully.");
-            res.redirect(`/restaurants/${req.params.id}`);
+            res.redirect(`/restaurants`);
         })
         .catch(err => {
             console.error("Error submitting review:", err);
