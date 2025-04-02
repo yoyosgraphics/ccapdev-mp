@@ -16,8 +16,10 @@
     "/uploads/review-0-67c9a917d220f3bd703c75a6.png",
     "/uploads/review-1-67c9a917d220f3bd703c75a6.png"
   ],
-  "likes": 3,
-  "dislikes": 3,
+  "likes": [
+    "67e7deb262458b8bf13765eb"
+  ],
+  "dislikes": [],
   "edit_status": false,
   "delete_status": false
 },
@@ -36,8 +38,10 @@
   "rating": 4,
   "content": "Some McDonald's branches are fantastic—clean, quick service, and fresh food. Others, not so much. I've had experiences where fries were cold or burgers were slapped together carelessly. It really depends on where you go.",
   "picture_addresses": [],
-  "likes": 5,
-  "dislikes": 1,
+  "likes": [],
+  "dislikes": [
+    "67e7deb262458b8bf13765eb"
+  ],
   "edit_status": false,
   "delete_status": false
 },
@@ -56,8 +60,8 @@
   "rating": 4,
   "content": "McDonald's is great when you're on a budget. The value meals give you a lot for your money, and their app deals make it even better. It's not the healthiest option, but it's perfect for a fast, cheap meal.",
   "picture_addresses": [],
-  "likes": 2,
-  "dislikes": 2,
+  "likes": [],
+  "dislikes": [],
   "edit_status": false,
   "delete_status": false
 },
@@ -76,8 +80,8 @@
   "rating": 5,
   "content": "McDonald's breakfast is underrated! The Egg McMuffin, hash browns, and coffee are always a win. The downside? The breakfast menu ends too early—wish they served it all day!",
   "picture_addresses": [],
-  "likes": 3,
-  "dislikes": 1,
+  "likes": [],
+  "dislikes": [],
   "edit_status": false,
   "delete_status": false
 },
@@ -96,8 +100,8 @@
   "rating": 4,
   "content": "McDonald's is perfect for families with kids—the Happy Meals, playgrounds, and simple menu make it an easy choice. But sometimes, the food quality isn't the best. Freshness depends on the time of day you go.",
   "picture_addresses": [],
-  "likes": 0,
-  "dislikes": 5,
+  "likes": [],
+  "dislikes": [],
   "edit_status": false,
   "delete_status": false
 },
@@ -116,8 +120,8 @@
   "rating": 5,
   "content": "Panda Express is a go-to spot for quick and flavorful Chinese comfort food. The Orange Chicken remains a fan favorite, perfectly balancing sweetness and crunch. Portion sizes are reasonable, and service is efficient. However, the food can be a bit oily, and options for healthier choices are limited. Great for a satisfying meal on the go.",
   "picture_addresses": [],
-  "likes": 3,
-  "dislikes": 1,
+  "likes": [],
+  "dislikes": [],
   "edit_status": false,
   "delete_status": false
 },
@@ -136,8 +140,8 @@
   "rating": 4,
   "content": "Italiannis delivers a delightful Italian dining experience with its hearty pasta dishes, flavorful pizzas, and warm, inviting atmosphere. The servings are generous—perfect for sharing—and the quality of ingredients is evident in every bite. However, service can be a bit slow during peak hours, so patience is required. Overall, a great spot for family gatherings or casual dates.",
   "picture_addresses": [],
-  "likes": 5,
-  "dislikes": 0,
+  "likes": [],
+  "dislikes": [],
   "edit_status": false,
   "delete_status": false
 }]

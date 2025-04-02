@@ -15,10 +15,13 @@ router.get('/restaurant/:id/my-review', reviewController.findNewReview);
 router.get('/:id', reviewController.getReviewById);
 router.get('/:id/edit', reviewController.showEditForm);
 router.put('/:id', reviewController.updateReview);  
-router.post('/:id/like', reviewController.likeReview);
-router.post('/:id/dislike', reviewController.dislikeReview);
 router.post('/:id/comment', reviewController.addComment);
 router.post('/:id/owner-reply', reviewController.addOwnerReply);
 router.get('/view_review/:id/', reviewController.viewReview);
+
+router.post('/:review_id/like', reviewController.likeReview);
+router.post('/:review_id/dislike', reviewController.dislikeReview);
+router.post('/:review_id/remove-reaction', reviewController.removeReaction);
+router.get('/:review_id/user-reaction', reviewController.getUserReactionReview);
 
 module.exports = router;

@@ -154,8 +154,9 @@ const getRestaurantOfID = async (id) => {
 const getRestaurantReviewsOfID = async (id) => {
     let reviews = await Review.find({ restaurant_id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, edit_status: 1})
                         .populate("user_id", "_id first_name last_name picture_address")
-                        .sort({likes: -1})
                         .lean();
+
+    reviews.sort((a, b) => b.likes.length - a.likes.length);
 
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
@@ -225,8 +226,10 @@ const searchReviews = async (id, _content) => {
 
     let reviews = await Review.find(search, { _id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1 })
                                .populate("user_id", "first_name last_name picture_address")
-                               .sort({ likes: -1 })
                                .lean();
+    
+    reviews.sort((a, b) => b.likes.length - a.likes.length);
+
 
     for (let review of reviews) {
         review.num_comments = await Comment.countDocuments({ review_id: review._id, delete_status: false });
@@ -343,8 +346,8 @@ const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, pi
         rating: _rating,
         content: _content,
         picture_addresses: [],
-        likes: 0,
-        dislikes: 0,
+        likes: [],
+        dislikes: [],
         edit_status: false,
         delete_status: false
     })
@@ -771,6 +774,57 @@ const verifyEmail = async (_email) => {
     return !exists;
 };
 
+const likeReview = async (_review_id, _user_id) => {
+    const review = await Review.findById(_review_id);
+
+    if (!review.likes.includes(_user_id)) {
+        if (review.dislikes.includes(_user_id)) {
+            review.dislikes = review.dislikes.filter(id => !id.equals(_user_id));
+        }
+
+        review.likes.push(_user_id);
+        await review.save();
+    }
+}
+
+const dislikeReview = async (_review_id, _user_id) => {
+    const review = await Review.findById(_review_id);
+
+    if (!review.dislikes.includes(_user_id)) {
+        if (review.likes.includes(_user_id)) {
+            review.likes = review.likes.filter(id => !id.equals(_user_id));
+        }
+        review.dislikes.push(_user_id);
+        await review.save();
+    }
+}
+
+const removeLikeDislikeReview = async (_review_id, _user_id) => {
+    const review = await Review.findById(_review_id);
+
+    if (review.likes.includes(_user_id)) {
+        review.likes = review.likes.filter(id => !id.equals(_user_id));
+    }
+
+    if (review.dislikes.includes(_user_id)) {
+        review.dislikes = review.dislikes.filter(id => !id.equals(_user_id));
+    }
+
+    await review.save();
+}
+
+const getUserReactionReview = async (_review_id, _user_id) => {
+    const review = await Review.findById(_review_id);
+
+    let reaction = undefined;
+    if (review.likes.some(id => id.equals(_user_id))) {
+      reaction = true;
+    } else if (review.dislikes.some(id => id.equals(_user_id))) {
+      reaction = false;
+    }
+
+    return reaction;
+}
 
 // Getters
 // Returns all users in database.
@@ -838,4 +892,8 @@ module.exports = {
     archiveRestaurantById,
     deleteCommentOfID,
     deleteReviewById,
+    likeReview,
+    dislikeReview,
+    removeLikeDislikeReview,
+    getUserReactionReview,
 };

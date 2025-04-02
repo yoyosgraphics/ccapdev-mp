@@ -424,76 +424,28 @@ async function updateReview(req, res) {
 
 // Like a review
 async function likeReview(req, res) {
-    try {
-        // Check if user is logged in
-        if (!req.session.user) {
-            return res.status(401).json({
-                success: false,
-                message: "You must be logged in to like a review",
-                alert: {
-                    type: 'danger',
-                    message: "You must be logged in to like a review"
-                }
-            });
-        }
-        const id = req.params.id;
-        await db.updateReviewLikesOfID(id, 1);
-        
-        res.status(200).json({
-            success: true,
-            message: "Review liked successfully",
-            alert: {
-                type: 'success',
-                message: "Review liked successfully"
-            }
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Failed to like review",
-            alert: {
-                type: 'danger',
-                message: "Failed to like review"
-            }
-        });
-    }
+    const { review_id } = req.params;
+    const user_id = req.body.user_id;
+    await db.likeReview(review_id, user_id);
 }
 
 // Dislike a review
 async function dislikeReview(req, res) {
-    try {
-        // Check if user is logged in
-        if (!req.session.user) {
-            return res.status(401).json({
-                success: false,
-                message: "You must be logged in to dislike a review",
-                alert: {
-                    type: 'danger',
-                    message: "You must be logged in to dislike a review"
-                }
-            });
-        }
-        const id = req.params.id;
-        await db.updateReviewDislikesOfID(id, 1);
-        
-        res.status(200).json({
-            success: true,
-            message: "Review disliked successfully",
-            alert: {
-                type: 'success',
-                message: "Review disliked successfully"
-            }
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Failed to dislike review",
-            alert: {
-                type: 'danger',
-                message: "Failed to dislike review"
-            }
-        });
-    }
+    const { review_id } = req.params;
+    const user_id = req.body.user_id;
+    await db.dislikeReview(review_id, user_id);
+}
+
+async function removeReaction(req, res) {
+    const { review_id } = req.params;
+    const user_id = req.body.user_id;
+    await db.removeLikeDislikeReview(review_id, user_id);
+}
+
+async function getUserReactionReview(req, res) {
+    const { review_id } = req.params;
+    const user_id = req.body.user_id;
+    return await db.getUserReactionReview(review_id, user_id);
 }
 
 // Add a comment to a review
@@ -765,5 +717,7 @@ module.exports = {
     addComment,
     addOwnerReply,
     findNewReview,
-    viewReview
+    viewReview,
+    removeReaction,
+    getUserReactionReview,
 };
