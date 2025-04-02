@@ -357,6 +357,7 @@ const updateUser = async (req, res) => {
             const isUnique = await db.verifyUsername(username);
             if (!isUnique) {
                 return res.render('edit_profile', { 
+                    title: "Edit Profile",
                     user: { _id: user_id, ...req.body },
                     logged_in: !!req.session.user,
                     show_auth: !req.session.user,

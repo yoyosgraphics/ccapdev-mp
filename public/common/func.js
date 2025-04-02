@@ -275,7 +275,7 @@ $(document).ready(function () {
         // Validate individual inputs
         if (!isValid1) {
             input1.css("border", "2px solid red");
-            input1[0].setCustomValidity("Please enter a valid number (integer or up to 2 decimal places).");
+            input1[0].setCustomValidity("Please enter a valid number (integer or up to 2 decimal places)");
         } else {
             input1.css("border", "");
             input1[0].setCustomValidity("");
@@ -283,7 +283,7 @@ $(document).ready(function () {
         
         if (!isValid2) {
             input2.css("border", "2px solid red");
-            input2[0].setCustomValidity("Please enter a valid number (integer or up to 2 decimal places).");
+            input2[0].setCustomValidity("Please enter a valid number (integer or up to 2 decimal places)");
         } else {
             input2.css("border", "");
             input2[0].setCustomValidity("");
@@ -293,8 +293,8 @@ $(document).ready(function () {
         if (isValid1 && isValid2 && num1 > num2) {
             input1.css("border", "2px solid red");
             input2.css("border", "2px solid red");
-            input1[0].setCustomValidity("Please enter a valid price range.");
-            input2[0].setCustomValidity("Please enter a valid price range.");
+            input1[0].setCustomValidity("Please enter a valid price range");
+            input2[0].setCustomValidity("Please enter a valid price range");
         } else if (isValid1 && isValid2) {
             input1.css("border", "");
             input2.css("border", "");
@@ -323,7 +323,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#input-name, #input-address, #input-phone_number").on("input blur", function () {
+    $("#input-name, #input-address, #input-phone_number, #input-first_name, #input-last_name, #input-username").on("input blur", function () {
         let value = $(this).val().trim();
     
         if (value === "") {
