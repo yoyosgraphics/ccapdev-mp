@@ -45,7 +45,7 @@
             <div class="edit-delete-container button-container-attributes">
                 <button class="btn"><img src="/common/edit-icon.png" width="15px" height="15px" onclick="window.location.href='/edit/review/{{selected.id}}'"></button>
                 <div class="divider"></div>
-                <button class="btn"><img src="/common/delete-icon.png" width="15px" height="15px"></button>
+                <button class="btn"><img src="/common/delete-icon.png" width="15px" height="15px" onclick="deleteComment('{{comment._id}}', event)"></button>
             </div>
             {{/if}}
         </div>
@@ -68,7 +68,7 @@
     </div>
 </form>
 
-<form id="delete-form-{{comment._id}}" onclick="deleteComment('{{selected._id}}')" method="post" style="display: none;">
+<form id="delete-form-{{comment._id}}" onclick="deleteComment('{{comment._id}}')" method="post" style="display: none;">
 </form>
 
 
