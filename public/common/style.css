@@ -2265,3 +2265,10 @@ reg-section .buttons {
     border-radius: 25px;
     cursor: pointer;
 }
+
+.pic-container-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap; 
+}

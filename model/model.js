@@ -152,25 +152,34 @@ const getRestaurantOfID = async (id) => {
 // Gets the reviews of the concerned restaurant based on the given restaurant id with the necessary data to be displayed in the restaurant reviews page.
 // Comments themselves under the reviews are not displayed when not under individual review page.
 const getRestaurantReviewsOfID = async (id) => {
-    let reviews = await Review.find({ restaurant_id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, edit_status: 1})
-                        .populate("user_id", "_id first_name last_name picture_address")
-                        .lean();
+    let reviews = await Review.find(
+        { restaurant_id: id, delete_status: false },
+        { _id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1, edit_status: 1 }  // Ensure `picture_address` is used here
+    )
+    .populate("user_id", "_id first_name last_name picture_address")
+    .lean();
 
+    // Sort reviews based on the number of likes
     reviews.sort((a, b) => b.likes.length - a.likes.length);
 
     for (let review of reviews) {
-        review.num_comments = await Comment.countDocuments({review_id: review._id, delete_status: false});
+        // Count the number of comments for each review
+        review.num_comments = await Comment.countDocuments({ review_id: review._id, delete_status: false });
 
-        if (!Array.isArray(review.picture_addresses)) {
-            review.picture_addresses = [];  // Default to an empty array if undefined
+        // Ensure picture_address is defined as an array
+        if (!Array.isArray(review.picture_address)) {
+            review.picture_address = [];  // Default to an empty array if undefined
         }
 
-        review.has_images = review.picture_addresses.length > 0;  // Check if the array has any items
+        // Set has_images flag based on whether there are any pictures
+        review.has_images = review.picture_address.length > 0;
 
+        console.log('Review ID:', review._id, 'Picture Addresses:', review.picture_address);
     }
 
     return reviews;
-}
+};
+
 
 // Updates the number of likes of the concerned review based on the given review id and status: 1: +1 like, -1: -1 like, whenever clicked.
 const updateReviewLikesOfID = async (id, status) => {
@@ -246,25 +255,37 @@ const searchReviews = async (id, _content) => {
 // Individual Review Page Request
 // Gets review data based on the given review id with the necessary data to be displayed in the individual review page.
 const getReviewOfID = async (id) => {
-    let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1, restaurant_id: 1, edit_status: 1})
-                                .populate("user_id", "first_name last_name picture_address")
-                                .lean();
+    let review = await Review.find(
+        { _id: id, delete_status: false },
+        { _id: 1, date: 1, title: 1, rating: 1, content: 1, picture_address: 1, likes: 1, dislikes: 1, user_id: 1, restaurant_id: 1, edit_status: 1 }  // Ensure the field is picture_address not picture_addresses
+    )
+    .populate("user_id", "first_name last_name picture_address")
+    .lean();
 
     if (!review || review.length === 0) {
         throw new Error("Review not found");
     }
 
     let singleReview = review[0];
-    singleReview.num_comments = await Comment.countDocuments({review_id: singleReview._id, delete_status: false});
+    singleReview.num_comments = await Comment.countDocuments({ review_id: singleReview._id, delete_status: false });
 
-    if (!Array.isArray(singleReview.picture_addresses)) {
-        singleReview.picture_addresses = [];  
+    // Ensure picture_address is defined as an array
+    if (!Array.isArray(singleReview.picture_address)) {
+        singleReview.picture_address = [];  // Default to an empty array if undefined
     }
 
-    singleReview.has_images = singleReview.picture_addresses.length > 0;
+    // If no pictures, set the default predefined picture
+    if (singleReview.picture_address.length === 0) {
+        singleReview.picture_address = ['/common/noPicture.png'];  // Set a predefined picture if empty
+    }
+
+    singleReview.has_images = singleReview.picture_address.length > 0;
+
+    console.log('Review ID:', singleReview._id, 'Picture Addresses:', singleReview.picture_address);
 
     return singleReview;
 }
+
 
 // Creates new comment record based on the given data.
 const addComment = async (_user_id, _review_id, _content) => {
@@ -338,52 +359,98 @@ const deleteCommentOfID = async (id) => {
 // Write Review Page Request
 // Creates new review record based on the given data.
 const addReview = async (_user_id, _restaurant_id, _title, _rating, _content, picture_files) => {
-    const review = Review({
-        user_id: _user_id,
-        restaurant_id: _restaurant_id,
-        date: new Date().toISOString().split("T")[0],
-        title: _title,
-        rating: _rating,
-        content: _content,
-        picture_addresses: [],
-        likes: [],
-        dislikes: [],
-        edit_status: false,
-        delete_status: false
-    })
-    
-    await review.save();
+    try {
+        // Create a new review document
+        const review = new Review({
+            user_id: _user_id,
+            restaurant_id: _restaurant_id,
+            date: new Date().toISOString().split("T")[0],
+            title: _title,
+            rating: _rating,
+            content: _content,
+            picture_address: [],  // Use singular 'picture_address' to match the schema
+            likes: [],
+            dislikes: [],
+            edit_status: false,
+            delete_status: false
+        });
 
-    const reviewID = review._id;
+        await review.save();  // Save the review to get the reviewID
 
-    let _picture_addresses = [];
+        const reviewID = review._id;  // Get the ID of the saved review
 
-    if (picture_files) {
-        let num = 0;
-        for (let picture of picture_files) {
-            let _picture_address = await saveReviewImage(picture, reviewID, num);
-            _picture_addresses.push(_picture_address);
-            num++;
-        }       
-        await Review.findByIdAndUpdate(reviewID, {$push: {picture_addresses: {$each: _picture_addresses}}}, { new: true });
+        let _picture_addresses = [];  // Initialize an array to store image addresses
+
+        if (picture_files && Array.isArray(picture_files) && picture_files.length > 0) {
+            let num = 0;
+
+            // Loop through the pictures to process each image
+            for (let picture of picture_files) {
+                if (picture && picture !== '/common/noPicture.png') {  // Skip the placeholder image
+                    console.log("Attempting to save image:", picture);  // Debugging line
+                    
+                    // Save the image and get its file name
+                    console.log(picture);
+                    console.log(reviewID);
+                    console.log(num);
+                    let _picture_address = await saveReviewImage(picture, reviewID, num);
+                    if (_picture_address) {
+                        _picture_addresses.push(_picture_address);  // Add the image address to the array
+                        num++;  // Increment the counter for unique naming
+                    } else {
+                        console.error(`Invalid image path: ${picture}`);  // Handle invalid images
+                    }
+                }
+            }
+
+            // If there are any valid image addresses, update the review with those
+            console.log("num of addresses: ", _picture_addresses.length);
+            if (_picture_addresses.length > 0) {
+                const updatedReview = await Review.findByIdAndUpdate(
+                    reviewID,
+                    { $push: { picture_address: { $each: _picture_addresses } } },  // Use $each for multiple images
+                    { new: true }
+                );
+                console.log("Updated review:", updatedReview);
+            }
+        }
+
+        // Update the restaurant rating or perform any other necessary actions
+        await updateRestaurantRatingOfID(_restaurant_id);
+        console.log("Review added successfully!");
+
+    } catch (error) {
+        console.error("Error adding review:", error);
+        throw new Error("Error saving review.");
     }
+};
 
-    await updateRestaurantRatingOfID(_restaurant_id);
-}
 
 const saveReviewImage = async (file, _review_id, num) => {
-    if (!file) 
+    if (!file) {
         return null;
+    }
 
-    const dir = "/uploads/";
+    let filePath;
+    let fileName;
 
-    const fileName = "review-" + num + "-" + _review_id + path.extname(file.originalname);
-    const filePath = path.join(dir, fileName);
+    if (typeof file === 'string') {
+        fileName = path.basename(file); 
+        filePath = path.join(__dirname, 'public', 'common', fileName);  // Join with the directory
+    } else {
+        // If the file is an object (e.g., a file upload from req.files)
+        fileName = "review-" + num + "-" + _review_id + path.extname(file.originalname);  // Unique file name
+        filePath = path.join(__dirname, 'public', 'common', fileName);  // Directory where file should be saved
 
-    fs.renameSync(file.path, filePath);
+        // Move the file to the correct directory
+        fs.renameSync(file.path, filePath);  // This will move the file to 'public/common' folder
+    }
 
-    return "/uploads/" + fileName;
-}
+    // Return the relative path to store in the DB
+    return '/common/' + fileName;  // Store relative path in DB
+};
+
+
 
 // Edit Review Page Request
 // Updates review data based on the given info.

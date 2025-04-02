@@ -253,7 +253,7 @@ server.get('/view/restaurant/:id/', async function(req, res) {
         }
 
         const reviews = await db.getRestaurantReviewsOfID(req.params.id);
-        
+        console.log("reviews: ", reviews);
         res.render('view_restaurant', {
             layout: 'index',
             title: restaurant.name,
@@ -664,15 +664,23 @@ server.get('/restaurants/:id/my-review', (req, res) => {
 });
 
 server.post("/restaurants/:id/submit-review", (req, res) => {
-    const { rating, title, content } = req.body;
-    const user_id = req.session.user._id; // Assuming the user object is stored with _id in the session
-    console.log("user: ", user_id); // Debugging
+    const { rating, title, content, selectedImage1, selectedImage2 } = req.body;
+    const user_id = req.session.user._id; // Assuming user object is stored with _id in session
 
-    // Debugging the received form data
-    console.log("Form Data Received:", req.body); 
+    console.log("User ID: ", user_id);  // Debugging
+    console.log("Form Data Received:", req.body);  // Debugging
+    console.log("Received Image 1:", selectedImage1);
+    console.log("Received Image 2:", selectedImage2);
 
-    // Call the addReview function, passing the user_id
-    db.addReview(user_id, req.params.id, title, rating, content)
+    // Replace "noPicture.png" with null to ensure we don't save that as an image path
+    const selectedImages = [selectedImage1, selectedImage2].map(img => 
+        img === "/common/noPicture.png" ? null : img
+    ).filter(img => img !== null);  // Remove null values
+
+    console.log("Filtered Images: ", selectedImages);  // Debugging the filtered images
+
+    // Call the addReview function, passing the user_id and selected images
+    db.addReview(user_id, req.params.id, title, rating, content, selectedImages)
         .then(() => {
             console.log("Review submitted successfully.");
             res.redirect(`/restaurants/${req.params.id}`);
@@ -682,17 +690,6 @@ server.post("/restaurants/:id/submit-review", (req, res) => {
             res.status(400).send("Error submitting review.");
         });
 });
-// Error handler
-server.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).render('error', {
-        layout: 'index',
-        title: 'Error',
-        error: err.message,
-        alerts: [{ type: 'error', message: 'Something went wrong' }]
-    });
-});
-
 
 // Graceful shutdown handlers
 //function finalClose() {

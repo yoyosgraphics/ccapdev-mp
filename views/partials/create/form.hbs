@@ -1,79 +1,169 @@
 <form id="reviewForm" action="/restaurants/{{selected._id}}/submit-review" method="POST">
-<div class="write-review-heading">
+  <div class="write-review-heading">
     <h1>Write a Review</h1>
-</div>
-<div class="review-input-container">
+  </div>
+
+  <!-- Review Inputs -->
+  <div class="review-input-container">
+    <!-- Title Input -->
     <div class="review-title-container">
-        <div class="review-title-input">
-            <input type="text" id="title-input" name="title" placeholder="Title" required>
-        </div>
-        {{!-- <div class="review-title-counter">
-            <span>0/300</span>
-        </div> --}}
+      <div class="review-title-input">
+        <input type="text" id="title-input" name="title" placeholder="Title" required>
+      </div>
     </div>
+
+    <!-- Rating -->
     <div class="review-rating-container">
-        <span>Select Your Rating: </span>
-        <div class="rating-container">
-            <div class="rating unlocked" data-rating="0">
-                <span class="star" data-value="1"></span>
-                <span class="star" data-value="2"></span>
-                <span class="star" data-value="3"></span>
-                <span class="star" data-value="4"></span>
-                <span class="star" data-value="5"></span>
-            </div>
+      <span>Select Your Rating: </span>
+      <div class="rating-container">
+        <div class="rating unlocked" data-rating="0">
+          <span class="star" data-value="1"></span>
+          <span class="star" data-value="2"></span>
+          <span class="star" data-value="3"></span>
+          <span class="star" data-value="4"></span>
+          <span class="star" data-value="5"></span>
         </div>
+      </div>
     </div>
-</div>
-    <div class="review-body-container">
-        <div class="review-features-container">
-            <img src="/common/bold-icon.png" alt="Bold Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <img src="/common/italic-icon.png" alt="Italic Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <img src="/common/underline-icon.png" alt="Underline Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <div class="divider"></div>
-            <img src="/common/link-icon.png" alt="Link Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
-            <img src="/common/bullet-icon.png" alt="Bullet Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-            <div class="divider"></div>
-            <img src="/common/picture-icon.png" alt="Picture Icon" class="icon-margin-left-right icon-margin-left-right-2 icon-clickable">
-            <img src="/common/video-icon.png" alt="Video Icon" class="icon-margin-right icon-margin-right-2 icon-clickable">
-        </div>
-        <div class="review-body-input-container">
-            <div class="review-body">
-                <textarea name="content" placeholder="Body" required></textarea>
+  </div>
+
+  <!-- Picture Uploads -->
+  <div class="pic-container-wrapper">
+    <div class="upload-pic-container">
+      <div class="pic-container-wrapper" id="pic-container">
+        <div class="select-pic-container">
+          <div class="dropdown" data-target="selectedImage1">
+            <button type="button" class="dropdown-btn">
+              <img src="/common/noPicture.png" height="50vh" width="50vh" style="border-radius: 10px;">
+            </button>
+            <div class="dropdown-content" style="min-width: 0px;">
+              <div class="dropdown-option">
+                <img src="/common/noPicture.png" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/yummy.jpg" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/disgust.jpg" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/thumbsUp.jpg" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/thumbsDown.jpg" height="50vh" width="50vh">
+              </div>
             </div>
-            {{!-- <div class="review-body-counter">
-                <span>0/1500</span>
-            </div> --}}
+          </div>
         </div>
+        <input type="hidden" name="selectedImage1" id="selectedImage1" value="/common/noPicture.png">
+      </div>
     </div>
 
-    <input type="hidden" name="rating" id="rating-input" value="0">
-
-    <div class="button-container1 buttons-space-2">
-        <button class="cancel-btn" onclick="history.back()">Cancel</button>
-        <button class="post-btn"><img src="/common/write-icon.png" alt="Write Icon" class="icon-margin-right">Post</button>
+    <!-- Second Picture Upload -->
+    <div class="upload-pic-container">
+      <div class="pic-container-wrapper" id="pic-container">
+        <div class="select-pic-container">
+          <div class="dropdown" data-target="selectedImage2">
+            <button type="button" class="dropdown-btn">
+              <img src="/common/noPicture.png" height="50vh" width="50vh" style="border-radius: 10px;">
+            </button>
+            <div class="dropdown-content" style="min-width: 0px;">
+              <div class="dropdown-option">
+                <img src="/common/noPicture.png" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/yummy.jpg" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/disgust.jpg" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/thumbsUp.jpg" height="50vh" width="50vh">
+              </div>
+              <div class="dropdown-option">
+                <img src="/common/thumbsDown.jpg" height="50vh" width="50vh">
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="selectedImage2" id="selectedImage2" value="/common/noPicture.png">
+      </div>
     </div>
-</div>
+  </div>
+
+  <!-- Review Body -->
+  <div class="review-body-container">
+    <div class="review-body-input-container">
+      <div class="review-body">
+        <textarea name="content" placeholder="Body" required></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Rating Input -->
+  <input type="hidden" name="rating" id="rating-input" value="0">
+
+  <!-- Submit and Cancel Buttons -->
+  <div class="button-container1 buttons-space-2">
+    <button class="cancel-btn" onclick="history.back()">Cancel</button>
+    <button class="post-btn"><img src="/common/write-icon.png" alt="Write Icon" class="icon-margin-right">Post</button>
+  </div>
 </form>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll(".star");
-    const ratingInput = document.getElementById("rating-input");
+  // First dropdown handling (for selectedImage1)
+  const dropdown1 = document.querySelector(".dropdown");
+  if (dropdown1) {
+    const dropdownOptions1 = dropdown1.querySelectorAll(".dropdown-option img");
+    dropdownOptions1.forEach((img) => {
+      img.addEventListener("click", function () {
+        let selectedImgSrc = this.src; // Get the selected image's source
+        let buttonImg = dropdown1.querySelector(".dropdown-btn img");
 
-    stars.forEach(star => {
-        star.addEventListener("click", function () {
-            const ratingValue = Number(this.getAttribute("data-value")); // Convert to number
-            ratingInput.value = ratingValue; // Update hidden input
-            
-            // Highlight selected stars
-            stars.forEach(s => s.classList.remove("selected"));
-            for (let i = 0; i < ratingValue; i++) {
-                stars[i].classList.add("selected");
-            }
+        // Get the corresponding hidden input field from the dropdown's data-target
+        let hiddenInputId = dropdown1.getAttribute("data-target");
+        let hiddenInput = document.getElementById(hiddenInputId);
 
-            console.log("Selected rating:", ratingValue); // Debugging
-        });
+        if (hiddenInput) {
+          // Update the hidden input field's value
+          hiddenInput.value = selectedImgSrc;
+          console.log(`Updated ${hiddenInputId} to:`, selectedImgSrc); // Debugging
+        } else {
+          console.log(`Hidden input with id ${hiddenInputId} not found.`);
+        }
+
+        // Update the button image preview
+        buttonImg.src = selectedImgSrc;
+      });
     });
-});
+  }
 
+  // Second dropdown handling (for selectedImage2)
+  const dropdown2 = document.querySelectorAll(".dropdown")[1];
+  if (dropdown2) {
+    const dropdownOptions2 = dropdown2.querySelectorAll(".dropdown-option img");
+    dropdownOptions2.forEach((img) => {
+      img.addEventListener("click", function () {
+        let selectedImgSrc = this.src; // Get the selected image's source
+        let buttonImg = dropdown2.querySelector(".dropdown-btn img");
+
+        // Get the corresponding hidden input field from the dropdown's data-target
+        let hiddenInputId = dropdown2.getAttribute("data-target");
+        let hiddenInput = document.getElementById(hiddenInputId);
+
+        if (hiddenInput) {
+          // Update the hidden input field's value
+          hiddenInput.value = selectedImgSrc;
+          console.log(`Updated ${hiddenInputId} to:`, selectedImgSrc); // Debugging
+        } else {
+          console.log(`Hidden input with id ${hiddenInputId} not found.`);
+        }
+
+        // Update the button image preview
+        buttonImg.src = selectedImgSrc;
+      });
+    });
+  }
+});
 </script>

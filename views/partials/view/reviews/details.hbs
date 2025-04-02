@@ -25,8 +25,8 @@
             <p class="review-content">{{review.content}}</p>
             {{#if review.has_images}}
                 <div class="review-image-container">
-                    {{#each review.picture_addresses}}
-                    <img src="{{this}}" alt="Review Image">
+                    {{#each review.picture_address}}
+                    <img src="{{this}}" alt="Review Image"> 
                     {{/each}}
                 </div>
             {{/if}}
@@ -47,8 +47,6 @@
                 <img src="/common/comment-icon.png" alt="Comment Icon" class="icon-margin-right">
                 <b>{{comments.length}} comments</b> 
             </div>
-
-            <p> User: {{user}} </p>
 
             {{#if user}} <!-- Assuming user is logged in or exists -->
             <div class="edit-delete-container button-container-attributes">
