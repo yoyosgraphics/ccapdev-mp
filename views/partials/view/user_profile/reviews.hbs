@@ -1,7 +1,7 @@
 <section class="review-thread-container indiv-restaurant-page-padding-side prof-section" id="reviews">
     {{#each reviews}}
         <div><hr></div>
-        <div class="review-container">
+        <div class="review-container" data-review_id="{{_id}}" data-user_id="{{#if ../user}}{{../user._id}}{{else}}{{/if}}">
             <div class="reviewer-container">
                 <div class="reviewer-info">
                     <div class="reviewer-date">
@@ -30,12 +30,12 @@
                 </div>
                 <div class="buttons-space-2">
                     <div class="like-container button-container-attributes">
-                        <button class="btn {{#if ../user}}toggle-btn{{/if}}" id="like">
+                        <button class="btn {{#if ../user}}toggle-btn{{/if}} {{#if hasLiked}}on{{/if}}" id="like">
                             <img src="/common/empty-like.png" width="15px" height="15px">
                             <b>{{likes.length}}</b>
                         </button>
                         <div class="divider"></div>
-                        <button class="btn {{#if ../user}}toggle-btn{{/if}}" id="dislike">
+                        <button class="btn {{#if ../user}}toggle-btn{{/if}} {{#if hasDisliked}}on{{/if}}" id="dislike">
                             <img src="/common/empty-unlike.png" width="15px" height="15px">
                             <b>{{dislikes.length}}</b>
                         </button>

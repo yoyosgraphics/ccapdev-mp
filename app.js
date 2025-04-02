@@ -165,12 +165,23 @@ server.post('/ajax_response_restaurants', async function(req, resp){
         resp.json(restaurants);
 })
 
-server.post('/ajax_response_reviews', async function(req, resp){
+server.post('/ajax_response_reviews', async function(req, resp) {
     let content = req.body.content || undefined;
     let restaurant_id = req.body.id;
     let reviews = await db.searchReviews(restaurant_id, content);
+
+    for (const review of reviews) {
+        if (req.body.logged_in) {
+            review.hasLiked = await db.getUserLikeReview(review._id, req.body.user_id) || false;  
+            review.hasDisliked = await db.getUserDislikeReview(review._id, req.body.user_id) || false;
+        } else {
+            review.hasLiked = false;
+            review.hasDisliked = false;
+        }
+    }
+
     resp.json(reviews);
-})
+});
 
 // Edit restaurant route - fix to use the array return
 server.get('/edit/restaurant/:id', async function(req, res) {
@@ -228,7 +239,17 @@ server.get('/view/restaurant/:id/', async function(req, res) {
         }
 
         const reviews = await db.getRestaurantReviewsOfID(req.params.id);
-        console.log("reviews: ", reviews);
+
+        for (const review of reviews) {
+            if (res.locals.logged_in) {
+                review.hasLiked = await db.getUserLikeReview(review._id, res.locals.user._id) || false;  
+                review.hasDisliked = await db.getUserDislikeReview(review._id, res.locals.user._id) || false;
+            } else {
+                review.hasLiked = false;
+                review.hasDisliked = false;
+            }
+        }
+        
         res.render('view_restaurant', {
             layout: 'index',
             title: restaurant.name,
@@ -261,6 +282,23 @@ server.get('/view_review/:id/', async function(req, res) {
                 alerts: [{ type: 'error', message: 'Review not found' }]
             });
         }
+
+        if (res.locals.logged_in) {
+            if (await db.getUserLikeReview(review._id, res.locals.user._id)) {
+                review.hasLiked = true
+            } else {
+                review.hasLiked = false;
+            }
+
+            if (await db.getUserDislikeReview(review._id, res.locals.user._id)) {
+                review.hasDisliked = true;
+            } else {
+                review.hasDisliked = false;
+            }
+        } else {
+            review.hasLiked = false;
+            review.hasDisliked = false;
+        }
         
         // Fetch comments for the review
         const comments = await db.getReviewCommentsOfID(req.params.id);
@@ -281,7 +319,7 @@ server.get('/view_review/:id/', async function(req, res) {
         /*review.owner = false;
 
         if (res.locals.logged_in)
-            if (await db.checkUserReviewOwner(res.locals.user.id, review.id))
+            if (await db.checkUserReviewOwner(res.locals.user._id, review._id))
                 review.owner = true;
 */
         console.log('Review:', review);
@@ -457,6 +495,24 @@ server.get('/view/reviews/:id/edit/:comment_id', async function(req, res) {
             }
         });
 
+        if (res.locals.logged_in) {
+            if (await db.getUserLikeReview(review._id, res.locals.user._id)) {
+                review.hasLiked = true
+            } else {
+                review.hasLiked = false;
+            }
+
+            if (await db.getUserDislikeReview(review._id, res.locals.user._id)) {
+                review.hasDisliked = true;
+            } else {
+                review.hasDisliked = false;
+            }
+        } else {
+            review.hasLiked = false;
+            review.hasDisliked = false;
+        }
+        
+
         const comment = await db.getCommentOfID(req.params.comment_id);
         
         if (!review || !comment) {
@@ -542,6 +598,17 @@ server.get('/users/:id', async function (req, res) {
         const reviews = await db.getAllReviewsOfUser(userId);
         const comments = await db.getAllCommentsOfUser(userId);
         const restaurants = await db.getAllRestaurantsOfUser(userId);
+
+        
+        for (const review of reviews) {
+            if (req.session.user) {
+                review.hasLiked = await db.getUserLikeReview(review._id, req.params.id) || false;  
+                review.hasDisliked = await db.getUserDislikeReview(review._id, req.params.id) || false;
+            } else {
+                review.hasLiked = false;
+                review.hasDisliked = false;
+            }
+        }
 
         // Check if viewer is logged in and if they own the profile
         let isOwnProfile = false;

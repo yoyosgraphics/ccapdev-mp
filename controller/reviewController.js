@@ -427,6 +427,7 @@ async function likeReview(req, res) {
     const { review_id } = req.params;
     const user_id = req.body.user_id;
     await db.likeReview(review_id, user_id);
+    res.json({success: true});
 }
 
 // Dislike a review
@@ -434,18 +435,14 @@ async function dislikeReview(req, res) {
     const { review_id } = req.params;
     const user_id = req.body.user_id;
     await db.dislikeReview(review_id, user_id);
+    res.json({success: true});
 }
 
 async function removeReaction(req, res) {
     const { review_id } = req.params;
     const user_id = req.body.user_id;
     await db.removeLikeDislikeReview(review_id, user_id);
-}
-
-async function getUserReactionReview(req, res) {
-    const { review_id } = req.params;
-    const user_id = req.body.user_id;
-    return await db.getUserReactionReview(review_id, user_id);
+    res.json({success: true});
 }
 
 // Add a comment to a review
@@ -719,5 +716,4 @@ module.exports = {
     findNewReview,
     viewReview,
     removeReaction,
-    getUserReactionReview,
 };

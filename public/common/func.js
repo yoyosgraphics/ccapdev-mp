@@ -19,19 +19,61 @@ $(document).ready(function () {
         $(this).siblings(".dropdown-content").toggleClass("show");
     });
 
-    $(".toggle-btn").click(function () {
-        let parentContainer = $(this).closest(".like-container");
-    
-        $(this).toggleClass("on"); // toggle on
-    
-        if ($(this).closest("#like").length) {
-            // remove on from dislike
-            parentContainer.find("#dislike").removeClass("on");
-        } else if ($(this).closest("#dislike").length) {
-            // remove on from like
-            parentContainer.find("#like").removeClass("on");
+    $(document).on("click", ".toggle-btn", function () {
+        let button = $(this);
+        let parentContainer = button.closest(".like-container");
+        let review_id = button.closest(".review-container").data("review_id");
+        let isLike = button.attr("id") === "like";
+        
+        // Determine endpoint based on button state
+        let endpoint = `/reviews/${review_id}/`;
+        if (button.hasClass("on")) {
+            endpoint += "remove-reaction";
+        } else {
+            endpoint += isLike ? "like" : "dislike";
         }
+        
+        let user_id;
+        if ($("#search-reviews").length) {
+            user_id = $("#search-reviews").data("user_id");
+        } else {
+            user_id = button.closest(".review-container").data("user_id");
+        }
+
+        $.post(endpoint, { user_id: user_id }, function (response) {
+            if (response.success) {   
+
+                if (button.hasClass("on")) {
+                    button.removeClass("on");
+                } else {
+                    button.toggleClass("on");
+                }
+    
+                // Update like/dislike count dynamically
+                let likeCount = parentContainer.find("#like b");
+                let dislikeCount = parentContainer.find("#dislike b");
+    
+                if (button.hasClass("on")) {
+                    if (isLike) {
+                        likeCount.text(parseInt(likeCount.text()) + 1);
+                        parentContainer.find("#dislike").removeClass("on");
+                        dislikeCount.text(Math.max(0, parseInt(dislikeCount.text()) - 1));
+                    } else {
+                        dislikeCount.text(parseInt(dislikeCount.text()) + 1);
+                        parentContainer.find("#like").removeClass("on");
+                        likeCount.text(Math.max(0, parseInt(likeCount.text()) - 1));
+                    }
+                } else {
+                    if (isLike) {
+                        likeCount.text(Math.max(0, parseInt(likeCount.text()) - 1));
+                    } else {
+                        dislikeCount.text(Math.max(0, parseInt(dislikeCount.text()) - 1));
+                    }
+                }
+            }
+        });
     });
+    
 
     $(".dropdown-content p").click(function () {
         let selectedText = $(this).text();
@@ -137,18 +179,19 @@ $(document).ready(function () {
         event.preventDefault();
 
         let isLoggedIn = $("#search-reviews").data("user") === "logged-in";
+        let user_id = $("#search-reviews").data("user_id");
         let restaurantId = $("#search-reviews").data("restaurant-id");
         let searchContent = $(this).find("input[name='q']").val().trim();
 
-        $.post("/ajax_response_reviews", { id: restaurantId, content: searchContent },
+        $.post("/ajax_response_reviews", { id: restaurantId, content: searchContent, user_id: user_id, logged_in: isLoggedIn},
             function(data, status) {
                 if (status == 'success') {
                     let reviewHtml = "";
-
+    
                         data.forEach(review => {
                             reviewHtml += `
                                 <div><hr></div>
-                                <div class="review-container">
+                                <div class="review-container" data-review_id=${review._id}>
                                     <div class="reviewer-container">
                                         <img src="${review.user_id.picture_address}" alt="User Icon">
                                         <div class="reviewer-info">
@@ -174,12 +217,12 @@ $(document).ready(function () {
                                         </div>
                                         <div class="buttons-space-2">
                                             <div class="like-container button-container-attributes">
-                                                <button class="btn ${isLoggedIn ? 'toggle-btn' : ''}" id="like">
+                                                <button class="btn ${isLoggedIn ? 'toggle-btn' : ''} ${review.hasLiked ? 'on' : ''}" id="like">
                                                     <img src="/common/empty-like.png" width="15px" height="15px">
                                                     <b>${review.likes.length}</b>
                                                 </button>
                                                 <div class="divider"></div>
-                                                <button class="btn ${isLoggedIn ? 'toggle-btn' : ''}" id="dislike">
+                                                <button class="btn ${isLoggedIn ? 'toggle-btn' : ''} ${review.hasDisliked ? 'on' : ''}" id="dislike">
                                                     <img src="/common/empty-unlike.png" width="15px" height="15px">
                                                     <b>${review.dislikes.length}</b>
                                                 </button>
@@ -201,21 +244,7 @@ $(document).ready(function () {
                             `;
                         });
     
-                    $(".review-thread-container").html(reviewHtml);
-
-                    $(".toggle-btn").click(function () {
-                        let parentContainer = $(this).closest(".like-container");
-    
-                        $(this).toggleClass("on"); // toggle on
-    
-                        if ($(this).closest("#like").length) {
-                            // remove on from dislike
-                            parentContainer.find("#dislike").removeClass("on");
-                        } else if ($(this).closest("#dislike").length) {
-                            // remove on from like
-                            parentContainer.find("#like").removeClass("on");
-                        }
-                    });    
+                    $(".review-thread-container").html(reviewHtml);  
                 }
             }
         )
