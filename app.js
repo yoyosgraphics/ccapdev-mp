@@ -125,6 +125,9 @@ server.get('/login', (req, res) => {
 server.get('/logout', (req, res) => {
     res.redirect('/users/logout');
 });
+app.get('/about', (req, res) => {
+    res.render('about');
+  });
 
 server.get('/search', async function(req, res) {
     try {
@@ -739,7 +742,7 @@ server.post("/restaurants/:id/submit-review", (req, res) => {
     db.addReview(user_id, req.params.id, title, rating, content, selectedImages)
         .then(() => {
             console.log("Review submitted successfully.");
-            res.redirect(`/restaurants`);
+            res.redirect(`/restaurants/${req.params.id}`);
         })
         .catch(err => {
             console.error("Error submitting review:", err);
