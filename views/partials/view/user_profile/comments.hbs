@@ -19,7 +19,7 @@
                     </form>
                     <div class="divider"></div>
                     <form action="/comments/delete/{{_id}}" method="post" style="display: inline;">
-                        <input type="image" src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable" onclick="return confirm('Are you sure you want to delete this comment?');">
+                        <input type="image" src="/common/delete-icon.png" alt="Delete Icon" class="icon-margin-left-right icon-clickable" onclick="deleteComment('{{selected._id}}', event)">
                     </form>
                     {{/if}}
                 </div>
@@ -28,3 +28,28 @@
         </div>
 {{/each}}
 </div>
+
+
+<script>
+    function deleteComment(commentId, event) {
+    event.preventDefault(); // Prevent form submission
+    if (confirm("Are you sure you want to delete this comment?")) {
+        fetch(`/delete/comment/${commentId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Comment deleted successfully!');
+                window.location.href = '/restaurants'; 
+            } else {
+                alert('Error deleting comment!');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting comment:', error);
+            alert('Failed to delete comment.');
+        });
+    }
+}
+</script>
