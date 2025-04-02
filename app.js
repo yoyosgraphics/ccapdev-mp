@@ -227,7 +227,7 @@ server.get('/view/restaurant/:id/', async function(req, res) {
         }
         
         const restaurant = restaurants[0]; // The function returns an array, so get the first item
-
+        
         if (res.locals.logged_in) {
             if (await db.checkUserRestaurantOwner(res.locals.user._id, restaurant._id)) {
                 restaurant.owner = true;
@@ -273,7 +273,7 @@ server.get('/view_review/:id/', async function(req, res) {
     try {
         // Fetch review data based on the review ID
         const review = await db.getReviewOfID(req.params.id);
-        
+        console.log("Review::", review);
         // If no review is found, handle the error
         if (!review) {
             return res.status(404).render('404', {
@@ -299,7 +299,14 @@ server.get('/view_review/:id/', async function(req, res) {
             review.hasLiked = false;
             review.hasDisliked = false;
         }
-        
+        console.log(review);
+        if (review.user_id._id.toString() === res.locals.user._id) {
+            review.owner = true;
+        }
+        else {
+            review.owner = false;
+        }
+
         // Fetch comments for the review
         const comments = await db.getReviewCommentsOfID(req.params.id);
 

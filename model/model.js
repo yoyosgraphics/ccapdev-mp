@@ -278,6 +278,8 @@ const getReviewOfID = async (id) => {
     if (singleReview.picture_address.length === 0) {
         singleReview.picture_address = ['/common/noPicture.png'];  // Set a predefined picture if empty
         singleReview.has_images = false;
+    } else {
+        singleReview.has_images = true;
     }
 
     console.log('Review ID:', singleReview._id, 'Picture Addresses:', singleReview.picture_address);
