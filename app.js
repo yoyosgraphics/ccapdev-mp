@@ -1,6 +1,4 @@
-//AS OF MARCH 9 10:11 PM
 const express = require('express');
-const MongoStore = require('connect-mongo');
 const server = express();
 const connectDB = require('./db');
 // Body parser middleware
@@ -31,6 +29,7 @@ server.use(express.static('public'));
 // mongoose.connect('mongodb://localhost:27017/restaurant-review-db')
 //     .then(() => console.log('Connected to MongoDB'))
 //     .catch(err => console.error('MongoDB connection error:', err));
+
 connectDB()
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => {
