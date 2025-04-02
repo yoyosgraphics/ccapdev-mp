@@ -13,7 +13,12 @@
     </div>
     <div class="review-content-container">
         <div class="review-content">
-            <h1>{{review.title}}</h1>
+            <h1>{{review.title}}
+            {{#if review.edit_status}}
+                    <span> * </span>
+            {{/if}}
+            </h1>
+
             <div class="rating-container">
                 <p class="rating rating-3" style="--rating:{{review.rating}};"></p>
             </div>
@@ -42,6 +47,9 @@
                 <img src="/common/comment-icon.png" alt="Comment Icon" class="icon-margin-right">
                 <b>{{comments.length}} comments</b> 
             </div>
+
+            <p> User: {{user}} </p>
+
             {{#if user}} <!-- Assuming user is logged in or exists -->
             <div class="edit-delete-container button-container-attributes">
                 <button class="btn"><img src="/common/edit-icon.png" width="15px" height="15px" onclick="window.location.href='/edit/review/{{review._id}}'"></button>

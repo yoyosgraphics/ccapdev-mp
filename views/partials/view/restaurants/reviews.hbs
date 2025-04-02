@@ -6,7 +6,7 @@
                 <img src="{{user_id.picture_address}}" alt="User Icon">
                 <div class="reviewer-info">
                     <div class="reviewer-name text-clickable" onclick="window.location.href='/users/{{user_id._id}}'">
-                        <b><span>{{user_id.first_name}} {{user_id.last_name}}</span></b>
+                        <b><span>{{user_id.first_name}} {{user_id.last_name}} </span></b>
                     </div>
                     <div class="reviewer-date">
                         <span>{{date}}</span>
@@ -15,7 +15,13 @@
             </div>
             <div class="review-content-container">
                 <div class="review-content">
-                    <h1 class="text-clickable" onclick="window.location.href='/view_review/{{_id}}'">{{title}}</h1>
+                    <h1 class="text-clickable" onclick="window.location.href='/view_review/{{_id}}'">{{title}}
+                    {{#if edit_status}}
+                        <span> * </span>
+                    {{/if}}
+
+                    
+                    </h1>
                     <div class="rating-container">
                         <p class="rating rating-3" style="--rating:{{rating}};"></p>
                     </div>

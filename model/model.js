@@ -152,7 +152,7 @@ const getRestaurantOfID = async (id) => {
 // Gets the reviews of the concerned restaurant based on the given restaurant id with the necessary data to be displayed in the restaurant reviews page.
 // Comments themselves under the reviews are not displayed when not under individual review page.
 const getRestaurantReviewsOfID = async (id) => {
-    let reviews = await Review.find({ restaurant_id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1})
+    let reviews = await Review.find({ restaurant_id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, edit_status: 1})
                         .populate("user_id", "_id first_name last_name picture_address")
                         .sort({likes: -1})
                         .lean();
@@ -243,7 +243,7 @@ const searchReviews = async (id, _content) => {
 // Individual Review Page Request
 // Gets review data based on the given review id with the necessary data to be displayed in the individual review page.
 const getReviewOfID = async (id) => {
-    let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1, restaurant_id: 1})
+    let review = await Review.find({ _id: id, delete_status: false }, {_id: 1, date: 1, title: 1, rating: 1, content: 1, picture_addresses: 1, likes: 1, dislikes: 1, user_id: 1, restaurant_id: 1, edit_status: 1})
                                 .populate("user_id", "first_name last_name picture_address")
                                 .lean();
 

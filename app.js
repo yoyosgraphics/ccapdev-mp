@@ -300,7 +300,7 @@ server.get('/view_review/:id/', async function(req, res) {
                 comment.author = false;
             }
         });
-
+        console.log("Comments", comments);
 
         console.log('Review:', review);
         res.render('view_review', {
@@ -439,12 +439,12 @@ server.get('/edit/review/:id', async function(req, res) {
             });
         }
         
-        console.log("Review: ", review[0]);
+        console.log("Review: ", review);
 
         res.render('edit_review', {
             layout: 'index',
             title: "Edit Your Review",
-            selected: review[0]
+            selected: review
         });
     } catch (err) {
         console.error('Error fetching review:', err);

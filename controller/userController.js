@@ -43,7 +43,7 @@ const registerOne = async (req, res) => {
                 });
             } 
         // Validate unique username
-        const isUsernameAvailable = await verifyUsername(username);
+        const isUsernameAvailable = await db.verifyUsername(username);
         if (!isUsernameAvailable) {
             return res.render('register', { 
                 formData: req.body,
@@ -56,7 +56,7 @@ const registerOne = async (req, res) => {
         }
 
         // Validate unique email
-        const isEmailAvailable = await verifyEmail(email_address);
+        const isEmailAvailable = await db.verifyEmail(email_address);
         if (!isEmailAvailable) {
             return res.render('register', { 
                 formData: req.body,
