@@ -27,7 +27,7 @@ Visit our application at: [https://topnotch-b75b.onrender.com](https://topnotch-
 - **Templating**: Express Handlebars
 - **Deployment**: Render
 
-## Setup and Run Instructions (Local Development)
+## Setup and Run Instructions
 
 ### Prerequisites
 Before you begin, ensure you have the following installed:
