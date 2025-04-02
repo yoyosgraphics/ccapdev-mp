@@ -323,14 +323,62 @@ $(document).ready(function () {
         }
     });
 
-    $("#input-name, #input-address, #input-phone_number, #input-first_name, #input-last_name, #input-username").on("input blur", function () {
-        let value = $(this).val().trim();
+
+    function validateForm(formSelector, fieldsToValidate) {
+        $(formSelector).submit(function(event) {
+            let isValid = true;
+            
+            // Check each required field
+            $(fieldsToValidate).each(function() {
+                let value = $(this).val().trim();
+                
+                if (value === "") {
+                    $(this).css("border", "2px solid red");
+                    isValid = false;
+                } else {
+                    $(this).css("border", "");
+                }
+            });
+            
+            // Check if passwords match (only for registration form)
+            if (formSelector === "#register-form-step1" && $("#reg-pass").val() !== $("#reg-confpass").val()) {
+                $("#reg-confpass").css("border", "2px solid red");
+                isValid = false;
+                // Add error message for password mismatch
+                if (!$("#password-mismatch-error").length) {
+                    $("#reg-confpass").after('<div id="password-mismatch-error" class="error-message">Passwords do not match</div>');
+                }
+            } else if (formSelector === "#register-form-step1") {
+                $("#password-mismatch-error").remove();
+            }
+            
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                event.preventDefault();
+                console.log("Form validation failed");
+            }
+        });
+        
+        // Real-time validation on input and blur
+        $(fieldsToValidate).on("input blur", function() {
+            let value = $(this).val().trim();
+            
+            if (value === "") {
+                $(this).css("border", "2px solid red");
+            } else {
+                $(this).css("border", "");
+                
+                // Clear password mismatch error when typing in password fields
+                if ($(this).attr('id') === 'reg-pass' || $(this).attr('id') === 'reg-confpass') {
+                    if ($("#reg-pass").val() === $("#reg-confpass").val()) {
+                        $("#password-mismatch-error").remove();
+                    }
+                }
+            }
+        });
+    }
     
-        if (value === "") {
-            $(this).css("border", "2px solid red");
-        } else {
-            $(this).css("border", "");
-        }
-    });
-    
+    // Call validateForm for the forms
+    validateForm("#register-form-step1", "#reg-email, #reg-firstN, #reg-lastN, #reg-user, #reg-pass, #reg-confpass");
+    validateForm("#login-form", "#log-email, #log-password");
 });
